@@ -226,7 +226,7 @@ export class MemStorage implements IStorage {
     const subscription: Subscription = { 
       ...insertSubscription, 
       id: this.currentId.subscriptions++,
-      isActive: insertSubscription.isActive ?? true,
+      isActive: true,
       createdAt: new Date()
     };
     this.subscriptions.set(subscription.id, subscription);

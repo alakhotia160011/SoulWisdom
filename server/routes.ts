@@ -87,7 +87,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       const validatedData = insertSubscriptionSchema.parse(req.body);
       const subscription = await storage.createSubscription(validatedData);
       res.status(201).json({ message: "Successfully subscribed!", subscription });
-    } catch (error) {
+    } catch (error: any) {
       console.error("Error creating subscription:", error);
       if (error.name === "ZodError") {
         return res.status(400).json({ message: "Invalid email address" });
