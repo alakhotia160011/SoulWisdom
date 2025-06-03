@@ -213,7 +213,11 @@ export class MemStorage implements IStorage {
   }
 
   async createLesson(insertLesson: InsertLesson): Promise<Lesson> {
-    const lesson: Lesson = { ...insertLesson, id: this.currentId.lessons++ };
+    const lesson: Lesson = { 
+      ...insertLesson, 
+      id: this.currentId.lessons++,
+      isGenerated: true
+    };
     this.lessons.set(lesson.id, lesson);
     return lesson;
   }
@@ -222,6 +226,7 @@ export class MemStorage implements IStorage {
     const subscription: Subscription = { 
       ...insertSubscription, 
       id: this.currentId.subscriptions++,
+      isActive: insertSubscription.isActive ?? true,
       createdAt: new Date()
     };
     this.subscriptions.set(subscription.id, subscription);

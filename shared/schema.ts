@@ -1,4 +1,4 @@
-import { pgTable, text, serial, integer, boolean, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, integer, boolean, timestamp } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
@@ -30,14 +30,14 @@ export const lessons = pgTable("lessons", {
   artworkUrl: text("artwork_url").notNull(),
   artworkDescription: text("artwork_description").notNull(),
   date: timestamp("date").notNull(),
-  isGenerated: boolean("is_generated").defaultValue(true),
+  isGenerated: boolean("is_generated").notNull().default(true),
 });
 
 export const subscriptions = pgTable("subscriptions", {
   id: serial("id").primaryKey(),
   email: text("email").notNull().unique(),
-  isActive: boolean("is_active").defaultValue(true),
-  createdAt: timestamp("created_at").defaultValue(new Date()),
+  isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
 export const insertTraditionSchema = createInsertSchema(traditions).omit({
