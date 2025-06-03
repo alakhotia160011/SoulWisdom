@@ -3,135 +3,135 @@ export const spiritualPassages = [
   // Bible
   {
     traditionId: 1,
-    source: "Psalm 23:4",
-    title: "Walking Through Darkness",
-    content: "Even though I walk through the valley of the shadow of death, I will fear no evil, for you are with me; your rod and your staff, they comfort me.",
-    context: "David's psalm of trust in divine protection during difficult times",
-    theme: "Trust and Comfort"
+    source: "Genesis 37-50",
+    title: "Joseph's Journey from Pit to Palace",
+    content: "Joseph was sold into slavery by his brothers, falsely imprisoned, yet interpreted Pharaoh's dreams and became ruler of Egypt. When famine came, his brothers came seeking food. Joseph revealed himself saying, 'You intended to harm me, but God intended it for good to accomplish what is now being done, the saving of many lives.'",
+    context: "The complete story of Joseph's trials, faith, and ultimate redemption",
+    theme: "Divine Purpose in Suffering"
   },
   {
     traditionId: 1,
-    source: "Job 14:7-9",
-    title: "Hope of a Tree",
-    content: "For there is hope of a tree, if it be cut down, that it will sprout again, and that the tender branch thereof will not cease.",
-    context: "Job's reflection on resilience and renewal even in suffering",
-    theme: "Resilience and Hope"
+    source: "Luke 15:11-32",
+    title: "The Prodigal Son's Return",
+    content: "A son demanded his inheritance, squandered it in wild living, and found himself feeding pigs in poverty. Coming to his senses, he returned home expecting to be a servant. Instead, his father ran to embrace him, put a robe on him, and celebrated his return.",
+    context: "Jesus' parable about unconditional love and forgiveness",
+    theme: "Unconditional Love and Forgiveness"
   },
   {
     traditionId: 1,
-    source: "Matthew 6:26",
-    title: "Consider the Birds",
-    content: "Look at the birds of the air; they do not sow or reap or store away in barns, and yet your heavenly Father feeds them. Are you not much more valuable than they?",
-    context: "Jesus teaching about trust and divine provision",
-    theme: "Trust and Providence"
+    source: "1 Kings 19:9-13",
+    title: "Elijah and the Still Small Voice",
+    content: "After defeating the prophets of Baal, Elijah fled in fear. God told him to stand on the mountain. A great wind tore the mountains, then an earthquake, then fire - but God was not in these. After the fire came a gentle whisper, and Elijah knew this was God's voice.",
+    context: "Elijah's encounter with God after his triumph and despair",
+    theme: "Finding God in Stillness"
   },
 
   // Qur'an
   {
     traditionId: 2,
-    source: "Qur'an 2:286",
-    title: "Not Beyond Your Strength",
-    content: "Allah does not burden a soul beyond that it can bear. It will have [the consequence of] what [good] it has gained, and it will bear [the consequence of] what [evil] it has earned.",
-    context: "Divine wisdom about human capacity and divine justice",
-    theme: "Divine Mercy and Human Capacity"
+    source: "Qur'an 18:60-82",
+    title: "Moses and Al-Khidr's Journey",
+    content: "Moses traveled with a mysterious servant of Allah (Al-Khidr) who performed seemingly harsh acts: damaging a ship, killing a young man, and repairing a wall for inhospitable people. When Moses questioned each act, Al-Khidr revealed the divine wisdom: the ship was saved from seizure, the young man would have grieved his righteous parents, and treasure was preserved for orphaned children underneath the wall.",
+    context: "The story of hidden divine wisdom behind apparent hardships",
+    theme: "Divine Wisdom Beyond Appearances"
   },
   {
     traditionId: 2,
-    source: "Qur'an 94:5-6",
-    title: "With Hardship Comes Ease",
-    content: "So truly with hardship comes ease. Truly with hardship comes ease.",
-    context: "Comfort and hope during difficult times",
-    theme: "Hope in Difficulty"
+    source: "Qur'an 12:4-101",
+    title: "Joseph's Dream and Destiny",
+    content: "Young Joseph dreamed of eleven stars, the sun and moon prostrating to him. His jealous brothers threw him in a well, sold him into slavery. Through false accusation and imprisonment, Joseph's ability to interpret dreams eventually brought him before the king. He became Egypt's treasurer, saved the land from famine, and his family - including his brothers - came to him for help, fulfilling his childhood dream.",
+    context: "The complete story of Prophet Joseph (Yusuf) from dream to fulfillment",
+    theme: "Divine Destiny Through Trials"
   },
 
   // Bhagavad Gita
   {
     traditionId: 3,
-    source: "Bhagavad Gita 2:47",
-    title: "The Right to Action",
-    content: "You have the right to perform your actions, but you are not entitled to the fruits of your actions. Do not let the results be your motive, nor let your attachment be to inaction.",
-    context: "Krishna's teaching to Arjuna about duty without attachment to results",
-    theme: "Detachment and Duty"
+    source: "Bhagavad Gita 1:28-47",
+    title: "Arjuna's Dilemma on the Battlefield",
+    content: "Standing between two armies ready for war, Arjuna saw teachers, fathers, sons, and friends on both sides. His bow slipped from his hands and he said to Krishna, 'I cannot fight those whom I should honor. How can we be happy by killing our own people? It is better for me to be killed unarmed than to kill these noble souls.' Overwhelmed with grief, Arjuna sat down in his chariot, refusing to fight.",
+    context: "The moral crisis that prompted Krishna's teachings in the Bhagavad Gita",
+    theme: "Duty vs. Compassion"
   },
   {
     traditionId: 3,
-    source: "Bhagavad Gita 6:5",
-    title: "Self as Friend and Enemy",
-    content: "A person must elevate themselves by their own mind, not degrade themselves. The mind alone is one's friend as well as one's enemy.",
-    context: "Teaching on self-mastery and mental discipline",
-    theme: "Self-Mastery"
+    source: "Bhagavad Gita 11:5-55",
+    title: "Krishna Reveals His Universal Form",
+    content: "Krishna granted Arjuna divine sight to see His cosmic form. Arjuna beheld the entire universe within Krishna's body - countless forms, faces, and eyes, blazing like a thousand suns. Overwhelmed and terrified by this vision of divine infinity, Arjuna begged Krishna to return to his familiar, gentle form. Krishna then appeared again in his beautiful human form, comforting Arjuna.",
+    context: "The climactic revelation of divine reality in the Bhagavad Gita",
+    theme: "Divine Transcendence and Grace"
   },
 
   // Dhammapada
   {
     traditionId: 4,
-    source: "Dhammapada 1:1",
-    title: "The Mind's Creation",
-    content: "All that we are is the result of what we have thought. If a man speaks or acts with an evil thought, pain follows him. If a man speaks or acts with a pure thought, happiness follows him, like a shadow that never leaves him.",
-    context: "Buddha's teaching on the power of thought and its consequences",
-    theme: "Mindfulness and Thought"
+    source: "Buddhist Jataka Tales",
+    title: "The Monkey King's Sacrifice",
+    content: "A monkey king saw his troop trapped on one side of a river with hunters approaching. He stretched his body across the chasm as a bridge, allowing all 80,000 monkeys to escape safely. Though his back was broken from their weight, he saved every one. When the human king who witnessed this asked why, the monkey king replied, 'A true leader finds joy not in being served, but in serving others, even unto death.'",
+    context: "A Jataka tale about the Buddha's past life as a compassionate leader",
+    theme: "Selfless Leadership"
   },
   {
     traditionId: 4,
-    source: "Dhammapada 223",
-    title: "Conquering Anger with Love",
-    content: "Conquer anger with non-anger. Conquer badness with goodness. Conquer meanness with generosity. Conquer dishonesty with truth.",
-    context: "Buddha's teaching on transforming negative emotions",
-    theme: "Compassion and Transformation"
+    source: "Buddhist Texts",
+    title: "The Buddha and Angulimala",
+    content: "Angulimala was a serial killer who wore a necklace of his victims' fingers, terrorizing the land. When he chased the Buddha to make him his 1000th victim, the Buddha walked calmly while Angulimala, though running, could not catch up. Amazed, Angulimala stopped and listened to the Buddha's teaching about compassion. He became a monk and eventually achieved enlightenment, proving that even the most violent person can transform.",
+    context: "The story of how the Buddha converted a notorious killer through compassion",
+    theme: "Redemption and Transformation"
   },
 
   // Tao Te Ching
   {
     traditionId: 5,
-    source: "Tao Te Ching 78",
-    title: "Water's Wisdom",
-    content: "Nothing in the world is softer than water, yet nothing is better at overcoming the hard and strong. This is because nothing can substitute for it.",
-    context: "Lao Tzu's teaching on the power of gentleness and persistence",
-    theme: "Gentleness and Persistence"
+    source: "Taoist Stories",
+    title: "Zhuangzi's Butterfly Dream",
+    content: "Zhuangzi dreamed he was a butterfly, fluttering happily here and there, enjoying himself completely and knowing nothing about being Zhuangzi. Suddenly he awakened, and there he was, definitely Zhuangzi. But he didn't know if he were Zhuangzi who had dreamt he was a butterfly, or a butterfly dreaming he was Zhuangzi. This is the transformation of things.",
+    context: "A famous Taoist parable about the nature of reality and identity",
+    theme: "The Nature of Reality"
   },
   {
     traditionId: 5,
-    source: "Tao Te Ching 33",
-    title: "Knowing Others and Self",
-    content: "Knowing others is wisdom; knowing yourself is enlightenment. Mastering others is strength; mastering yourself is true power.",
-    context: "Teaching on self-knowledge and true power",
-    theme: "Self-Knowledge and Wisdom"
+    source: "Taoist Wisdom",
+    title: "The Empty Cup",
+    content: "A learned professor visited a Zen master to inquire about Tao. The master served tea, pouring until the cup overflowed. 'Stop!' cried the professor. 'The cup is full!' The master replied, 'Yes, and like this cup, you are full of your own ideas. How can I teach you about Tao until you first empty your cup?'",
+    context: "A teaching story about the necessity of beginner's mind in learning",
+    theme: "Emptiness and Learning"
   },
 
   // Upanishads
   {
     traditionId: 6,
-    source: "Chandogya Upanishad 6.8.7",
-    title: "Thou Art That",
-    content: "That which is the finest essence—this whole world has that as its soul. That is Reality. That is Atman. Thou art That.",
-    context: "Teaching on the unity of individual soul with universal consciousness",
-    theme: "Unity and Divine Nature"
+    source: "Chandogya Upanishad 6.12-13",
+    title: "Svetaketu and the Salt Water",
+    content: "Uddalaka told his son Svetaketu to dissolve salt in water overnight. In the morning, he asked for the salt back. 'I cannot see it, father.' 'Taste the water from the top, middle, and bottom.' Each sip was salty. 'The salt exists everywhere in the water, though invisible. Similarly, the finest essence pervades all existence. That essence is the Self - and you, Svetaketu, are That.'",
+    context: "A father's teaching to his son about the invisible divine essence in all things",
+    theme: "The Invisible Divine Presence"
   },
   {
     traditionId: 6,
-    source: "Isha Upanishad 1",
-    title: "All is Divine",
-    content: "The entire universe is pervaded by the Lord. Find your enjoyment in renunciation; do not covet what belongs to others.",
-    context: "Teaching on seeing the divine in everything and contentment",
-    theme: "Divine Presence and Contentment"
+    source: "Katha Upanishad",
+    title: "Nachiketa and Death",
+    content: "Young Nachiketa was sent to Death's realm by his angry father. Death offered him wealth, long life, and earthly pleasures, but Nachiketa refused, asking instead to know the secret of what happens after death. Pleased with his spiritual seeking, Death taught him about the eternal Self that neither lives nor dies, saying 'The wise who realize this Self are freed from the jaws of death.'",
+    context: "The story of a young seeker's encounter with Death itself",
+    theme: "Seeking Eternal Truth"
   },
 
   // Talmud & Midrash
   {
     traditionId: 7,
-    source: "Talmud, Sanhedrin 37a",
-    title: "Saving One Life",
-    content: "Whoever saves one life, it is as if they saved an entire world.",
-    context: "Rabbinic teaching on the infinite value of each human life",
-    theme: "Human Dignity and Compassion"
+    source: "Talmud, Taanit 23a",
+    title: "Honi and the Carob Tree",
+    content: "Honi saw a man planting a carob tree and asked, 'How long until it bears fruit?' 'Seventy years,' the man replied. 'Do you expect to live seventy years to eat its fruit?' Honi asked. The man answered, 'I found the world full of carob trees planted by my ancestors. Just as they planted for me, I plant for my children.' Honi fell asleep and awoke seventy years later to find the man's grandson eating from that very tree.",
+    context: "A Talmudic story about generational responsibility and patience",
+    theme: "Planting for Future Generations"
   },
   {
     traditionId: 7,
-    source: "Pirkei Avot 1:14",
-    title: "Hillel's Wisdom",
-    content: "If I am not for myself, who will be for me? And if I am only for myself, what am I? And if not now, when?",
-    context: "Hillel's teaching on balancing self-care with service to others",
-    theme: "Balance and Action"
+    source: "Midrash",
+    title: "The Poor Man's Offering",
+    content: "A wealthy man brought a hundred gold coins as an offering, while a poor man brought only a handful of flour. The poor man was worried his gift was too small. That night, the priest had a dream: he saw a scale where the poor man's flour outweighed the rich man's gold. When he asked why, a voice said, 'The rich man gave from his abundance, but the poor man gave from his need, adding tears and prayers with his flour.'",
+    context: "A teaching story about the true value of sacrifice and intention",
+    theme: "The Measure of True Giving"
   }
 ];
 

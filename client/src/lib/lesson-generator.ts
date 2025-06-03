@@ -132,91 +132,73 @@ function generateTitle(passageData: any, template?: any): string {
 }
 
 function generateStory(passageData: any): string {
-  // This is a simplified story generator
-  // In a real implementation, you'd have more sophisticated templates
+  // Generate a story that retells the actual narrative and explores its meaning
   
-  const storyTemplates = {
-    "bible": {
-      introduction: "In the ancient world, where life was often harsh and uncertain,",
-      context: "the people of Israel looked to their scriptures for guidance.",
-      wisdom: "Through these words, we learn that",
-      application: "This timeless wisdom reminds us that"
-    },
-    "quran": {
-      introduction: "In the revelation that came to guide humanity,",
-      context: "believers were taught profound truths about life's challenges.",
-      wisdom: "The Qur'an teaches us that",
-      application: "This divine guidance shows us that"
-    },
-    "bhagavad-gita": {
-      introduction: "On the battlefield of Kurukshetra, facing an impossible choice,",
-      context: "Arjuna received teachings that would guide seekers for millennia.",
-      wisdom: "Krishna's eternal wisdom reveals that",
-      application: "This sacred teaching reminds us that"
-    },
-    "dhammapada": {
-      introduction: "Under the Bodhi tree, having achieved enlightenment,",
-      context: "the Buddha shared insights that could free all beings from suffering.",
-      wisdom: "The Buddha's compassionate teaching shows us that",
-      application: "This mindful awareness teaches us that"
-    },
-    "tao-te-ching": {
-      introduction: "In the ancient wisdom of the Tao,",
-      context: "Lao Tzu revealed the secret of living in harmony with nature.",
-      wisdom: "The Tao teaches us that",
-      application: "This natural wisdom shows us that"
-    },
-    "upanishads": {
-      introduction: "In the sacred forests where sages contemplated ultimate reality,",
-      context: "the ancient Upanishads revealed the deepest truths of existence.",
-      wisdom: "These sacred texts teach us that",
-      application: "This eternal wisdom reminds us that"
-    },
-    "talmud": {
-      introduction: "In the study halls where rabbis debated and learned,",
-      context: "Jewish wisdom was preserved and expanded for future generations.",
-      wisdom: "The sages teach us that",
-      application: "This rabbinic wisdom shows us that"
-    }
+  const storyIntroductions = {
+    1: "From the Hebrew Scriptures comes this timeless story:",
+    2: "The Qur'an tells us this powerful narrative:",
+    3: "In the sacred Bhagavad Gita, we find this profound story:",
+    4: "Buddhist texts preserve this transformative tale:",
+    5: "Taoist wisdom offers us this enlightening story:",
+    6: "The ancient Upanishads share this deep teaching story:",
+    7: "Jewish wisdom literature gives us this meaningful narrative:"
   };
 
-  // Map tradition ID to tradition name
-  const traditionNames = ["", "bible", "quran", "bhagavad-gita", "dhammapada", "tao-te-ching", "upanishads", "talmud"];
-  const traditionName = traditionNames[passageData.traditionId] || "bible";
-  const template = storyTemplates[traditionName as keyof typeof storyTemplates];
+  const meaningExplorations = {
+    "Divine Purpose in Suffering": "This story reveals how apparent setbacks and injustices can serve a greater divine purpose. What seems like disaster may be preparation for unexpected blessing.",
+    "Unconditional Love and Forgiveness": "The narrative demonstrates love that welcomes without conditions and forgiveness that doesn't wait for worthiness. True love celebrates return over perfection.",
+    "Finding God in Stillness": "This account teaches that divine presence is often found not in dramatic displays of power, but in quiet moments of peace and inner stillness.",
+    "Divine Wisdom Beyond Appearances": "The story illustrates how divine wisdom often contradicts surface appearances. What seems harmful may serve hidden purposes we cannot see.",
+    "Divine Destiny Through Trials": "This narrative shows how difficult experiences can be the very path that leads to fulfilling our highest purpose and serving others.",
+    "Duty vs. Compassion": "The story explores the tension between our obligations and our emotions, teaching us when duty must transcend personal feelings.",
+    "Divine Transcendence and Grace": "This account reveals the overwhelming nature of divine reality while showing how grace makes the infinite accessible to finite beings.",
+    "Selfless Leadership": "The narrative demonstrates that true leadership means serving others even at great personal cost, finding joy in their welfare over our own.",
+    "Redemption and Transformation": "This story proves that no person is beyond redemption, and that compassion can transform even the most hardened heart.",
+    "The Nature of Reality": "The tale questions the nature of existence itself, suggesting that what we consider 'real' may be far more fluid than we imagine.",
+    "Emptiness and Learning": "This story teaches that true learning requires letting go of preconceptions and approaching wisdom with an open, empty mind.",
+    "The Invisible Divine Presence": "The narrative reveals how the divine essence permeates all existence, though often invisible to our ordinary perception.",
+    "Seeking Eternal Truth": "This account honors the spiritual seeker who values eternal wisdom over temporary pleasures and material gains.",
+    "Planting for Future Generations": "The story emphasizes our responsibility to plant seeds whose fruits we may never see, working for those who come after us.",
+    "The Measure of True Giving": "This narrative reveals that the value of a gift lies not in its size, but in the sacrifice and intention behind it."
+  };
 
-  const story = `${template.introduction} ${template.context}
+  const introduction = storyIntroductions[passageData.traditionId] || storyIntroductions[1];
+  const meaningExploration = meaningExplorations[passageData.theme] || "This story offers profound wisdom for our spiritual journey.";
 
-${passageData.context}
+  const story = `${introduction}
 
-The teaching "${passageData.content}" carries profound meaning for our lives today. ${template.wisdom} even in our modern world, we face similar challenges and can find guidance in this ancient wisdom.
+${passageData.content}
 
-${template.application} we don't have to face life's difficulties alone. Whether we're dealing with uncertainty, making difficult decisions, or seeking purpose, this timeless teaching offers us a path forward.
+${meaningExploration}
 
-The beauty of this wisdom lies not just in its age, but in its continued relevance to the human experience.`;
+In our modern lives, this ancient story speaks to universal human experiences. Whether we face betrayal, loss, moral dilemmas, or spiritual seeking, these timeless narratives offer guidance that transcends culture and century.
+
+The power of such stories lies not just in their historical significance, but in their ability to illuminate patterns of human experience that remain constant across time. They invite us to see our own lives within the larger tapestry of spiritual truth.`;
 
   return story;
 }
 
 function generateLifeLesson(passageData: any, template?: any): string {
   const lifeLessons = {
-    "Trust and Comfort": "Trust deepens when we surrender control and find peace in divine guidance.",
-    "Detachment and Duty": "Freedom comes when we act with full commitment but release attachment to outcomes.",
-    "Mindfulness and Thought": "What we think, we become—choose your thoughts like you choose your friends.",
-    "Resilience and Hope": "Like a tree that grows stronger after being cut, we too can find new life in our difficulties.",
-    "Divine Mercy and Human Capacity": "We are given only what we can handle, and with that comes the strength to bear it.",
-    "Self-Mastery": "The greatest victory is not over others, but over the chaos within our own minds.",
-    "Compassion and Transformation": "Love and kindness have the power to transform even the deepest anger and pain.",
-    "Gentleness and Persistence": "Like water wearing away stone, gentle persistence overcomes the hardest obstacles.",
-    "Self-Knowledge and Wisdom": "True power comes not from controlling others, but from understanding and mastering ourselves.",
-    "Unity and Divine Nature": "When we see the sacred in everything, we discover our own divine nature.",
-    "Divine Presence and Contentment": "Finding the sacred in ordinary moments brings a contentment that no external achievement can match.",
-    "Human Dignity and Compassion": "Every person carries infinite worth—treating others with dignity reflects our own humanity.",
-    "Balance and Action": "Care for yourself so you can care for others, and act with wisdom when the moment calls for it."
+    "Divine Purpose in Suffering": "Even our darkest moments can serve purposes we cannot see—trust that your trials may be preparing you for unexpected blessings.",
+    "Unconditional Love and Forgiveness": "True love doesn't wait for perfection before offering acceptance—it celebrates return over righteousness.",
+    "Finding God in Stillness": "Divine presence is often found not in life's storms, but in the gentle whisper that follows—learn to listen in the quiet.",
+    "Divine Wisdom Beyond Appearances": "What appears harmful today may serve tomorrow's good—trust that there is wisdom beyond what you can currently see.",
+    "Divine Destiny Through Trials": "Your greatest struggles may be the very path leading to your highest purpose—embrace the journey even when you cannot see the destination.",
+    "Duty vs. Compassion": "Sometimes love requires us to act beyond our feelings—true compassion may demand difficult choices that serve the greater good.",
+    "Divine Transcendence and Grace": "The divine is both infinitely beyond us and intimately present with us—grace bridges what seems impossible to reach.",
+    "Selfless Leadership": "Real leadership means carrying others' burdens, not being carried—find joy in lifting others up, even at personal cost.",
+    "Redemption and Transformation": "No heart is too hardened for transformation—approach even the most difficult people with compassion, for they too can change.",
+    "The Nature of Reality": "Question what you think you know about reality—the boundary between dreamer and dream may be more fluid than you imagine.",
+    "Emptiness and Learning": "True wisdom begins when we empty ourselves of assumptions—approach each day as a student, not an expert.",
+    "The Invisible Divine Presence": "The sacred permeates everything around you, though often invisible—train your heart to recognize the divine in ordinary moments.",
+    "Seeking Eternal Truth": "Value wisdom over wealth, understanding over pleasure—the truths that matter most cannot be bought or consumed.",
+    "Planting for Future Generations": "Work for harvests you may never see—your greatest legacy lies in what you plant for those who come after you.",
+    "The Measure of True Giving": "The value of your gift lies not in its size but in your sacrifice—give from your heart, not your abundance."
   };
 
   return lifeLessons[passageData.theme as keyof typeof lifeLessons] || 
-         "Ancient wisdom continues to guide us through life's challenges with timeless insight.";
+         "This ancient wisdom offers timeless guidance for navigating life's deeper questions with grace and understanding.";
 }
 
 function selectArtwork(traditionId: number): { url: string; description: string } {
