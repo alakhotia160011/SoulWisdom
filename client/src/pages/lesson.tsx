@@ -101,11 +101,11 @@ export default function Lesson() {
           <div className="text-center mb-8">
             <div className="inline-flex items-center space-x-4 mb-4">
               <span className="text-earth-600 font-medium">
-                {formatDate(lesson.date.toString())}
+                {lesson.date ? formatDate(lesson.date.toString()) : formatDate(new Date().toString())}
               </span>
               <span className="w-1 h-1 bg-earth-400 rounded-full"></span>
-              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getTraditionColor(lesson.passage.tradition.color)}`}>
-                {lesson.passage.tradition.name}
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getTraditionColor(lesson.passage?.tradition?.color || 'gray')}`}>
+                {lesson.passage?.tradition?.name || 'Sacred Teaching'}
               </span>
             </div>
             
@@ -117,7 +117,7 @@ export default function Lesson() {
             {/* Source Citation */}
             <p className="text-earth-700 font-scripture text-lg mb-8">
               <BookOpen className="inline w-5 h-5 mr-2 text-gold-500" />
-              {lesson.passage.source}
+              {lesson.passage?.source || 'Sacred Text'}
             </p>
           </div>
 
@@ -142,7 +142,7 @@ export default function Lesson() {
               </h2>
               
               <div className="text-earth-800 leading-relaxed space-y-4 text-lg">
-                {lesson.story.split('\n').map((paragraph, index) => (
+                {(lesson.story || '').split('\n').map((paragraph, index) => (
                   <p key={index}>{paragraph}</p>
                 ))}
               </div>

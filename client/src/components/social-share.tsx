@@ -41,15 +41,15 @@ export default function SocialShare({ lesson }: SocialShareProps) {
   const [copiedPlatform, setCopiedPlatform] = useState<string | null>(null);
 
   const lessonUrl = `${window.location.origin}/lesson/${lesson.id}`;
-  const shortLesson = lesson.lifeLesson.length > 100 
-    ? lesson.lifeLesson.substring(0, 100) + "..." 
-    : lesson.lifeLesson;
+  const shortLesson = (lesson.lifeLesson || '').length > 100 
+    ? (lesson.lifeLesson || '').substring(0, 100) + "..." 
+    : (lesson.lifeLesson || '');
 
   const socialCards: SocialCard[] = [
     {
       platform: "Twitter",
       title: `🙏 ${lesson.title}`,
-      description: `"${shortLesson}"\n\nFrom ${lesson.passage.source} (${lesson.passage.tradition.name})`,
+      description: `"${shortLesson}"\n\nFrom ${lesson.passage?.source || 'Sacred Text'} (${lesson.passage?.tradition?.name || 'Sacred Tradition'})`,
       hashtags: ["#SpiritualWisdom", "#DailyInspiration", "#Faith", "#Wisdom", `#${lesson.passage.tradition.slug.replace("-", "")}`],
       icon: <Twitter className="w-4 h-4" />,
       color: "bg-blue-500",
@@ -157,87 +157,45 @@ export default function SocialShare({ lesson }: SocialShareProps) {
   };
 
   const generateSocialMediaCard = async (platform: string) => {
-    // This would generate a visual social media card image
-    // For now, we'll create a simple canvas-based card
     try {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-      if (!ctx) return;
-
-      canvas.width = 1200;
-      canvas.height = 630;
-
-      // Background
-      ctx.fillStyle = '#f9f7f4';
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-      // Border
-      ctx.strokeStyle = '#8b7355';
-      ctx.lineWidth = 8;
-      ctx.strokeRect(20, 20, canvas.width - 40, canvas.height - 40);
-
-      // Title
-      ctx.fillStyle = '#2c2c2c';
-      ctx.font = 'bold 48px serif';
-      ctx.textAlign = 'center';
-      ctx.fillText(lesson.title, canvas.width / 2, 150);
-
-      // Source
-      ctx.font = '28px serif';
-      ctx.fillStyle = '#666';
-      ctx.fillText(lesson.passage.source, canvas.width / 2, 200);
-
-      // Life lesson
-      ctx.font = '32px serif';
-      ctx.fillStyle = '#2c2c2c';
-      ctx.textAlign = 'center';
-      
-      // Word wrap for life lesson
-      const words = lesson.lifeLesson.split(' ');
-      let line = '';
-      let y = 300;
-      const maxWidth = canvas.width - 100;
-      
-      for (let n = 0; n < words.length && y < 500; n++) {
-        const testLine = line + words[n] + ' ';
-        const metrics = ctx.measureText(testLine);
-        const testWidth = metrics.width;
-        
-        if (testWidth > maxWidth && n > 0) {
-          ctx.fillText(line, canvas.width / 2, y);
-          line = words[n] + ' ';
-          y += 50;
-        } else {
-          line = testLine;
-        }
-      }
-      ctx.fillText(line, canvas.width / 2, y);
-
-      // Platform badge
-      ctx.fillStyle = '#8b7355';
-      ctx.fillRect(50, canvas.height - 100, 200, 50);
-      ctx.fillStyle = 'white';
-      ctx.font = 'bold 24px sans-serif';
-      ctx.textAlign = 'left';
-      ctx.fillText(platform, 70, canvas.height - 70);
-
-      // Convert to blob and download
-      canvas.toBlob((blob) => {
-        if (blob) {
-          const url = URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = `${lesson.title}-${platform}.png`;
-          document.body.appendChild(a);
-          a.click();
-          document.body.removeChild(a);
-          URL.revokeObjectURL(url);
-        }
+      toast({
+        title: "Generating social media card...",
+        description: `Creating ${platform} card with AI artwork`
       });
+
+      const response = await fetch('/api/generate-social-card', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lessonId: lesson.id,
+          title: lesson.title,
+          lifeLesson: lesson.lifeLesson,
+          source: lesson.passage.source,
+          tradition: lesson.passage.tradition.name,
+          artworkUrl: lesson.artworkUrl,
+          platform: platform
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to generate social media card');
+      }
+
+      const cardData = await response.json();
+      
+      // Download the generated card
+      const link = document.createElement('a');
+      link.href = cardData.url;
+      link.download = `${lesson.title}-${platform}.png`;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
 
       toast({
         title: "Social media card generated!",
-        description: `${platform} card downloaded successfully`
+        description: `${platform} card with AI artwork downloaded successfully`
       });
     } catch (error) {
       toast({
