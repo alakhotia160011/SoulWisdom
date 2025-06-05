@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertSubscriptionSchema } from "@shared/schema";
-import { generateTodaysLesson } from "../client/src/lib/lesson-generator";
+import { generateTodaysLesson } from "./lesson-generator";
 import { generateArtworkForLesson } from "./artwork-generator";
 
 export async function registerRoutes(app: Express): Promise<Server> {
@@ -79,6 +79,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching lesson:", error);
       res.status(500).json({ message: "Failed to fetch lesson" });
+    }
+  });
+
+  // Generate artwork for a lesson
+  app.post("/api/generate-artwork", async (req, res) => {
+    try {
+      const { traditionId, storyTitle, storyContent } = req.body;
+      
+      if (!traditionId || !storyTitle || !storyContent) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      const artwork = await generateArtworkForLesson(traditionId, storyTitle, storyContent);
+      res.json(artwork);
+    } catch (error: any) {
+      console.error("Error generating artwork:", error);
+      res.status(500).json({ message: "Failed to generate artwork" });
     }
   });
 

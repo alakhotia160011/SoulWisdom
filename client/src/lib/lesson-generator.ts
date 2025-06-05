@@ -1,6 +1,5 @@
 import type { IStorage } from "../../server/storage";
-import { spiritualPassages, lessonTemplates } from "./spiritual-data";
-import { generateArtworkForLesson } from "./artwork-generator";
+import { spiritualPassages, traditionalArtwork, lessonTemplates } from "./spiritual-data";
 
 interface GeneratedLessonContent {
   title: string;
