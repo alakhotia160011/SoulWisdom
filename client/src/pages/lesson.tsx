@@ -12,16 +12,13 @@ import type { LessonWithDetails } from "@shared/schema";
 export default function Lesson() {
   const { id } = useParams();
   
+  // If no ID provided or ID is "today", fetch today's lesson
+  const endpoint = !id || id === "today" ? "/api/lessons/today" : `/api/lessons/${id}`;
+  
   const { data: lesson, isLoading, error } = useQuery<LessonWithDetails>({
-    queryKey: ["/api/lessons", id],
-    enabled: !!id,
+    queryKey: [endpoint],
+    enabled: true,
   });
-
-  // Debug logging
-  console.log("Lesson ID:", id);
-  console.log("Lesson data:", lesson);
-  console.log("Is loading:", isLoading);
-  console.log("Error:", error);
 
   if (isLoading) {
     return (
