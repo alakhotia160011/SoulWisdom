@@ -4,6 +4,7 @@ import { storage } from "./storage";
 import { insertSubscriptionSchema } from "@shared/schema";
 import { generateTodaysLesson } from "./lesson-generator";
 import { generateArtworkForLesson } from "./artwork-generator";
+import { getTodaysEmailTemplate, getSubscriberEmailList } from "./scheduler";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get all traditions with lesson counts
@@ -96,6 +97,36 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error("Error generating artwork:", error);
       res.status(500).json({ message: "Failed to generate artwork" });
+    }
+  });
+
+  // Get email template for today's lesson
+  app.get("/api/email-template", async (req, res) => {
+    try {
+      const template = await getTodaysEmailTemplate();
+      if (!template) {
+        return res.status(404).json({ message: "No lesson available for email template" });
+      }
+      res.setHeader('Content-Type', 'text/html');
+      res.send(template);
+    } catch (error) {
+      console.error("Error generating email template:", error);
+      res.status(500).json({ message: "Failed to generate email template" });
+    }
+  });
+
+  // Get subscriber email list for manual Gmail sending
+  app.get("/api/subscribers", async (req, res) => {
+    try {
+      const emails = await getSubscriberEmailList();
+      res.json({ 
+        count: emails.length,
+        emails: emails,
+        instructions: "Copy these emails to your Gmail BCC field when sending the daily lesson"
+      });
+    } catch (error) {
+      console.error("Error fetching subscriber emails:", error);
+      res.status(500).json({ message: "Failed to fetch subscriber emails" });
     }
   });
 
