@@ -17,6 +17,12 @@ export default function Lesson() {
     enabled: !!id,
   });
 
+  // Debug logging
+  console.log("Lesson ID:", id);
+  console.log("Lesson data:", lesson);
+  console.log("Is loading:", isLoading);
+  console.log("Error:", error);
+
   if (isLoading) {
     return (
       <div className="min-h-screen bg-earth-50">
