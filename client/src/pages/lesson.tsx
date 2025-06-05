@@ -2,6 +2,7 @@ import { useParams } from "wouter";
 import { useQuery } from "@tanstack/react-query";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import SocialShare from "@/components/social-share";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -161,16 +162,16 @@ export default function Lesson() {
             </CardContent>
           </Card>
 
-          {/* Share Section */}
+          {/* Social Share Section */}
+          <Card className="mb-8">
+            <CardContent className="p-8">
+              <SocialShare lesson={lesson} />
+            </CardContent>
+          </Card>
+
+          {/* Action Buttons */}
           <div className="text-center">
             <div className="flex justify-center space-x-4">
-              <Button 
-                variant="outline" 
-                className="bg-white border-earth-200 text-earth-700 hover:bg-earth-50"
-              >
-                <Share className="w-4 h-4 mr-2" />
-                Share
-              </Button>
               <Button 
                 variant="outline"
                 className="bg-white border-earth-200 text-earth-700 hover:bg-earth-50"

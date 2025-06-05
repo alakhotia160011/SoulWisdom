@@ -5,6 +5,7 @@ import { insertSubscriptionSchema } from "@shared/schema";
 import { generateTodaysLesson } from "./lesson-generator";
 import { generateArtworkForLesson } from "./artwork-generator";
 import { getTodaysEmailTemplate, getSubscriberEmailList } from "./scheduler";
+import { generateSocialCard } from "./social-cards";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get all traditions with lesson counts
@@ -97,6 +98,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error: any) {
       console.error("Error generating artwork:", error);
       res.status(500).json({ message: "Failed to generate artwork" });
+    }
+  });
+
+  // Generate social media card for a lesson
+  app.post("/api/generate-social-card", async (req, res) => {
+    try {
+      const { lessonId, title, lifeLesson, source, tradition, artworkUrl, platform } = req.body;
+      
+      if (!lessonId || !title || !lifeLesson || !source || !tradition || !platform) {
+        return res.status(400).json({ message: "Missing required fields" });
+      }
+
+      const card = await generateSocialCard({
+        lessonId,
+        title,
+        lifeLesson,
+        source,
+        tradition,
+        artworkUrl,
+        platform
+      });
+      
+      res.json(card);
+    } catch (error: any) {
+      console.error("Error generating social card:", error);
+      res.status(500).json({ message: "Failed to generate social card" });
     }
   });
 
