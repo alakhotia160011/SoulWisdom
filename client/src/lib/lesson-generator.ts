@@ -1,5 +1,6 @@
 import type { IStorage } from "../../server/storage";
-import { spiritualPassages, traditionalArtwork, lessonTemplates } from "./spiritual-data";
+import { spiritualPassages, lessonTemplates } from "./spiritual-data";
+import { generateArtworkForLesson } from "./artwork-generator";
 
 interface GeneratedLessonContent {
   title: string;
@@ -57,8 +58,8 @@ async function createLessonFromPassage(storage: IStorage, passageData: any) {
       });
     }
 
-    // Generate lesson content
-    const lessonContent = generateLessonContent(passageData);
+    // Generate lesson content with AI artwork
+    const lessonContent = await generateLessonContent(passageData);
     
     // Create the lesson
     const lesson = await storage.createLesson({

@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertSubscriptionSchema } from "@shared/schema";
 import { generateTodaysLesson } from "../client/src/lib/lesson-generator";
+import { generateArtworkForLesson } from "./artwork-generator";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get all traditions with lesson counts
