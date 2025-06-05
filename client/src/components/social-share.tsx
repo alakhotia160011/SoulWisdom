@@ -50,7 +50,7 @@ export default function SocialShare({ lesson }: SocialShareProps) {
       platform: "Twitter",
       title: `🙏 ${lesson.title}`,
       description: `"${shortLesson}"\n\nFrom ${lesson.passage?.source || 'Sacred Text'} (${lesson.passage?.tradition?.name || 'Sacred Tradition'})`,
-      hashtags: ["#SpiritualWisdom", "#DailyInspiration", "#Faith", "#Wisdom", `#${lesson.passage.tradition.slug.replace("-", "")}`],
+      hashtags: ["#SpiritualWisdom", "#DailyInspiration", "#Faith", "#Wisdom", `#${(lesson.passage?.tradition?.slug || 'wisdom').replace("-", "")}`],
       icon: <Twitter className="w-4 h-4" />,
       color: "bg-blue-500",
       url: "",
@@ -59,7 +59,7 @@ export default function SocialShare({ lesson }: SocialShareProps) {
     {
       platform: "Facebook",
       title: `Daily Spiritual Lesson: ${lesson.title}`,
-      description: `${shortLesson}\n\nDiscover timeless wisdom from ${lesson.passage.tradition.name} scriptures. Read the full lesson and explore beautiful traditional artwork.`,
+      description: `${shortLesson}\n\nDiscover timeless wisdom from ${lesson.passage?.tradition?.name || 'ancient'} scriptures. Read the full lesson and explore beautiful traditional artwork.`,
       hashtags: ["#SpiritualLessons", "#DailyInspiration", "#Faith", "#Wisdom"],
       icon: <Facebook className="w-4 h-4" />,
       color: "bg-blue-600",
@@ -69,7 +69,7 @@ export default function SocialShare({ lesson }: SocialShareProps) {
     {
       platform: "LinkedIn",
       title: `Professional Reflection: ${lesson.title}`,
-      description: `Ancient wisdom for modern life: "${shortLesson}"\n\nThis teaching from ${lesson.passage.tradition.name} tradition offers valuable insights for personal and professional growth.`,
+      description: `Ancient wisdom for modern life: "${shortLesson}"\n\nThis teaching from ${lesson.passage?.tradition?.name || 'ancient'} tradition offers valuable insights for personal and professional growth.`,
       hashtags: ["#Leadership", "#PersonalDevelopment", "#Wisdom", "#Mindfulness"],
       icon: <Linkedin className="w-4 h-4" />,
       color: "bg-blue-700",
@@ -79,7 +79,7 @@ export default function SocialShare({ lesson }: SocialShareProps) {
     {
       platform: "Instagram",
       title: `✨ ${lesson.title} ✨`,
-      description: `${shortLesson}\n\n${lesson.passage.source}`,
+      description: `${shortLesson}\n\n${lesson.passage?.source || 'Sacred Text'}`,
       hashtags: ["#SpiritualWisdom", "#DailyInspiration", "#Faith", "#Mindfulness", "#Wisdom", "#Peace", "#Reflection", "#SacredText"],
       icon: <Instagram className="w-4 h-4" />,
       color: "bg-gradient-to-r from-purple-500 to-pink-500",

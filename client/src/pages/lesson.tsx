@@ -165,7 +165,13 @@ export default function Lesson() {
           {/* Social Share Section */}
           <Card className="mb-8">
             <CardContent className="p-8">
-              <SocialShare lesson={lesson} />
+              {lesson && lesson.passage?.tradition ? (
+                <SocialShare lesson={lesson} />
+              ) : (
+                <div className="text-center py-8">
+                  <p className="text-slate-600">Social sharing will be available once the lesson is fully loaded.</p>
+                </div>
+              )}
             </CardContent>
           </Card>
 
