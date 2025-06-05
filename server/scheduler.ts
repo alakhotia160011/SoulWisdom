@@ -81,13 +81,9 @@ class DailyScheduler {
       // Create email template that can be copied to Gmail
       const emailTemplate = this.createEmailTemplate(lesson);
       
-      // Save template to a file for easy access
-      const fs = require('fs').promises;
-      const templatePath = './daily-email-template.html';
-      
-      await fs.writeFile(templatePath, emailTemplate, 'utf8');
-      console.log(`✓ Email template saved to ${templatePath}`);
-      console.log("📧 Copy this template to Gmail and send to your subscribers");
+      // Log template generation success
+      console.log(`✓ Email template generated for ${subscribers.length} subscribers`);
+      console.log("📧 Template available at /email-admin for Gmail sending");
       
     } catch (error) {
       console.error("Error generating email template:", error);
