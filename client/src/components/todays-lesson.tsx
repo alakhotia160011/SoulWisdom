@@ -21,15 +21,15 @@ export default function TodaysLesson() {
 
   const getTraditionColor = (color: string) => {
     const colorMap = {
-      blue: "bg-blue-100 text-blue-800",
-      green: "bg-green-100 text-green-800",
-      orange: "bg-orange-100 text-orange-800",
-      purple: "bg-purple-100 text-purple-800",
-      gray: "bg-gray-100 text-gray-800",
-      yellow: "bg-yellow-100 text-yellow-800",
-      indigo: "bg-indigo-100 text-indigo-800"
+      blue: "bg-blue-800 text-white",
+      green: "bg-green-800 text-white",
+      orange: "bg-orange-800 text-white",
+      purple: "bg-purple-800 text-white",
+      gray: "bg-gray-800 text-white",
+      yellow: "bg-yellow-800 text-white",
+      indigo: "bg-indigo-800 text-white"
     };
-    return colorMap[color as keyof typeof colorMap] || "bg-sage-100 text-sage-800";
+    return colorMap[color as keyof typeof colorMap] || "bg-sage-800 text-white";
   };
 
   if (isLoading) {
