@@ -22,15 +22,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get today's lesson
   app.get("/api/lessons/today", async (req, res) => {
     try {
-      let todaysLesson = await storage.getTodaysLesson();
-      
-      // If no lesson exists for today, generate one
-      if (!todaysLesson) {
-        const generatedLesson = await generateTodaysLesson(storage);
-        if (generatedLesson) {
-          todaysLesson = await storage.getLessonById(generatedLesson.id);
-        }
-      }
+      const todaysLesson = await storage.getTodaysLesson();
 
       if (!todaysLesson) {
         return res.status(404).json({ message: "No lesson available for today" });
@@ -40,6 +32,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error fetching today's lesson:", error);
       res.status(500).json({ message: "Failed to fetch today's lesson" });
+    }
+  });
+
+  // Manual lesson generation (admin only)
+  app.post("/api/lessons/generate", async (req, res) => {
+    try {
+      console.log("Manual lesson generation requested");
+      const newLesson = await generateTodaysLesson(storage);
+      
+      if (!newLesson) {
+        return res.status(500).json({ message: "Failed to generate lesson" });
+      }
+
+      res.json(newLesson);
+    } catch (error) {
+      console.error("Error generating lesson:", error);
+      res.status(500).json({ message: "Failed to generate lesson" });
     }
   });
 

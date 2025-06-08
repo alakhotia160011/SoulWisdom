@@ -24,9 +24,6 @@ class DailyScheduler {
     this.intervalId = setInterval(() => {
       this.checkAndGenerateLesson();
     }, 60000); // Check every minute
-
-    // Also generate a lesson immediately if none exists for today
-    this.generateLessonIfNeeded();
   }
 
   stop() {
