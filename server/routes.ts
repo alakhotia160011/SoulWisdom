@@ -2,7 +2,7 @@ import type { Express } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertSubscriptionSchema } from "@shared/schema";
-import { generateTodaysLesson } from "./lesson-generator";
+import { generateTodaysLesson, generateDemoLessons } from "./lesson-generator";
 import { generateArtworkForLesson } from "./artwork-generator";
 import { getTodaysEmailTemplate, getSubscriberEmailList } from "./scheduler";
 import { generateSocialCard } from "./social-cards";
@@ -49,6 +49,21 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error generating lesson:", error);
       res.status(500).json({ message: "Failed to generate lesson" });
+    }
+  });
+
+  // Generate lessons for all traditions (demo purposes)
+  app.post("/api/lessons/generate-demo", async (req, res) => {
+    try {
+      console.log("Generating demo lessons for all traditions");
+      const lessons = await generateDemoLessons(storage);
+      res.json({ 
+        message: `Generated ${lessons.length} demo lessons`,
+        lessons: lessons.map((l: any) => ({ id: l.id, title: l.title, tradition: l.passage.tradition.name }))
+      });
+    } catch (error) {
+      console.error("Error generating demo lessons:", error);
+      res.status(500).json({ message: "Failed to generate demo lessons" });
     }
   });
 

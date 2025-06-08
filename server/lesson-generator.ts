@@ -109,6 +109,31 @@ export async function generateTodaysLesson(storage: IStorage) {
   return await createLessonFromPassage(storage, selectedPassage);
 }
 
+export async function generateDemoLessons(storage: IStorage) {
+  const lessons = [];
+  const traditions = [1, 2, 3, 4, 5, 6, 7]; // All 7 tradition IDs
+  
+  for (const traditionId of traditions) {
+    // Find a passage from this tradition
+    const passagesFromTradition = spiritualPassages.filter(p => p.traditionId === traditionId);
+    if (passagesFromTradition.length > 0) {
+      const randomIndex = Math.floor(Math.random() * passagesFromTradition.length);
+      const selectedPassage = passagesFromTradition[randomIndex];
+      
+      try {
+        const lesson = await createLessonFromPassage(storage, selectedPassage);
+        if (lesson) {
+          lessons.push(lesson);
+        }
+      } catch (error) {
+        console.error(`Error creating lesson for tradition ${traditionId}:`, error);
+      }
+    }
+  }
+  
+  return lessons;
+}
+
 async function createLessonFromPassage(storage: IStorage, passageData: any) {
   try {
     // First, ensure the passage exists in storage
