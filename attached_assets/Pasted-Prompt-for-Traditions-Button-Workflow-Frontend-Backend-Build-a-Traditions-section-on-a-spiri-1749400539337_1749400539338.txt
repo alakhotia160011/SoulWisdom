@@ -1,0 +1,80 @@
+Prompt for “Traditions” Button Workflow (Frontend + Backend)
+Build a “Traditions” section on a spiritual reflection website. This section should help users explore the religious or spiritual texts behind the daily stories. The goal is to educate, inspire trust, and show reverence for the source traditions.
+
+Workflow Overview:
+Button Behavior
+Create a “Traditions” button in the site’s main navigation or hero section. When clicked, the site should transition to a full-screen or modal view. Use smooth fade-in or slide animations.
+
+Grid of Religious Texts (Clickable UI)
+Display a visually clean, responsive grid of cards. Each card represents one of the religious or spiritual texts used in the daily stories:
+
+Bible (Psalms, Job, Gospels, Pauline Letters)
+
+Qur’an
+
+Bhagavad Gita
+
+Dhammapada
+
+Tao Te Ching
+
+Upanishads
+
+Talmud & Midrash
+
+Each card should include:
+
+An icon or symbolic illustration (scroll, script, symbol)
+
+The name of the text
+
+An optional subtitle or description (e.g., “Wisdom from the Hebrew Bible”)
+
+Detail View for Each Text (On Click)
+When a user clicks a card, load a static detail page or dynamically rendered component that includes:
+
+Header: Name of the Text
+
+Introduction: A brief 3-4 line overview
+
+Historical Origins: Time, geography, authorship, and how it was compiled
+
+Spiritual Significance: What the text means to followers, how it's used
+
+Sample Verses or Themes: 1 or 2 famous or insightful quotes from the text
+
+Art or Manuscript Image: Include stylized, culturally consistent imagery (e.g., a Sanskrit manuscript image for Gita, Torah scroll for Talmud)
+
+All content should be fixed and not generated dynamically. It should be stored in a local or cloud-based static database.
+
+Backend Requirements:
+Use a structured format such as JSON, SQLite, or Markdown files to store the tradition metadata. Each entry should contain the following fields:
+
+name
+
+origin_period
+
+origin_location
+
+spiritual_tradition
+
+summary
+
+famous_quotes
+
+image_url (for the manuscript or traditional artwork)
+
+This content does not change over time and should be loaded once at build/runtime.
+
+Frontend Design Requirements:
+Use Tailwind CSS or equivalent for layout and responsive design
+
+Cards should have rounded corners, soft shadows, and readable fonts
+
+Detail pages should have a clean layout with generous white space and traditional design cues (e.g., parchment background, serif fonts)
+
+Add hover and transition animations for interaction
+
+Make the UI mobile-friendly and accessible
+
+This module is standalone and does not require backend user auth or dynamic input. Static generation is acceptable for simplicity.

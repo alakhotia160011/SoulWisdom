@@ -9,6 +9,13 @@ export const traditions = pgTable("traditions", {
   description: text("description").notNull(),
   color: text("color").notNull(),
   icon: text("icon").notNull(),
+  originPeriod: text("origin_period"),
+  originLocation: text("origin_location"),
+  spiritualTradition: text("spiritual_tradition"),
+  summary: text("summary"),
+  famousQuotes: text("famous_quotes").array(),
+  imageUrl: text("image_url"),
+  manuscriptStyle: text("manuscript_style"),
 });
 
 export const passages = pgTable("passages", {

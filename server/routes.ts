@@ -20,6 +20,23 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Get individual tradition by slug
+  app.get("/api/traditions/:slug", async (req, res) => {
+    try {
+      const { slug } = req.params;
+      const tradition = await storage.getTraditionBySlug(slug);
+      
+      if (!tradition) {
+        return res.status(404).json({ message: "Tradition not found" });
+      }
+      
+      res.json(tradition);
+    } catch (error) {
+      console.error("Error fetching tradition:", error);
+      res.status(500).json({ message: "Failed to fetch tradition" });
+    }
+  });
+
   // Get today's lesson
   app.get("/api/lessons/today", async (req, res) => {
     try {
