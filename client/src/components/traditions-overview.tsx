@@ -99,20 +99,17 @@ export default function TraditionsOverview() {
   });
 
   const getTraditionColorClasses = (color: string) => {
-    const colorMap = {
-      blue: "from-blue-50 to-blue-100 border-blue-200 bg-blue-800 text-gray-700 bg-white",
-      green: "from-green-50 to-green-100 border-green-200 bg-green-800 text-gray-700 bg-white",
-      orange: "from-orange-50 to-orange-100 border-orange-200 bg-orange-800 text-gray-700 bg-white",
-      purple: "from-purple-50 to-purple-100 border-purple-200 bg-purple-800 text-gray-700 bg-white",
-      gray: "from-gray-50 to-gray-100 border-gray-200 bg-gray-800 text-gray-700 bg-white",
-      yellow: "from-yellow-50 to-yellow-100 border-yellow-200 bg-yellow-800 text-gray-700 bg-white",
-      indigo: "from-indigo-50 to-indigo-100 border-indigo-200 bg-indigo-800 text-gray-700 bg-white"
+    const baseColors = {
+      blue: { gradient: "from-blue-50 to-blue-100", border: "border-blue-200", iconBg: "bg-blue-800", textColor: "text-gray-700", badgeBg: "bg-white" },
+      green: { gradient: "from-green-50 to-green-100", border: "border-green-200", iconBg: "bg-green-800", textColor: "text-gray-700", badgeBg: "bg-white" },
+      orange: { gradient: "from-orange-50 to-orange-100", border: "border-orange-200", iconBg: "bg-orange-800", textColor: "text-gray-700", badgeBg: "bg-white" },
+      purple: { gradient: "from-purple-50 to-purple-100", border: "border-purple-200", iconBg: "bg-purple-800", textColor: "text-gray-700", badgeBg: "bg-white" },
+      gray: { gradient: "from-gray-50 to-gray-100", border: "border-gray-200", iconBg: "bg-gray-800", textColor: "text-gray-700", badgeBg: "bg-white" },
+      yellow: { gradient: "from-yellow-50 to-yellow-100", border: "border-yellow-200", iconBg: "bg-yellow-800", textColor: "text-gray-700", badgeBg: "bg-white" },
+      indigo: { gradient: "from-indigo-50 to-indigo-100", border: "border-indigo-200", iconBg: "bg-indigo-800", textColor: "text-gray-700", badgeBg: "bg-white" }
     };
     
-    const classes = colorMap[color as keyof typeof colorMap] || "from-earth-50 to-earth-100 border-earth-200 bg-earth-800 text-gray-700 bg-white";
-    const [gradient, border, iconBg, textColor, badgeBg] = classes.split(' ');
-    
-    return { gradient, border, iconBg, textColor, badgeBg };
+    return baseColors[color as keyof typeof baseColors] || { gradient: "from-earth-50 to-earth-100", border: "border-earth-200", iconBg: "bg-earth-800", textColor: "text-gray-700", badgeBg: "bg-white" };
   };
 
   if (isLoading) {
