@@ -70,15 +70,15 @@ export default function Traditions() {
     return colorMap[color as keyof typeof colorMap] || colorMap.blue;
   };
 
-  const getIconEmoji = (icon: string) => {
-    if (icon?.includes('cross')) return '✝️';
-    if (icon?.includes('moon')) return '☪️';
-    if (icon?.includes('om')) return '🕉️';
-    if (icon?.includes('lotus')) return '☸️';
-    if (icon?.includes('yin-yang')) return '☯️';
-    if (icon?.includes('fire')) return '🔥';
-    if (icon?.includes('star-of-david')) return '✡️';
-    return '📜';
+  const getIconSymbol = (icon: string) => {
+    if (icon?.includes('cross')) return '†';
+    if (icon?.includes('moon')) return '☪';
+    if (icon?.includes('om')) return 'ॐ';
+    if (icon?.includes('lotus')) return '❋';
+    if (icon?.includes('yin-yang')) return '☯';
+    if (icon?.includes('fire')) return '◉';
+    if (icon?.includes('star-of-david')) return '✡';
+    return '◈';
   };
 
   return (
@@ -112,8 +112,8 @@ export default function Traditions() {
               <CardHeader className="text-center pb-4">
                 {/* Icon and Gradient Header */}
                 <div className={`bg-gradient-to-r ${getColorClasses(tradition.color)} rounded-xl p-6 mb-4 text-white shadow-lg`}>
-                  <div className="text-4xl mb-3 drop-shadow-sm">
-                    {getIconEmoji(tradition.icon)}
+                  <div className="text-3xl mb-3 drop-shadow-sm font-serif">
+                    {getIconSymbol(tradition.icon)}
                   </div>
                   <CardTitle className="text-xl font-bold text-white drop-shadow-sm">
                     {tradition.name}
