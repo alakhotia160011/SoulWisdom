@@ -282,8 +282,8 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
   }
 
   private createWelcomeEmailTemplate(subscriberEmail: string, todaysLesson?: LessonWithDetails): string {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 
-                   process.env.REPL_SLUG ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co` :
+    // Use deployment URL if available, otherwise local
+    const baseUrl = process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
                    'http://localhost:5000';
     
     return `<!DOCTYPE html>
@@ -296,124 +296,79 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
         body {
             font-family: 'Georgia', serif;
             line-height: 1.6;
-            color: #2c3e50;
+            color: #333;
             max-width: 600px;
             margin: 0 auto;
             padding: 20px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background-color: #f4f4f4;
         }
         .container {
-            background: linear-gradient(145deg, #ffffff 0%, #f8f9fa 100%);
-            padding: 35px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-            border: 1px solid rgba(139, 115, 85, 0.1);
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         }
         .header {
             text-align: center;
-            border-bottom: 3px solid #6c5ce7;
-            padding-bottom: 25px;
+            border-bottom: 2px solid #8b7355;
+            padding-bottom: 20px;
             margin-bottom: 30px;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            margin: -35px -35px 30px -35px;
-            padding: 30px 35px 25px 35px;
-            border-radius: 15px 15px 0 0;
         }
-        .welcome-title {
-            color: #ffffff;
-            font-size: 32px;
-            margin: 10px 0;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
-        }
-        .welcome-subtitle {
-            color: rgba(255,255,255,0.9);
-            font-size: 18px;
+        .title {
+            color: #8b7355;
+            font-size: 28px;
             margin: 0;
         }
-        .welcome-message {
-            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin: 25px 0;
-            box-shadow: 0 5px 15px rgba(74, 85, 104, 0.3);
+        .subtitle {
+            color: #666;
+            font-size: 16px;
+            margin: 5px 0 0 0;
         }
-        .welcome-message h3 {
-            color: white;
+        .welcome-text {
+            font-size: 16px;
+            margin: 20px 0;
+        }
+        .lesson-preview {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 8px;
+            border-left: 4px solid #8b7355;
+            margin: 25px 0;
+        }
+        .lesson-preview h3 {
+            color: #8b7355;
             margin-top: 0;
             font-size: 20px;
         }
-        .lesson-preview {
-            background: linear-gradient(135deg, #2b6cb0 0%, #1e40af 100%);
-            color: white;
-            padding: 25px;
-            border-radius: 12px;
-            margin: 25px 0;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(43, 108, 176, 0.3);
-        }
-        .lesson-preview h3, .lesson-preview h4 {
-            color: white;
-            margin-top: 0;
-        }
         .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%);
+            background-color: #8b7355;
             color: white;
-            padding: 15px 35px;
+            padding: 12px 24px;
             text-decoration: none;
-            border-radius: 30px;
+            border-radius: 5px;
             font-weight: bold;
-            margin: 20px 0;
-            transition: transform 0.3s ease;
-            box-shadow: 0 5px 15px rgba(26, 54, 93, 0.4);
-            border: 2px solid white;
+            margin: 15px 0;
         }
-        .cta-button:hover {
-            transform: translateY(-2px);
-            color: white;
-        }
-        .traditions-list {
+        .traditions-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
-            margin: 25px 0;
+            gap: 10px;
+            margin: 20px 0;
         }
         .tradition-item {
-            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
-            color: #2d3748;
-            padding: 15px 10px;
-            border-radius: 10px;
+            background-color: #f0f0f0;
+            padding: 10px;
+            border-radius: 5px;
             text-align: center;
             font-size: 14px;
-            font-weight: 600;
-            border: 2px solid #4a5568;
-            box-shadow: 0 3px 10px rgba(74, 85, 104, 0.2);
-        }
-        .expectations-box {
-            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
-            padding: 20px;
-            border-radius: 12px;
-            margin: 25px 0;
-            border-left: 5px solid #ff6b6b;
-            box-shadow: 0 5px 15px rgba(255, 203, 159, 0.3);
-        }
-        .expectations-box h4 {
-            color: #d63031;
-            margin-top: 0;
-            font-size: 18px;
-        }
-        .expectations-box ul {
-            color: #2c3e50;
-            margin: 10px 0;
-            padding-left: 20px;
         }
         .footer {
             text-align: center;
-            margin-top: 35px;
-            padding-top: 25px;
-            border-top: 2px solid #e9ecef;
-            color: #6c757d;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
             font-size: 14px;
         }
     </style>
@@ -421,17 +376,16 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
 <body>
     <div class="container">
         <div class="header">
-            <h1 class="welcome-title">Welcome to Your Spiritual Journey</h1>
-            <p class="welcome-subtitle">Daily Spiritual Lessons</p>
+            <h1 class="title">Daily Spiritual Lessons</h1>
+            <p class="subtitle">Welcome to Your Journey</p>
         </div>
 
-        <div class="welcome-message">
-            <h3>Hello and Welcome!</h3>
-            <p>Thank you for subscribing to Daily Spiritual Lessons. You've just taken a meaningful step toward daily spiritual growth and wisdom.</p>
-            <p>Every morning at 6:00 AM, you'll receive a carefully curated lesson featuring authentic stories, teachings, and insights from seven major spiritual traditions.</p>
+        <div class="welcome-text">
+            <p>Hello <strong>${subscriberEmail}</strong>,</p>
+            <p>Thank you for subscribing to Daily Spiritual Lessons. You'll receive meaningful insights from seven sacred traditions every day at 6:00 AM.</p>
         </div>
 
-        <div class="traditions-list">
+        <div class="traditions-grid">
             <div class="tradition-item">† Bible</div>
             <div class="tradition-item">☪ Qur'an</div>
             <div class="tradition-item">ॐ Bhagavad Gita</div>
@@ -443,35 +397,28 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
 
         ${todaysLesson ? `
         <div class="lesson-preview">
-            <h3>Today's Featured Lesson</h3>
-            <h4>${todaysLesson.title}</h4>
-            <p style="font-style: italic; opacity: 0.9;">From ${todaysLesson.passage.tradition.name} - ${todaysLesson.passage.source}</p>
-            <a href="${baseUrl}/" class="cta-button">Read Today's Lesson</a>
+            <h3>Today's Lesson Preview</h3>
+            <p><strong>${todaysLesson.title}</strong></p>
+            <p style="font-style: italic; color: #666;">From ${todaysLesson.passage.tradition.name} - ${todaysLesson.passage.source}</p>
+            <p style="text-align: center;">
+                <a href="${baseUrl}/" class="cta-button">Read Today's Lesson</a>
+            </p>
         </div>
         ` : `
         <div class="lesson-preview">
-            <h3>Your Daily Lessons Await</h3>
-            <p>Visit our platform to explore the latest spiritual insights and begin your journey of daily wisdom.</p>
-            <a href="${baseUrl}" class="cta-button">Visit Daily Spiritual Lessons</a>
+            <h3>Start Exploring</h3>
+            <p>Visit our platform to discover daily spiritual wisdom and begin your journey.</p>
+            <p style="text-align: center;">
+                <a href="${baseUrl}" class="cta-button">Visit Daily Spiritual Lessons</a>
+            </p>
         </div>
         `}
 
-        <div class="expectations-box">
-            <h4>What to Expect:</h4>
-            <ul>
-                <li>Daily lessons at 6:00 AM in your timezone</li>
-                <li>Beautiful AI-generated artwork in traditional styles</li>
-                <li>Authentic stories from sacred texts</li>
-                <li>Practical life applications and wisdom</li>
-                <li>Insights from diverse spiritual traditions</li>
-            </ul>
-        </div>
-
         <div class="footer">
-            <p><strong>Daily Spiritual Lessons</strong></p>
-            <p>Wisdom from sacred traditions delivered to your inbox</p>
-            <p style="font-size: 12px; color: #999;">
-                You're receiving this welcome email because you subscribed to Daily Spiritual Lessons.<br>
+            <p>Daily Spiritual Lessons<br>
+            Wisdom from sacred traditions around the world</p>
+            <p style="font-size: 12px; margin-top: 15px;">
+                You're receiving this because you subscribed to Daily Spiritual Lessons.<br>
                 To unsubscribe, reply with "unsubscribe" in the subject line.
             </p>
         </div>
