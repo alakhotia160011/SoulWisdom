@@ -43,12 +43,9 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Explore</h4>
             <ul className="space-y-2">
               <li>
-                <button 
-                  onClick={() => scrollToSection("#today")}
-                  className="text-earth-300 hover:text-white transition-colors text-left"
-                >
+                <Link href="/" className="text-earth-300 hover:text-white transition-colors">
                   Today's Lesson
-                </button>
+                </Link>
               </li>
               <li>
                 <Link href="/archive" className="text-earth-300 hover:text-white transition-colors">
@@ -56,17 +53,14 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <button 
-                  onClick={() => scrollToSection("#traditions")}
-                  className="text-earth-300 hover:text-white transition-colors text-left"
-                >
+                <Link href="/traditions" className="text-earth-300 hover:text-white transition-colors">
                   Traditions
-                </button>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/about" className="text-earth-300 hover:text-white transition-colors">
                   About
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -75,24 +69,24 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Support</h4>
             <ul className="space-y-2">
               <li>
-                <a href="#" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/faq" className="text-earth-300 hover:text-white transition-colors">
                   FAQ
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/contact" className="text-earth-300 hover:text-white transition-colors">
                   Contact
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/privacy" className="text-earth-300 hover:text-white transition-colors">
                   Privacy
-                </a>
+                </Link>
               </li>
               <li>
-                <a href="#" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/about" className="text-earth-300 hover:text-white transition-colors">
                   Terms
-                </a>
+                </Link>
               </li>
             </ul>
           </div>

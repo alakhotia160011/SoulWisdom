@@ -10,6 +10,9 @@ import EmailAdmin from "@/pages/email-admin";
 import Traditions from "@/pages/traditions";
 import TraditionDetail from "@/pages/tradition-detail";
 import About from "@/pages/about";
+import Contact from "@/pages/contact";
+import FAQ from "@/pages/faq";
+import Privacy from "@/pages/privacy";
 import NotFound from "@/pages/not-found";
 
 function Router() {
@@ -22,6 +25,9 @@ function Router() {
       <Route path="/traditions" component={Traditions} />
       <Route path="/tradition/:slug" component={TraditionDetail} />
       <Route path="/about" component={About} />
+      <Route path="/contact" component={Contact} />
+      <Route path="/faq" component={FAQ} />
+      <Route path="/privacy" component={Privacy} />
       <Route path="/email-admin" component={EmailAdmin} />
       <Route component={NotFound} />
     </Switch>
