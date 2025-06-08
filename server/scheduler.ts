@@ -1,5 +1,6 @@
 import { storage } from "./storage";
 import { generateTodaysLesson } from "./lesson-generator";
+import { emailService } from "./email-service";
 
 // Simple in-memory scheduler for daily lesson generation
 class DailyScheduler {
@@ -73,17 +74,23 @@ class DailyScheduler {
   private async generateEmailTemplate(lesson: any) {
     try {
       const subscribers = await storage.getActiveSubscriptions();
-      console.log(`Preparing email template for ${subscribers.length} subscribers`);
+      console.log(`Preparing to send email to ${subscribers.length} subscribers`);
 
-      // Create email template that can be copied to Gmail
-      const emailTemplate = this.createEmailTemplate(lesson);
-      
-      // Log template generation success
-      console.log(`✓ Email template generated for ${subscribers.length} subscribers`);
-      console.log("📧 Template available at /email-admin for Gmail sending");
+      if (subscribers.length > 0) {
+        // Send automated email to all subscribers
+        const emailSent = await emailService.sendDailyLesson(lesson, subscribers);
+        
+        if (emailSent) {
+          console.log(`✓ Daily lesson email sent automatically to ${subscribers.length} subscribers`);
+        } else {
+          console.error("Failed to send daily lesson email");
+        }
+      } else {
+        console.log("No subscribers to send emails to");
+      }
       
     } catch (error) {
-      console.error("Error generating email template:", error);
+      console.error("Error sending email:", error);
     }
   }
 

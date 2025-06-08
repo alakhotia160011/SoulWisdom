@@ -6,6 +6,7 @@ import { generateTodaysLesson, generateDemoLessons } from "./lesson-generator";
 import { generateArtworkForLesson } from "./artwork-generator";
 import { getTodaysEmailTemplate, getSubscriberEmailList } from "./scheduler";
 import { generateSocialCard } from "./social-cards";
+import { emailService } from "./email-service";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Get all traditions with lesson counts
@@ -193,6 +194,52 @@ export async function registerRoutes(app: Express): Promise<Server> {
         return res.status(400).json({ message: "Invalid email address" });
       }
       res.status(500).json({ message: "Failed to subscribe" });
+    }
+  });
+
+  // Test email system
+  app.post("/api/email/test", async (req, res) => {
+    try {
+      const emailSent = await emailService.sendTestEmail();
+      
+      if (emailSent) {
+        res.json({ message: "Test email sent successfully!" });
+      } else {
+        res.status(500).json({ message: "Failed to send test email" });
+      }
+    } catch (error) {
+      console.error("Error sending test email:", error);
+      res.status(500).json({ message: "Failed to send test email" });
+    }
+  });
+
+  // Send today's lesson email manually
+  app.post("/api/email/send", async (req, res) => {
+    try {
+      const todaysLesson = await storage.getTodaysLesson();
+      if (!todaysLesson) {
+        return res.status(404).json({ message: "No lesson available to send" });
+      }
+
+      const subscribers = await storage.getActiveSubscriptions();
+      if (subscribers.length === 0) {
+        return res.status(400).json({ message: "No subscribers to send emails to" });
+      }
+
+      const emailSent = await emailService.sendDailyLesson(todaysLesson, subscribers);
+      
+      if (emailSent) {
+        res.json({ 
+          message: `Daily lesson email sent successfully to ${subscribers.length} subscribers`,
+          subscriberCount: subscribers.length,
+          lessonTitle: todaysLesson.title
+        });
+      } else {
+        res.status(500).json({ message: "Failed to send daily lesson email" });
+      }
+    } catch (error) {
+      console.error("Error sending daily lesson email:", error);
+      res.status(500).json({ message: "Failed to send daily lesson email" });
     }
   });
 
