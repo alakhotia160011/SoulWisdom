@@ -161,87 +161,89 @@ export default function TraditionsOverview() {
                   className={`p-6 bg-gradient-to-br ${colorClasses.gradient} border ${colorClasses.border}`}
                 >
                   <div className="text-center">
-                    <div className="flex justify-between items-start mb-4">
-                      <div className={`w-12 h-12 ${colorClasses.iconBg} rounded-lg flex items-center justify-center mx-auto shadow-lg`}>
+                    <div className="relative mb-4">
+                      <div className={`w-12 h-12 ${colorClasses.iconBg} rounded-lg flex items-center justify-center shadow-lg mx-auto`}>
                         <span className="text-white text-xl font-bold drop-shadow-md">
                           {getIconSymbol(tradition.slug)}
                         </span>
                       </div>
-                      <Dialog>
-                        <DialogTrigger asChild>
-                          <Button variant="ghost" size="sm" className="p-1 h-auto">
-                            <Info className="w-4 h-4 text-earth-600 hover:text-earth-800" />
-                          </Button>
-                        </DialogTrigger>
-                        <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
-                          <DialogHeader>
-                            <DialogTitle className="text-2xl font-display flex items-center gap-3">
-                              <div className={`w-10 h-10 ${colorClasses.iconBg} rounded-lg flex items-center justify-center shadow-lg`}>
-                                <span className="text-white text-lg font-bold drop-shadow-md">
-                                  {getIconSymbol(tradition.slug)}
-                                </span>
-                              </div>
-                              {traditionDetails[tradition.slug as keyof typeof traditionDetails]?.fullName || tradition.name}
-                            </DialogTitle>
-                          </DialogHeader>
-                          <div className="space-y-6 mt-4">
-                            {traditionDetails[tradition.slug as keyof typeof traditionDetails] && (
-                              <>
-                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-                                  <div>
-                                    <span className="font-semibold text-earth-800">Period:</span>
-                                    <p className="text-earth-600">{traditionDetails[tradition.slug as keyof typeof traditionDetails].period}</p>
+                      <div className="absolute top-0 right-0">
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button variant="ghost" size="sm" className="p-1 h-auto">
+                              <Info className="w-4 h-4 text-earth-600 hover:text-earth-800" />
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+                            <DialogHeader>
+                              <DialogTitle className="text-2xl font-display flex items-center gap-3">
+                                <div className={`w-10 h-10 ${colorClasses.iconBg} rounded-lg flex items-center justify-center shadow-lg`}>
+                                  <span className="text-white text-lg font-bold drop-shadow-md">
+                                    {getIconSymbol(tradition.slug)}
+                                  </span>
+                                </div>
+                                {traditionDetails[tradition.slug as keyof typeof traditionDetails]?.fullName || tradition.name}
+                              </DialogTitle>
+                            </DialogHeader>
+                            <div className="space-y-6 mt-4">
+                              {traditionDetails[tradition.slug as keyof typeof traditionDetails] && (
+                                <>
+                                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
+                                    <div>
+                                      <span className="font-semibold text-earth-800">Period:</span>
+                                      <p className="text-earth-600">{traditionDetails[tradition.slug as keyof typeof traditionDetails].period}</p>
+                                    </div>
+                                    <div>
+                                      <span className="font-semibold text-earth-800">Origin:</span>
+                                      <p className="text-earth-600">{traditionDetails[tradition.slug as keyof typeof traditionDetails].origin}</p>
+                                    </div>
+                                    <div>
+                                      <span className="font-semibold text-earth-800">Languages:</span>
+                                      <p className="text-earth-600">{traditionDetails[tradition.slug as keyof typeof traditionDetails].languages}</p>
+                                    </div>
                                   </div>
+                                  
                                   <div>
-                                    <span className="font-semibold text-earth-800">Origin:</span>
-                                    <p className="text-earth-600">{traditionDetails[tradition.slug as keyof typeof traditionDetails].origin}</p>
+                                    <h4 className="font-semibold text-earth-800 mb-2">Description</h4>
+                                    <p className="text-earth-600 leading-relaxed">
+                                      {traditionDetails[tradition.slug as keyof typeof traditionDetails].description}
+                                    </p>
                                   </div>
+                                  
                                   <div>
-                                    <span className="font-semibold text-earth-800">Languages:</span>
-                                    <p className="text-earth-600">{traditionDetails[tradition.slug as keyof typeof traditionDetails].languages}</p>
+                                    <h4 className="font-semibold text-earth-800 mb-2">Key Teachings</h4>
+                                    <p className="text-earth-600 leading-relaxed">
+                                      {traditionDetails[tradition.slug as keyof typeof traditionDetails].keyTeachings}
+                                    </p>
                                   </div>
-                                </div>
-                                
-                                <div>
-                                  <h4 className="font-semibold text-earth-800 mb-2">Description</h4>
-                                  <p className="text-earth-600 leading-relaxed">
-                                    {traditionDetails[tradition.slug as keyof typeof traditionDetails].description}
-                                  </p>
-                                </div>
-                                
-                                <div>
-                                  <h4 className="font-semibold text-earth-800 mb-2">Key Teachings</h4>
-                                  <p className="text-earth-600 leading-relaxed">
-                                    {traditionDetails[tradition.slug as keyof typeof traditionDetails].keyTeachings}
-                                  </p>
-                                </div>
-                                
-                                <div>
-                                  <h4 className="font-semibold text-earth-800 mb-2">Historical Context</h4>
-                                  <p className="text-earth-600 leading-relaxed">
-                                    {traditionDetails[tradition.slug as keyof typeof traditionDetails].historicalContext}
-                                  </p>
-                                </div>
-                                
-                                <div>
-                                  <h4 className="font-semibold text-earth-800 mb-2">Global Influence</h4>
-                                  <p className="text-earth-600 leading-relaxed">
-                                    {traditionDetails[tradition.slug as keyof typeof traditionDetails].influence}
-                                  </p>
-                                </div>
-                                
-                                <div className="pt-4 border-t">
-                                  <Link href={`/archive/${tradition.slug}`}>
-                                    <Button className="w-full">
-                                      View {tradition.lessonCount} Lessons from {tradition.name}
-                                    </Button>
-                                  </Link>
-                                </div>
-                              </>
-                            )}
-                          </div>
-                        </DialogContent>
-                      </Dialog>
+                                  
+                                  <div>
+                                    <h4 className="font-semibold text-earth-800 mb-2">Historical Context</h4>
+                                    <p className="text-earth-600 leading-relaxed">
+                                      {traditionDetails[tradition.slug as keyof typeof traditionDetails].historicalContext}
+                                    </p>
+                                  </div>
+                                  
+                                  <div>
+                                    <h4 className="font-semibold text-earth-800 mb-2">Global Influence</h4>
+                                    <p className="text-earth-600 leading-relaxed">
+                                      {traditionDetails[tradition.slug as keyof typeof traditionDetails].influence}
+                                    </p>
+                                  </div>
+                                  
+                                  <div className="pt-4 border-t">
+                                    <Link href={`/archive/${tradition.slug}`}>
+                                      <Button className="w-full">
+                                        View {tradition.lessonCount} Lessons from {tradition.name}
+                                      </Button>
+                                    </Link>
+                                  </div>
+                                </>
+                              )}
+                            </div>
+                          </DialogContent>
+                        </Dialog>
+                      </div>
                     </div>
                     
                     <Link href={`/archive/${tradition.slug}`} className="block">
