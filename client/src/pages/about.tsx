@@ -1,3 +1,6 @@
+import { aboutContent } from "@/lib/about-content";
+import profileImage from "@assets/Aryamaan_Lakhotia_1749416191319.jpg";
+
 export default function About() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-stone-100 dark:from-gray-900 dark:to-gray-800">
@@ -14,21 +17,15 @@ export default function About() {
 
           <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 md:p-12">
             <h2 className="text-2xl md:text-3xl font-serif text-stone-700 dark:text-stone-300 mb-8 text-center">
-              Why This Exists
+              {aboutContent.project.title}
             </h2>
             
             <div className="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
-              <p className="text-lg">
-                In times of uncertainty, loss, or searching, many of us naturally turn to the wisdom found in religious and spiritual texts. These ancient writings have guided countless generations through life's most challenging moments, offering profound insights into human nature, purpose, and resilience.
-              </p>
-              
-              <p className="text-lg">
-                Yet for many people today, these texts can feel distant or overwhelming. The language is often formal, the context unfamiliar, and the sheer volume of wisdom can make it difficult to know where to begin or how to apply these teachings to our daily lives.
-              </p>
-              
-              <p className="text-lg">
-                This site bridges that gap by offering daily stories drawn from seven major spiritual traditions, written in accessible language and designed to be digestible, insightful, and shareable. Each lesson includes authentic passages, engaging narratives, practical life applications, and beautiful artwork that honors the traditional styles of each tradition.
-              </p>
+              {aboutContent.project.paragraphs.map((paragraph, index) => (
+                <p key={index} className="text-lg">
+                  {paragraph}
+                </p>
+              ))}
             </div>
           </div>
         </div>
@@ -47,33 +44,28 @@ export default function About() {
               <div className="flex-shrink-0">
                 <div className="w-48 h-48 md:w-64 md:h-64 rounded-full overflow-hidden shadow-lg">
                   <img 
-                    src="/api/placeholder/300/300" 
-                    alt="Aryamaan Lakhotia"
+                    src={profileImage}
+                    alt={aboutContent.author.name}
                     className="w-full h-full object-cover"
-                    onError={(e) => {
-                      e.currentTarget.src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300' viewBox='0 0 300 300'%3E%3Crect width='300' height='300' fill='%23f3f4f6'/%3E%3Ctext x='50%25' y='50%25' text-anchor='middle' dy='.3em' font-family='serif' font-size='20' fill='%236b7280'%3EAryamaan Lakhotia%3C/text%3E%3C/svg%3E";
-                    }}
                   />
                 </div>
               </div>
               
               <div className="flex-1">
                 <h2 className="text-2xl md:text-3xl font-serif text-stone-700 dark:text-stone-300 mb-6 text-center md:text-left">
-                  Aryamaan Lakhotia
+                  {aboutContent.author.name}
                 </h2>
                 
                 <div className="space-y-6 text-gray-700 dark:text-gray-300 leading-relaxed">
-                  <p className="text-lg">
-                    I currently work as a trader by day and build personal projects by night. I've always been drawn to the intersection of reflection and technology—finding ways to use digital tools to make meaningful ideas more accessible and shareable.
-                  </p>
-                  
-                  <p className="text-lg">
-                    This project was born out of a personal need. During a difficult time in my life, I found myself turning to spiritual traditions for guidance and clarity. While the wisdom was profound, I often struggled to find the time or context to engage with these texts meaningfully in my daily routine. This site is my small way of making that search easier for others who might find themselves in similar situations.
-                  </p>
+                  {aboutContent.author.paragraphs.map((paragraph, index) => (
+                    <p key={index} className="text-lg">
+                      {paragraph}
+                    </p>
+                  ))}
                   
                   <div className="pt-4">
                     <a 
-                      href="https://www.linkedin.com/in/aryamaan-lakhotia/" 
+                      href={aboutContent.author.linkedinUrl}
                       target="_blank" 
                       rel="noopener noreferrer"
                       className="inline-flex items-center px-6 py-3 bg-stone-600 dark:bg-stone-700 text-white rounded-lg hover:bg-stone-700 dark:hover:bg-stone-600 transition-colors duration-200 font-medium"
