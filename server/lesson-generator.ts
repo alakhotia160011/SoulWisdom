@@ -121,9 +121,13 @@ export async function generateDemoLessons(storage: IStorage) {
       const selectedPassage = passagesFromTradition[randomIndex];
       
       try {
+        console.log(`Generating lesson for tradition ${traditionId}:`, selectedPassage.title);
         const lesson = await createLessonFromPassage(storage, selectedPassage);
         if (lesson) {
-          lessons.push(lesson);
+          const lessonWithDetails = await storage.getLessonById(lesson.id);
+          if (lessonWithDetails) {
+            lessons.push(lessonWithDetails);
+          }
         }
       } catch (error) {
         console.error(`Error creating lesson for tradition ${traditionId}:`, error);
