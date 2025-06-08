@@ -282,7 +282,9 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
   }
 
   private createWelcomeEmailTemplate(subscriberEmail: string, todaysLesson?: LessonWithDetails): string {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:5000';
+    const baseUrl = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 
+                   process.env.REPL_SLUG ? `https://${process.env.REPL_SLUG}.${process.env.REPL_OWNER}.repl.co` :
+                   'http://localhost:5000';
     
     return `<!DOCTYPE html>
 <html lang="en">
@@ -329,12 +331,12 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
             margin: 0;
         }
         .welcome-message {
-            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
             color: white;
             padding: 25px;
             border-radius: 12px;
             margin: 25px 0;
-            box-shadow: 0 5px 15px rgba(240, 147, 251, 0.3);
+            box-shadow: 0 5px 15px rgba(74, 85, 104, 0.3);
         }
         .welcome-message h3 {
             color: white;
@@ -342,13 +344,13 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
             font-size: 20px;
         }
         .lesson-preview {
-            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            background: linear-gradient(135deg, #2b6cb0 0%, #1e40af 100%);
             color: white;
             padding: 25px;
             border-radius: 12px;
             margin: 25px 0;
             text-align: center;
-            box-shadow: 0 5px 15px rgba(79, 172, 254, 0.3);
+            box-shadow: 0 5px 15px rgba(43, 108, 176, 0.3);
         }
         .lesson-preview h3, .lesson-preview h4 {
             color: white;
@@ -356,7 +358,7 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
         }
         .cta-button {
             display: inline-block;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #1a365d 0%, #2a4365 100%);
             color: white;
             padding: 15px 35px;
             text-decoration: none;
@@ -364,7 +366,8 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
             font-weight: bold;
             margin: 20px 0;
             transition: transform 0.3s ease;
-            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 5px 15px rgba(26, 54, 93, 0.4);
+            border: 2px solid white;
         }
         .cta-button:hover {
             transform: translateY(-2px);
@@ -377,15 +380,15 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
             margin: 25px 0;
         }
         .tradition-item {
-            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
-            color: #2c3e50;
+            background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+            color: #2d3748;
             padding: 15px 10px;
             border-radius: 10px;
             text-align: center;
             font-size: 14px;
             font-weight: 600;
-            border: 1px solid rgba(255,255,255,0.2);
-            box-shadow: 0 3px 10px rgba(168, 237, 234, 0.3);
+            border: 2px solid #4a5568;
+            box-shadow: 0 3px 10px rgba(74, 85, 104, 0.2);
         }
         .expectations-box {
             background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
@@ -429,13 +432,13 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
         </div>
 
         <div class="traditions-list">
-            <div class="tradition-item">📖 Bible</div>
-            <div class="tradition-item">🌙 Qur'an</div>
-            <div class="tradition-item">🕉️ Bhagavad Gita</div>
-            <div class="tradition-item">☸️ Dhammapada</div>
-            <div class="tradition-item">☯️ Tao Te Ching</div>
-            <div class="tradition-item">🔥 Upanishads</div>
-            <div class="tradition-item">✡️ Talmud & Midrash</div>
+            <div class="tradition-item">† Bible</div>
+            <div class="tradition-item">☪ Qur'an</div>
+            <div class="tradition-item">ॐ Bhagavad Gita</div>
+            <div class="tradition-item">❋ Dhammapada</div>
+            <div class="tradition-item">☯ Tao Te Ching</div>
+            <div class="tradition-item">◉ Upanishads</div>
+            <div class="tradition-item">✡ Talmud & Midrash</div>
         </div>
 
         ${todaysLesson ? `
@@ -443,7 +446,7 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
             <h3>Today's Featured Lesson</h3>
             <h4>${todaysLesson.title}</h4>
             <p style="font-style: italic; opacity: 0.9;">From ${todaysLesson.passage.tradition.name} - ${todaysLesson.passage.source}</p>
-            <a href="${baseUrl}/lesson/${todaysLesson.id}" class="cta-button">Read Today's Lesson</a>
+            <a href="${baseUrl}/" class="cta-button">Read Today's Lesson</a>
         </div>
         ` : `
         <div class="lesson-preview">
