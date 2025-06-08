@@ -19,6 +19,7 @@ export const aboutContent = {
     ],
     linkedinUrl: "https://www.linkedin.com/in/aryamaan-lakhotia/",
     twitterUrl: "https://x.com/AryamaanL",
+    email: "ary.lakhotia@gmail.com",
     imageUrl: "@assets/Aryamaan_Lakhotia_1749416191319.jpg"
   }
 };
