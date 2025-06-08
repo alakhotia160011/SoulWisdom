@@ -122,8 +122,8 @@ export default function TodaysLesson() {
             </span>
             <span className="w-1 h-1 bg-earth-400 rounded-full"></span>
             <div className="flex items-center space-x-2">
-              <div className={`w-8 h-8 ${getTraditionBackgroundColor(lesson.passage.tradition.color)} rounded-lg flex items-center justify-center shadow-lg`}>
-                <span className="text-white text-lg font-bold drop-shadow-md">
+              <div className={`w-8 h-8 ${getTraditionBackgroundColor(lesson.passage.tradition.color)} rounded-lg flex items-center justify-center shadow-lg border`}>
+                <span className="text-white text-lg font-bold drop-shadow-md" style={{ textShadow: '1px 1px 2px rgba(0,0,0,0.5)' }}>
                   {getIconSymbol(lesson.passage.tradition.slug)}
                 </span>
               </div>
