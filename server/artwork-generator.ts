@@ -1,7 +1,15 @@
 import OpenAI from "openai";
+import fs from "fs";
+import path from "path";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+
+// Ensure artwork directory exists
+const artworkDir = path.join(process.cwd(), 'public', 'artwork');
+if (!fs.existsSync(artworkDir)) {
+  fs.mkdirSync(artworkDir, { recursive: true });
+}
 
 interface ArtworkPrompts {
   [key: string]: {
@@ -77,10 +85,30 @@ Avoid: Modern elements, contemporary style, photorealistic people, inappropriate
       throw new Error("No image URL returned from OpenAI");
     }
 
-    return {
-      url: response.data[0].url,
-      description: `${tradition.style} artwork depicting ${storyTitle}`
-    };
+    // Download and save the image to permanent storage
+    const imageUrl = response.data[0].url;
+    const filename = `lesson-${traditionId}-${Date.now()}.png`;
+    const localPath = path.join(artworkDir, filename);
+    
+    try {
+      const imageResponse = await fetch(imageUrl);
+      const imageBuffer = await imageResponse.arrayBuffer();
+      fs.writeFileSync(localPath, Buffer.from(imageBuffer));
+      
+      console.log(`Artwork saved to: ${localPath}`);
+      
+      return {
+        url: `/artwork/${filename}`,
+        description: `${tradition.style} artwork depicting ${storyTitle}`
+      };
+    } catch (downloadError) {
+      console.error("Error downloading/saving image:", downloadError);
+      // Return original URL if download fails
+      return {
+        url: imageUrl,
+        description: `${tradition.style} artwork depicting ${storyTitle}`
+      };
+    }
 
   } catch (error) {
     console.error("Error generating artwork:", error);

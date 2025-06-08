@@ -114,11 +114,39 @@ export default function TodaysLesson() {
 
         {/* Featured Artwork */}
         <div className="mb-12">
-          <img 
-            src={lesson.artworkUrl} 
-            alt={lesson.artworkDescription}
-            className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-xl"
-          />
+          {lesson.artworkUrl ? (
+            <div className="relative">
+              <img 
+                src={lesson.artworkUrl} 
+                alt={lesson.artworkDescription}
+                className="w-full h-64 md:h-80 object-cover rounded-2xl shadow-xl"
+                onError={(e) => {
+                  console.log('Image failed to load:', lesson.artworkUrl);
+                  e.currentTarget.style.display = 'none';
+                  const fallback = e.currentTarget.nextElementSibling as HTMLElement;
+                  if (fallback) fallback.style.display = 'block';
+                }}
+              />
+              <div 
+                className="hidden w-full h-64 md:h-80 bg-gradient-to-br from-earth-100 to-sage-100 rounded-2xl shadow-xl flex items-center justify-center"
+                style={{ display: 'none' }}
+              >
+                <div className="text-center text-earth-600">
+                  <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                  <p className="text-lg font-medium">Spiritual Artwork</p>
+                  <p className="text-sm">Loading traditional manuscript illustration...</p>
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="w-full h-64 md:h-80 bg-gradient-to-br from-earth-100 to-sage-100 rounded-2xl shadow-xl flex items-center justify-center">
+              <div className="text-center text-earth-600">
+                <BookOpen className="w-12 h-12 mx-auto mb-4 opacity-50" />
+                <p className="text-lg font-medium">Spiritual Artwork</p>
+                <p className="text-sm">Generating traditional manuscript illustration...</p>
+              </div>
+            </div>
+          )}
           <p className="text-sm text-earth-600 mt-3 text-center italic">
             {lesson.artworkDescription}
           </p>

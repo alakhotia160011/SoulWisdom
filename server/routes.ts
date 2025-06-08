@@ -1,5 +1,7 @@
 import type { Express } from "express";
 import { createServer, type Server } from "http";
+import express from "express";
+import path from "path";
 import { storage } from "./storage";
 import { insertSubscriptionSchema } from "@shared/schema";
 import { generateTodaysLesson, generateDemoLessons } from "./lesson-generator";
@@ -9,6 +11,9 @@ import { generateSocialCard } from "./social-cards";
 import { emailService } from "./email-service";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Serve static artwork files
+  app.use('/artwork', express.static(path.join(process.cwd(), 'public', 'artwork')));
+
   // Get all traditions with lesson counts
   app.get("/api/traditions", async (req, res) => {
     try {
