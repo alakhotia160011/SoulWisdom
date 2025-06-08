@@ -1,16 +1,54 @@
 import { useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
-import { Copy, Mail, Users, Clock, ExternalLink } from "lucide-react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Copy, Mail, Users, Clock, ExternalLink, Send, TestTube, CheckCircle, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { apiRequest } from "@/lib/queryClient";
 
 export default function EmailAdmin() {
   const { toast } = useToast();
   const [copiedTemplate, setCopiedTemplate] = useState(false);
   const [copiedEmails, setCopiedEmails] = useState(false);
+
+  // Test email mutation
+  const testEmailMutation = useMutation({
+    mutationFn: () => apiRequest("/api/email/test", { method: "POST" }),
+    onSuccess: () => {
+      toast({
+        title: "Test email sent!",
+        description: "Check your inbox to verify the email system is working"
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Test email failed",
+        description: error.message || "Check Gmail app password configuration",
+        variant: "destructive"
+      });
+    }
+  });
+
+  // Send lesson email mutation
+  const sendLessonMutation = useMutation({
+    mutationFn: () => apiRequest("/api/email/send", { method: "POST" }),
+    onSuccess: (data: any) => {
+      toast({
+        title: "Lesson email sent!",
+        description: `Sent to ${data.subscriberCount} subscribers`
+      });
+    },
+    onError: (error: any) => {
+      toast({
+        title: "Failed to send lesson",
+        description: error.message || "Check email configuration",
+        variant: "destructive"
+      });
+    }
+  });
 
   // Fetch today's email template
   const { data: emailTemplate, isLoading: templateLoading } = useQuery({
@@ -113,16 +151,59 @@ export default function EmailAdmin() {
         </Card>
       </div>
 
+      {/* Automated Email Controls */}
+      <Card className="mb-6">
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Send className="h-5 w-5" />
+            Automated Email System
+          </CardTitle>
+          <CardDescription>
+            Send emails automatically with one click
+          </CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex flex-col sm:flex-row gap-4">
+            <Button 
+              onClick={() => testEmailMutation.mutate()}
+              disabled={testEmailMutation.isPending}
+              variant="outline"
+              className="flex-1"
+            >
+              <TestTube className="w-4 h-4 mr-2" />
+              {testEmailMutation.isPending ? "Sending..." : "Test Email System"}
+            </Button>
+            <Button 
+              onClick={() => sendLessonMutation.mutate()}
+              disabled={sendLessonMutation.isPending || !todaysLesson || !subscribersData?.count}
+              className="flex-1"
+            >
+              <Send className="w-4 h-4 mr-2" />
+              {sendLessonMutation.isPending ? "Sending..." : `Send to ${subscribersData?.count || 0} Subscribers`}
+            </Button>
+          </div>
+          
+          <Alert className="mt-4">
+            <AlertDescription>
+              <strong>Gmail Setup Required:</strong> For automated emails to work, ensure your Gmail account has:
+              <br />• 2-factor authentication enabled
+              <br />• App password generated (16 characters, no spaces)
+              <br />• App password added as EMAIL_PASSWORD secret
+            </AlertDescription>
+          </Alert>
+        </CardContent>
+      </Card>
+
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Email Template Section */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Mail className="h-5 w-5" />
-              Email Template
+              Email Template (Manual Backup)
             </CardTitle>
             <CardDescription>
-              Copy this HTML template and paste it into Gmail's compose window
+              Fallback option: Copy this HTML template for manual Gmail sending
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
