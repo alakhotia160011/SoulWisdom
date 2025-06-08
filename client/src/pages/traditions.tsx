@@ -1,8 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { BookOpen, Calendar, MapPin, Scroll, Users, ArrowRight, Home } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { Link } from "wouter";
 
 interface Tradition {
@@ -27,49 +24,6 @@ export default function Traditions() {
     queryKey: ['/api/traditions']
   });
 
-  if (isLoading) {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 py-12">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="text-center mb-12">
-            <div className="h-10 bg-amber-200 rounded w-64 mx-auto mb-4 animate-pulse"></div>
-            <div className="h-6 bg-amber-100 rounded w-96 mx-auto animate-pulse"></div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {Array.from({ length: 7 }).map((_, i) => (
-              <Card key={i} className="animate-pulse border-amber-200">
-                <CardHeader>
-                  <div className="h-6 bg-amber-200 rounded w-3/4 mb-2"></div>
-                  <div className="h-4 bg-amber-100 rounded w-full"></div>
-                </CardHeader>
-                <CardContent>
-                  <div className="space-y-3">
-                    <div className="h-4 bg-amber-100 rounded w-full"></div>
-                    <div className="h-4 bg-amber-100 rounded w-2/3"></div>
-                    <div className="h-8 bg-amber-200 rounded w-full"></div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
-  const getColorClasses = (color: string) => {
-    const colorMap = {
-      blue: "from-blue-800 to-blue-900 border-blue-200 hover:border-blue-300",
-      green: "from-green-800 to-green-900 border-green-200 hover:border-green-300",
-      orange: "from-orange-800 to-orange-900 border-orange-200 hover:border-orange-300",
-      purple: "from-purple-800 to-purple-900 border-purple-200 hover:border-purple-300",
-      gray: "from-gray-800 to-gray-900 border-gray-200 hover:border-gray-300",
-      yellow: "from-yellow-800 to-yellow-900 border-yellow-200 hover:border-yellow-300",
-      indigo: "from-indigo-800 to-indigo-900 border-indigo-200 hover:border-indigo-300",
-    };
-    return colorMap[color as keyof typeof colorMap] || colorMap.blue;
-  };
-
   const getIconSymbol = (icon: string) => {
     if (icon?.includes('cross')) return '†';
     if (icon?.includes('moon')) return '☪';
@@ -81,126 +35,69 @@ export default function Traditions() {
     return '◈';
   };
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50">
-      {/* Header */}
-      <div className="bg-white shadow-sm border-b border-amber-200">
-        <div className="max-w-7xl mx-auto px-6 py-8">
-          <Link href="/">
-            <Button variant="ghost" className="mb-4 text-amber-700 hover:bg-amber-50">
-              <Home className="h-4 w-4 mr-2" />
-              Back to Home
-            </Button>
-          </Link>
-          <div className="text-center space-y-4">
-            <h1 className="text-4xl font-bold text-amber-900">Sacred Traditions</h1>
-            <p className="text-xl text-amber-700 max-w-4xl mx-auto leading-relaxed">
-              Explore the profound wisdom of seven major spiritual traditions that form the foundation 
-              of our daily lessons. Each tradition offers unique insights into the deepest questions of existence.
-            </p>
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-stone-100 dark:from-gray-900 dark:to-gray-800">
+        <div className="container mx-auto px-4 py-16 max-w-6xl">
+          <div className="text-center mb-12">
+            <div className="h-12 bg-stone-200 dark:bg-gray-700 rounded w-64 mx-auto mb-4 animate-pulse"></div>
+            <div className="h-6 bg-stone-100 dark:bg-gray-600 rounded w-96 mx-auto animate-pulse"></div>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {Array.from({ length: 7 }).map((_, i) => (
+              <div key={i} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 animate-pulse">
+                <div className="h-6 bg-stone-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
+                <div className="h-4 bg-stone-100 dark:bg-gray-600 rounded w-full mb-2"></div>
+                <div className="h-4 bg-stone-100 dark:bg-gray-600 rounded w-2/3 mb-6"></div>
+                <div className="h-10 bg-stone-200 dark:bg-gray-700 rounded w-full"></div>
+              </div>
+            ))}
           </div>
         </div>
       </div>
+    );
+  }
 
-      <div className="max-w-7xl mx-auto px-6 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-stone-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="container mx-auto px-4 py-16 max-w-6xl">
+        
+        <div className="text-center mb-12">
+          <h1 className="text-4xl md:text-5xl font-serif text-stone-800 dark:text-stone-200 mb-4">
+            Sacred Traditions
+          </h1>
+          <div className="w-24 h-1 bg-stone-600 dark:bg-stone-400 mx-auto mb-8"></div>
+          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+            Explore the profound wisdom of seven major spiritual traditions that form the foundation 
+            of our daily lessons. Each tradition offers unique insights into the deepest questions of existence.
+          </p>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {traditions?.map((tradition) => (
-            <Card 
-              key={tradition.id} 
-              className="group transition-all duration-500 hover:shadow-2xl cursor-pointer border-2 bg-white hover:bg-gradient-to-br hover:from-white hover:to-amber-50 transform hover:-translate-y-2"
-            >
-              <CardHeader className="text-center pb-4">
-                {/* Icon and Gradient Header */}
-                <div className={`bg-gradient-to-r ${getColorClasses(tradition.color)} rounded-xl p-6 mb-4 text-white shadow-lg`}>
-                  <div className="text-3xl mb-3 drop-shadow-lg font-serif text-white filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+            <Link key={tradition.id} href={`/tradition/${tradition.slug}`}>
+              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 p-8 cursor-pointer group hover:-translate-y-1">
+                <div className="text-center mb-6">
+                  <div className="w-16 h-16 bg-stone-800 dark:bg-white text-white dark:text-stone-800 rounded-full flex items-center justify-center text-2xl mb-4 mx-auto shadow-lg">
                     {getIconSymbol(tradition.icon)}
                   </div>
-                  <CardTitle className="text-xl font-bold text-white drop-shadow-lg filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
+                  <h3 className="text-xl font-serif text-stone-700 dark:text-stone-300 mb-2">
                     {tradition.name}
-                  </CardTitle>
+                  </h3>
+                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
+                    {tradition.description}
+                  </p>
+                  <div className="flex items-center justify-center text-stone-600 dark:text-stone-400 text-sm">
+                    <BookOpen className="w-4 h-4 mr-1" />
+                    <span>{tradition.lessonCount} lessons</span>
+                  </div>
                 </div>
-                
-                <p className="text-sm text-gray-600 leading-relaxed">
-                  {tradition.description}
-                </p>
-              </CardHeader>
-
-              <CardContent className="space-y-4">
-                {/* Quick Facts */}
-                <div className="space-y-2 text-xs text-gray-800 font-medium">
-                  {tradition.originPeriod && (
-                    <div className="flex items-center gap-2">
-                      <Calendar className="h-3 w-3 text-amber-700" />
-                      <span className="truncate">{tradition.originPeriod}</span>
-                    </div>
-                  )}
-                  {tradition.originLocation && (
-                    <div className="flex items-center gap-2">
-                      <MapPin className="h-3 w-3 text-amber-700" />
-                      <span className="truncate">{tradition.originLocation}</span>
-                    </div>
-                  )}
-                  {tradition.spiritualTradition && (
-                    <div className="flex items-center gap-2">
-                      <Users className="h-3 w-3 text-amber-700" />
-                      <span className="truncate">{tradition.spiritualTradition}</span>
-                    </div>
-                  )}
-                  {tradition.manuscriptStyle && (
-                    <div className="flex items-center gap-2">
-                      <Scroll className="h-3 w-3 text-amber-700" />
-                      <span className="truncate">{tradition.manuscriptStyle}</span>
-                    </div>
-                  )}
-                </div>
-
-                {/* Lesson Count Badge */}
-                <div className="flex items-center justify-between pt-2">
-                  <Badge variant="secondary" className="bg-white text-gray-700 border-gray-300 font-semibold shadow-sm">
-                    <BookOpen className="h-3 w-3 mr-1 text-gray-600" />
-                    {tradition.lessonCount} lessons
-                  </Badge>
-                </div>
-
-                {/* Explore Button */}
-                <Link href={`/tradition/${tradition.slug}`}>
-                  <Button 
-                    className="w-full bg-amber-400 hover:bg-amber-500 text-white font-medium group-hover:bg-amber-500 transition-all duration-300"
-                  >
-                    Explore Tradition
-                    <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
-                  </Button>
-                </Link>
-              </CardContent>
-            </Card>
+              </div>
+            </Link>
           ))}
         </div>
 
-        {/* Bottom Section */}
-        <div className="mt-16 text-center">
-          <div className="bg-white rounded-2xl p-8 shadow-lg border border-amber-200">
-            <h3 className="text-2xl font-bold text-amber-900 mb-4">Daily Spiritual Wisdom</h3>
-            <p className="text-gray-700 max-w-3xl mx-auto leading-relaxed mb-6">
-              Each morning, our platform draws from these sacred traditions to deliver authentic stories, 
-              timeless teachings, and practical wisdom for modern life. Experience the depth and beauty 
-              of humanity's greatest spiritual insights.
-            </p>
-            <div className="flex flex-wrap justify-center gap-4">
-              <Badge variant="outline" className="border-amber-300 text-amber-700">
-                Authentic Sources
-              </Badge>
-              <Badge variant="outline" className="border-amber-300 text-amber-700">
-                Daily Insights
-              </Badge>
-              <Badge variant="outline" className="border-amber-300 text-amber-700">
-                Historical Context
-              </Badge>
-              <Badge variant="outline" className="border-amber-300 text-amber-700">
-                Practical Wisdom
-              </Badge>
-            </div>
-          </div>
-        </div>
+        <div className="mt-16"></div>
       </div>
     </div>
   );
