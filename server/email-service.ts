@@ -428,7 +428,7 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
   }
 
   private createWelcomeEmailText(subscriberEmail: string, todaysLesson?: LessonWithDetails): string {
-    const baseUrl = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:5000';
+    const baseUrl = process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 'http://localhost:5000';
     
     return `
 WELCOME TO DAILY SPIRITUAL LESSONS
