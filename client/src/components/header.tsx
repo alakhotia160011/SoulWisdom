@@ -52,7 +52,7 @@ export default function Header() {
   const navigation = [
     { name: "Today's Lesson", href: "/", active: location === "/" },
     { name: "Archive", href: "/archive", active: location.startsWith("/archive") },
-    { name: "Traditions", href: "/#traditions", active: false },
+    { name: "Traditions", href: "/traditions", active: location.startsWith("/traditions") },
   ];
 
   const scrollToSection = (sectionId: string) => {
@@ -80,38 +80,17 @@ export default function Header() {
           
           <nav className="hidden md:flex items-center space-x-6">
             {navigation.map((item) => (
-              <div key={item.name}>
-                {item.href.startsWith("#") ? (
-                  <button
-                    onClick={() => {
-                      if (location === "/") {
-                        scrollToSection(item.href);
-                      } else {
-                        // Navigate to home first, then scroll
-                        window.location.href = `/${item.href}`;
-                      }
-                    }}
-                    className={`transition-colors font-medium ${
-                      item.active 
-                        ? "text-earth-900" 
-                        : "text-earth-600 hover:text-earth-800"
-                    }`}
-                  >
-                    {item.name}
-                  </button>
-                ) : (
-                  <Link
-                    href={item.href}
-                    className={`transition-colors font-medium ${
-                      item.active 
-                        ? "text-earth-900" 
-                        : "text-earth-600 hover:text-earth-800"
-                    }`}
-                  >
-                    {item.name}
-                  </Link>
-                )}
-              </div>
+              <Link key={item.name} href={item.href}>
+                <button
+                  className={`transition-colors font-medium ${
+                    item.active 
+                      ? "text-earth-900" 
+                      : "text-earth-600 hover:text-earth-800"
+                  }`}
+                >
+                  {item.name}
+                </button>
+              </Link>
             ))}
             <Dialog open={subscribeOpen} onOpenChange={setSubscribeOpen}>
               <DialogTrigger asChild>
