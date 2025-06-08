@@ -112,10 +112,10 @@ export default function Traditions() {
               <CardHeader className="text-center pb-4">
                 {/* Icon and Gradient Header */}
                 <div className={`bg-gradient-to-r ${getColorClasses(tradition.color)} rounded-xl p-6 mb-4 text-white shadow-lg`}>
-                  <div className="text-3xl mb-3 drop-shadow-sm font-serif">
+                  <div className="text-3xl mb-3 drop-shadow-lg font-serif text-white filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                     {getIconSymbol(tradition.icon)}
                   </div>
-                  <CardTitle className="text-xl font-bold text-white drop-shadow-sm">
+                  <CardTitle className="text-xl font-bold text-white drop-shadow-lg filter drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                     {tradition.name}
                   </CardTitle>
                 </div>
@@ -127,28 +127,28 @@ export default function Traditions() {
 
               <CardContent className="space-y-4">
                 {/* Quick Facts */}
-                <div className="space-y-2 text-xs text-gray-600">
+                <div className="space-y-2 text-xs text-gray-800 font-medium">
                   {tradition.originPeriod && (
                     <div className="flex items-center gap-2">
-                      <Calendar className="h-3 w-3 text-amber-600" />
+                      <Calendar className="h-3 w-3 text-amber-700" />
                       <span className="truncate">{tradition.originPeriod}</span>
                     </div>
                   )}
                   {tradition.originLocation && (
                     <div className="flex items-center gap-2">
-                      <MapPin className="h-3 w-3 text-amber-600" />
+                      <MapPin className="h-3 w-3 text-amber-700" />
                       <span className="truncate">{tradition.originLocation}</span>
                     </div>
                   )}
                   {tradition.spiritualTradition && (
                     <div className="flex items-center gap-2">
-                      <Users className="h-3 w-3 text-amber-600" />
+                      <Users className="h-3 w-3 text-amber-700" />
                       <span className="truncate">{tradition.spiritualTradition}</span>
                     </div>
                   )}
                   {tradition.manuscriptStyle && (
                     <div className="flex items-center gap-2">
-                      <Scroll className="h-3 w-3 text-amber-600" />
+                      <Scroll className="h-3 w-3 text-amber-700" />
                       <span className="truncate">{tradition.manuscriptStyle}</span>
                     </div>
                   )}
@@ -156,8 +156,8 @@ export default function Traditions() {
 
                 {/* Lesson Count Badge */}
                 <div className="flex items-center justify-between pt-2">
-                  <Badge variant="secondary" className="bg-amber-100 text-amber-800 border-amber-300">
-                    <BookOpen className="h-3 w-3 mr-1" />
+                  <Badge variant="secondary" className="bg-amber-100 text-amber-900 border-amber-400 font-semibold">
+                    <BookOpen className="h-3 w-3 mr-1 text-amber-900" />
                     {tradition.lessonCount} lessons
                   </Badge>
                 </div>
