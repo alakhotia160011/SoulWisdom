@@ -43,13 +43,13 @@ export default function EmailSubscription() {
   };
 
   return (
-    <section className="py-16 bg-gradient-to-br from-earth-600 to-sage-700">
+    <section className="py-16 bg-gradient-to-br from-slate-800 to-slate-900">
       <div className="max-w-4xl mx-auto px-4 text-center">
-        <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-          <h2 className="text-3xl font-display font-semibold text-white mb-4">
+        <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-xl">
+          <h2 className="text-3xl font-display font-semibold text-slate-800 mb-4">
             Daily Wisdom in Your Inbox
           </h2>
-          <p className="text-earth-100 text-lg mb-8 max-w-2xl mx-auto">
+          <p className="text-slate-600 text-lg mb-8 max-w-2xl mx-auto">
             Receive each day's spiritual lesson directly in your email. Join thousands finding peace and guidance through timeless wisdom.
           </p>
           
@@ -59,13 +59,13 @@ export default function EmailSubscription() {
               placeholder="Enter your email address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-3 rounded-lg border border-white/30 bg-white/20 text-white placeholder-white/70 focus:ring-2 focus:ring-white focus:border-transparent backdrop-blur-sm"
+              className="flex-1 px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
               required
             />
             <Button 
               type="submit" 
               disabled={subscriptionMutation.isPending}
-              className="bg-white text-earth-700 px-6 py-3 rounded-lg hover:bg-earth-50 transition-colors font-medium"
+              className="bg-slate-800 text-white px-6 py-3 rounded-lg hover:bg-slate-700 transition-colors font-medium"
             >
               {subscriptionMutation.isPending ? (
                 "Subscribing..."
@@ -78,7 +78,7 @@ export default function EmailSubscription() {
             </Button>
           </form>
           
-          <p className="text-earth-200 text-sm mt-4">
+          <p className="text-slate-500 text-sm mt-4">
             <Lock className="inline w-4 h-4 mr-1" />
             Your email is safe with us. Unsubscribe anytime.
           </p>
