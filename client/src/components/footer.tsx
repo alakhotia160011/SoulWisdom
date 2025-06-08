@@ -2,6 +2,11 @@ import { Link } from "wouter";
 import { Scroll, Twitter, Facebook, Instagram, Youtube } from "lucide-react";
 
 export default function Footer() {
+  const handleNavigation = (href: string) => {
+    // Scroll to top when navigating to new pages
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
   const scrollToSection = (sectionId: string) => {
     const element = document.querySelector(sectionId);
     if (element) {
@@ -43,22 +48,22 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Explore</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/" onClick={() => handleNavigation("/")} className="text-earth-300 hover:text-white transition-colors">
                   Today's Lesson
                 </Link>
               </li>
               <li>
-                <Link href="/archive" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/archive" onClick={() => handleNavigation("/archive")} className="text-earth-300 hover:text-white transition-colors">
                   Archive
                 </Link>
               </li>
               <li>
-                <Link href="/traditions" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/traditions" onClick={() => handleNavigation("/traditions")} className="text-earth-300 hover:text-white transition-colors">
                   Traditions
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/about" onClick={() => handleNavigation("/about")} className="text-earth-300 hover:text-white transition-colors">
                   About
                 </Link>
               </li>
@@ -69,22 +74,22 @@ export default function Footer() {
             <h4 className="font-semibold text-white mb-4">Support</h4>
             <ul className="space-y-2">
               <li>
-                <Link href="/faq" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/faq" onClick={() => handleNavigation("/faq")} className="text-earth-300 hover:text-white transition-colors">
                   FAQ
                 </Link>
               </li>
               <li>
-                <Link href="/contact" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/contact" onClick={() => handleNavigation("/contact")} className="text-earth-300 hover:text-white transition-colors">
                   Contact
                 </Link>
               </li>
               <li>
-                <Link href="/privacy" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/privacy" onClick={() => handleNavigation("/privacy")} className="text-earth-300 hover:text-white transition-colors">
                   Privacy
                 </Link>
               </li>
               <li>
-                <Link href="/about" className="text-earth-300 hover:text-white transition-colors">
+                <Link href="/about" onClick={() => handleNavigation("/about")} className="text-earth-300 hover:text-white transition-colors">
                   Terms
                 </Link>
               </li>
