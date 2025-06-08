@@ -4,17 +4,20 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { Dialog, DialogContent, DialogTrigger, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
-import { Cross, Moon, Sun, Flower, Moon as YinYang, Flame, Star, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import type { TraditionWithCount } from "@shared/schema";
 
-const traditionIcons = {
-  "bible": Cross,
-  "quran": Moon,
-  "bhagavad-gita": Sun,
-  "dhammapada": Flower,
-  "tao-te-ching": YinYang,
-  "upanishads": Flame,
-  "talmud": Star,
+const getIconSymbol = (slug: string) => {
+  const symbolMap = {
+    'bible': '†',
+    'quran': '☪',
+    'bhagavad-gita': 'ॐ',
+    'dhammapada': '❋',
+    'tao-te-ching': '☯',
+    'upanishads': '◉',
+    'talmud': '✡'
+  };
+  return symbolMap[slug as keyof typeof symbolMap] || '◉';
 };
 
 const traditionDetails = {
@@ -153,7 +156,6 @@ export default function TraditionsOverview() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {traditions?.map((tradition) => {
-            const Icon = traditionIcons[tradition.slug as keyof typeof traditionIcons] || Sun;
             const colorClasses = getTraditionColorClasses(tradition.color);
             
             return (
@@ -163,8 +165,10 @@ export default function TraditionsOverview() {
                 >
                   <div className="text-center">
                     <div className="flex justify-between items-start mb-4">
-                      <div className={`w-12 h-12 ${colorClasses.iconBg} rounded-lg flex items-center justify-center mx-auto`}>
-                        <Icon className="text-white w-6 h-6" />
+                      <div className={`w-12 h-12 ${colorClasses.iconBg} rounded-lg flex items-center justify-center mx-auto shadow-lg`}>
+                        <span className="text-white text-xl font-bold drop-shadow-md">
+                          {getIconSymbol(tradition.slug)}
+                        </span>
                       </div>
                       <Dialog>
                         <DialogTrigger asChild>
@@ -175,8 +179,10 @@ export default function TraditionsOverview() {
                         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                           <DialogHeader>
                             <DialogTitle className="text-2xl font-display flex items-center gap-3">
-                              <div className={`w-10 h-10 ${colorClasses.iconBg} rounded-lg flex items-center justify-center`}>
-                                <Icon className="text-white w-5 h-5" />
+                              <div className={`w-10 h-10 ${colorClasses.iconBg} rounded-lg flex items-center justify-center shadow-lg`}>
+                                <span className="text-white text-lg font-bold drop-shadow-md">
+                                  {getIconSymbol(tradition.slug)}
+                                </span>
                               </div>
                               {traditionDetails[tradition.slug as keyof typeof traditionDetails]?.fullName || tradition.name}
                             </DialogTitle>
