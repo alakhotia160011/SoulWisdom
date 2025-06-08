@@ -83,7 +83,14 @@ export default function Header() {
               <div key={item.name}>
                 {item.href.startsWith("#") ? (
                   <button
-                    onClick={() => scrollToSection(item.href)}
+                    onClick={() => {
+                      if (location === "/") {
+                        scrollToSection(item.href);
+                      } else {
+                        // Navigate to home first, then scroll
+                        window.location.href = `/${item.href}`;
+                      }
+                    }}
                     className={`transition-colors font-medium ${
                       item.active 
                         ? "text-earth-900" 
