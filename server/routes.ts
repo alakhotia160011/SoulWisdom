@@ -187,7 +187,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       const validatedData = insertSubscriptionSchema.parse(req.body);
       const subscription = await storage.createSubscription(validatedData);
-      res.status(201).json({ message: "Successfully subscribed!", subscription });
+      
+      // Send welcome email with today's lesson
+      try {
+        const todaysLesson = await storage.getTodaysLesson();
+        const welcomeEmailSent = await emailService.sendWelcomeEmail(subscription.email, todaysLesson);
+        
+        if (welcomeEmailSent) {
+          console.log(`✓ Welcome email sent to ${subscription.email}`);
+        } else {
+          console.log(`⚠ Subscription successful but welcome email failed for ${subscription.email}`);
+        }
+      } catch (emailError) {
+        console.error("Error sending welcome email:", emailError);
+        // Don't fail the subscription if welcome email fails
+      }
+      
+      res.status(201).json({ 
+        message: "Successfully subscribed! Welcome email sent.", 
+        subscription,
+        welcomeEmailSent: true
+      });
     } catch (error: any) {
       console.error("Error creating subscription:", error);
       if (error.name === "ZodError") {

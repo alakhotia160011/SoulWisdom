@@ -64,6 +64,33 @@ class EmailService {
     }
   }
 
+  async sendWelcomeEmail(subscriberEmail: string, todaysLesson?: LessonWithDetails): Promise<boolean> {
+    try {
+      const welcomeHtml = this.createWelcomeEmailTemplate(subscriberEmail, todaysLesson);
+      const welcomeText = this.createWelcomeEmailText(subscriberEmail, todaysLesson);
+
+      const mailOptions = {
+        from: {
+          name: 'Daily Spiritual Lessons',
+          address: EMAIL_CONFIG.EMAIL_ADDRESS
+        },
+        to: subscriberEmail,
+        subject: 'Welcome to Daily Spiritual Lessons - Your Journey Begins',
+        text: welcomeText,
+        html: welcomeHtml
+      };
+
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log(`✓ Welcome email sent to ${subscriberEmail}`);
+      console.log(`Message ID: ${info.messageId}`);
+      
+      return true;
+    } catch (error) {
+      console.error("Error sending welcome email:", error);
+      return false;
+    }
+  }
+
   async sendTestEmail(): Promise<boolean> {
     try {
       const mailOptions = {
@@ -249,6 +276,198 @@ View artwork: ${lesson.artworkUrl}
 ---
 Daily Spiritual Lessons
 Wisdom from ${lesson.passage.tradition.name} and other sacred traditions
+
+To unsubscribe, reply with "unsubscribe" in the subject line.
+    `.trim();
+  }
+
+  private createWelcomeEmailTemplate(subscriberEmail: string, todaysLesson?: LessonWithDetails): string {
+    const baseUrl = process.env.NODE_ENV === 'production' ? 'https://your-domain.replit.app' : 'http://localhost:5000';
+    
+    return `<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to Daily Spiritual Lessons</title>
+    <style>
+        body {
+            font-family: 'Georgia', serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        .container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #8b7355;
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+        .welcome-title {
+            color: #8b7355;
+            font-size: 32px;
+            margin: 10px 0;
+        }
+        .welcome-message {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-left: 4px solid #8b7355;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .lesson-preview {
+            background-color: #e8f4f8;
+            padding: 20px;
+            border-radius: 8px;
+            border: 1px solid #b3d9e8;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .cta-button {
+            display: inline-block;
+            background-color: #8b7355;
+            color: white;
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+        .traditions-list {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        .tradition-item {
+            background-color: #f5f5f5;
+            padding: 10px;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 14px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+            color: #666;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="welcome-title">Welcome to Your Spiritual Journey</h1>
+            <p style="color: #666; font-size: 18px;">Daily Spiritual Lessons</p>
+        </div>
+
+        <div class="welcome-message">
+            <h3 style="color: #8b7355; margin-top: 0;">Hello and Welcome!</h3>
+            <p>Thank you for subscribing to Daily Spiritual Lessons. You've just taken a meaningful step toward daily spiritual growth and wisdom.</p>
+            <p>Every morning at 6:00 AM, you'll receive a carefully curated lesson featuring authentic stories, teachings, and insights from seven major spiritual traditions.</p>
+        </div>
+
+        <div class="traditions-list">
+            <div class="tradition-item">📖 Bible</div>
+            <div class="tradition-item">🌙 Qur'an</div>
+            <div class="tradition-item">🕉️ Bhagavad Gita</div>
+            <div class="tradition-item">☸️ Dhammapada</div>
+            <div class="tradition-item">☯️ Tao Te Ching</div>
+            <div class="tradition-item">🔥 Upanishads</div>
+            <div class="tradition-item">✡️ Talmud & Midrash</div>
+        </div>
+
+        ${todaysLesson ? `
+        <div class="lesson-preview">
+            <h3 style="color: #2c5282; margin-top: 0;">Today's Featured Lesson</h3>
+            <h4 style="color: #8b7355;">${todaysLesson.title}</h4>
+            <p style="font-style: italic; color: #666;">From ${todaysLesson.passage.tradition.name} - ${todaysLesson.passage.source}</p>
+            <a href="${baseUrl}" class="cta-button">Read Today's Lesson</a>
+        </div>
+        ` : `
+        <div class="lesson-preview">
+            <h3 style="color: #2c5282; margin-top: 0;">Your Daily Lessons Await</h3>
+            <p>Visit our platform to explore the latest spiritual insights and begin your journey of daily wisdom.</p>
+            <a href="${baseUrl}" class="cta-button">Visit Daily Spiritual Lessons</a>
+        </div>
+        `}
+
+        <div style="background-color: #f0f8f0; padding: 15px; border-radius: 5px; margin: 20px 0;">
+            <h4 style="color: #2d5016; margin-top: 0;">What to Expect:</h4>
+            <ul style="margin: 0; padding-left: 20px;">
+                <li>Daily lessons at 6:00 AM in your timezone</li>
+                <li>Beautiful AI-generated artwork in traditional styles</li>
+                <li>Authentic stories from sacred texts</li>
+                <li>Practical life applications and wisdom</li>
+                <li>Insights from diverse spiritual traditions</li>
+            </ul>
+        </div>
+
+        <div class="footer">
+            <p><strong>Daily Spiritual Lessons</strong></p>
+            <p>Wisdom from sacred traditions delivered to your inbox</p>
+            <p style="font-size: 12px; color: #999;">
+                You're receiving this welcome email because you subscribed to Daily Spiritual Lessons.<br>
+                To unsubscribe, reply with "unsubscribe" in the subject line.
+            </p>
+        </div>
+    </div>
+</body>
+</html>`;
+  }
+
+  private createWelcomeEmailText(subscriberEmail: string, todaysLesson?: LessonWithDetails): string {
+    const baseUrl = process.env.NODE_ENV === 'production' ? 'https://your-domain.replit.app' : 'http://localhost:5000';
+    
+    return `
+WELCOME TO DAILY SPIRITUAL LESSONS
+
+Hello and Welcome!
+
+Thank you for subscribing to Daily Spiritual Lessons. You've just taken a meaningful step toward daily spiritual growth and wisdom.
+
+Every morning at 6:00 AM, you'll receive a carefully curated lesson featuring authentic stories, teachings, and insights from seven major spiritual traditions:
+
+• Bible
+• Qur'an  
+• Bhagavad Gita
+• Dhammapada
+• Tao Te Ching
+• Upanishads
+• Talmud & Midrash
+
+${todaysLesson ? `
+TODAY'S FEATURED LESSON
+${todaysLesson.title}
+From ${todaysLesson.passage.tradition.name} - ${todaysLesson.passage.source}
+
+Read today's lesson: ${baseUrl}
+` : `
+YOUR DAILY LESSONS AWAIT
+Visit our platform to explore the latest spiritual insights: ${baseUrl}
+`}
+
+WHAT TO EXPECT:
+• Daily lessons at 6:00 AM in your timezone
+• Beautiful AI-generated artwork in traditional styles  
+• Authentic stories from sacred texts
+• Practical life applications and wisdom
+• Insights from diverse spiritual traditions
+
+---
+Daily Spiritual Lessons
+Wisdom from sacred traditions delivered to your inbox
 
 To unsubscribe, reply with "unsubscribe" in the subject line.
     `.trim();
