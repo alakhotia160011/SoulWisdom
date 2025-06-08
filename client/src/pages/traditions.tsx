@@ -59,13 +59,13 @@ export default function Traditions() {
 
   const getColorClasses = (color: string) => {
     const colorMap = {
-      blue: "from-blue-500 to-blue-700 border-blue-200 hover:border-blue-300",
-      green: "from-green-500 to-green-700 border-green-200 hover:border-green-300",
-      orange: "from-orange-500 to-orange-700 border-orange-200 hover:border-orange-300",
-      purple: "from-purple-500 to-purple-700 border-purple-200 hover:border-purple-300",
-      gray: "from-gray-500 to-gray-700 border-gray-200 hover:border-gray-300",
-      yellow: "from-yellow-500 to-yellow-700 border-yellow-200 hover:border-yellow-300",
-      indigo: "from-indigo-500 to-indigo-700 border-indigo-200 hover:border-indigo-300",
+      blue: "from-blue-300 to-blue-500 border-blue-200 hover:border-blue-300",
+      green: "from-green-300 to-green-500 border-green-200 hover:border-green-300",
+      orange: "from-orange-300 to-orange-500 border-orange-200 hover:border-orange-300",
+      purple: "from-purple-300 to-purple-500 border-purple-200 hover:border-purple-300",
+      gray: "from-gray-300 to-gray-500 border-gray-200 hover:border-gray-300",
+      yellow: "from-yellow-300 to-yellow-500 border-yellow-200 hover:border-yellow-300",
+      indigo: "from-indigo-300 to-indigo-500 border-indigo-200 hover:border-indigo-300",
     };
     return colorMap[color as keyof typeof colorMap] || colorMap.blue;
   };
@@ -165,7 +165,7 @@ export default function Traditions() {
                 {/* Explore Button */}
                 <Link href={`/tradition/${tradition.slug}`}>
                   <Button 
-                    className="w-full bg-amber-600 hover:bg-amber-700 text-white font-medium group-hover:bg-amber-700 transition-all duration-300"
+                    className="w-full bg-amber-400 hover:bg-amber-500 text-white font-medium group-hover:bg-amber-500 transition-all duration-300"
                   >
                     Explore Tradition
                     <ArrowRight className="h-4 w-4 ml-2 group-hover:translate-x-1 transition-transform" />
