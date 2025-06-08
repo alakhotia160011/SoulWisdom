@@ -53,6 +53,7 @@ export default function Header() {
     { name: "Today's Lesson", href: "/", active: location === "/" },
     { name: "Archive", href: "/archive", active: location.startsWith("/archive") },
     { name: "Traditions", href: "/traditions", active: location.startsWith("/traditions") },
+    { name: "About", href: "/about", active: location === "/about" },
   ];
 
   const scrollToSection = (sectionId: string) => {

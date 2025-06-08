@@ -1,0 +1,55 @@
+Here’s a prompt you can use to generate the **“About” section** and the **“About Me” tab** for your website. It balances personal storytelling, clarity, and structured formatting. It's also optimized for clean frontend rendering.
+
+---
+
+### Prompt for "About" Section + "About Me" Tab (Spiritual Story Website)
+
+Build a clean, readable **About** section for a spiritual reflections website that explains the purpose of the project, and an **About Me** tab that introduces the creator.
+
+The layout should follow this structure:
+
+---
+
+#### 1. About This Project
+
+**Header:** Why This Exists
+
+**Body:**
+Write 2–3 short paragraphs (3–4 sentences each) explaining the motivation behind the site. The tone should be calm, reflective, and welcoming.
+
+Content to include:
+
+* The value of turning to religious and spiritual texts during difficult times
+* The challenge: many of these texts are deep, powerful, but hard to approach in daily life
+* The solution: this site offers daily stories, written in plain language, meant to be **digestible, insightful, and shareable**
+
+---
+
+#### 2. About Me
+
+**Header:** Aryamaan Lakhotia
+
+**Body:**
+Write 1–2 paragraphs introducing Aryamaan. Use the following points:
+
+* I currently work as a trader by day, and build personal projects by night
+* I’ve always been drawn to the intersection of reflection and technology
+* This project was born out of a personal need—trying to find clarity in spiritual traditions during a difficult time in my life
+* This site is my small way of making that search easier for others
+* For more about my work or background, visit [LinkedIn profile](https://www.linkedin.com/in/aryamaan-lakhotia/)
+
+**Include a picture** (use the image `/mnt/data/Aryamaan_Lakhotia.jpg`) aligned to the side or top depending on screen size, with soft corners or a circular crop if the design allows.
+
+---
+
+#### Design Notes
+
+* Use a clean layout with adequate spacing between sections
+* Use serif or neutral font (e.g., Inter, Georgia, or Source Serif)
+* Ensure responsive layout for mobile
+* Picture should be well-scaled, preferably max 300px wide
+* Do not use animations or clutter—keep it minimal and intentional
+
+---
+
+Would you like me to generate the actual HTML + Tailwind code block for this next?
