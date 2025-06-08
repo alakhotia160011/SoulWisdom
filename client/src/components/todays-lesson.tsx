@@ -32,6 +32,19 @@ export default function TodaysLesson() {
     return colorMap[color as keyof typeof colorMap] || "bg-sage-800 text-white";
   };
 
+  const getTraditionBackgroundColor = (color: string) => {
+    const colorMap = {
+      blue: "bg-blue-800",
+      green: "bg-green-800",
+      orange: "bg-orange-800",
+      purple: "bg-purple-800",
+      gray: "bg-gray-800",
+      yellow: "bg-yellow-800",
+      indigo: "bg-indigo-800"
+    };
+    return colorMap[color as keyof typeof colorMap] || "bg-sage-800";
+  };
+
   const getIconSymbol = (slug: string) => {
     const symbolMap = {
       'bible': '†',
@@ -109,7 +122,7 @@ export default function TodaysLesson() {
             </span>
             <span className="w-1 h-1 bg-earth-400 rounded-full"></span>
             <div className="flex items-center space-x-2">
-              <div className={`w-8 h-8 ${getTraditionColor(lesson.passage.tradition.color).replace('text-white', '')} rounded-lg flex items-center justify-center shadow-lg`}>
+              <div className={`w-8 h-8 ${getTraditionBackgroundColor(lesson.passage.tradition.color)} rounded-lg flex items-center justify-center shadow-lg`}>
                 <span className="text-white text-lg font-bold drop-shadow-md">
                   {getIconSymbol(lesson.passage.tradition.slug)}
                 </span>
