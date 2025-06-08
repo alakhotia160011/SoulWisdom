@@ -18,6 +18,7 @@ export const aboutContent = {
       "This project was born out of a personal need. During a difficult time in my life, I found myself turning to spiritual traditions for guidance and clarity. While the wisdom was profound, I often struggled to find the time or context to engage with these texts meaningfully in my daily routine. This site is my small way of making that search easier for others who might find themselves in similar situations."
     ],
     linkedinUrl: "https://www.linkedin.com/in/aryamaan-lakhotia/",
+    twitterUrl: "https://x.com/AryamaanL",
     imageUrl: "@assets/Aryamaan_Lakhotia_1749416191319.jpg"
   }
 };
