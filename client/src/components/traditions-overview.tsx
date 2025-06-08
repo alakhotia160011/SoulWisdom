@@ -97,16 +97,16 @@ export default function TraditionsOverview() {
 
   const getTraditionColorClasses = (color: string) => {
     const colorMap = {
-      blue: "from-blue-50 to-blue-100 border-blue-200 bg-blue-600 text-blue-900 bg-blue-200",
-      green: "from-green-50 to-green-100 border-green-200 bg-green-600 text-green-900 bg-green-200",
-      orange: "from-orange-50 to-orange-100 border-orange-200 bg-orange-600 text-orange-900 bg-orange-200",
-      purple: "from-purple-50 to-purple-100 border-purple-200 bg-purple-600 text-purple-900 bg-purple-200",
-      gray: "from-gray-50 to-gray-100 border-gray-200 bg-gray-600 text-gray-900 bg-gray-200",
-      yellow: "from-yellow-50 to-yellow-100 border-yellow-200 bg-yellow-600 text-yellow-900 bg-yellow-200",
-      indigo: "from-indigo-50 to-indigo-100 border-indigo-200 bg-indigo-600 text-indigo-900 bg-indigo-200"
+      blue: "from-blue-50 to-blue-100 border-blue-200 bg-blue-800 text-gray-700 bg-white",
+      green: "from-green-50 to-green-100 border-green-200 bg-green-800 text-gray-700 bg-white",
+      orange: "from-orange-50 to-orange-100 border-orange-200 bg-orange-800 text-gray-700 bg-white",
+      purple: "from-purple-50 to-purple-100 border-purple-200 bg-purple-800 text-gray-700 bg-white",
+      gray: "from-gray-50 to-gray-100 border-gray-200 bg-gray-800 text-gray-700 bg-white",
+      yellow: "from-yellow-50 to-yellow-100 border-yellow-200 bg-yellow-800 text-gray-700 bg-white",
+      indigo: "from-indigo-50 to-indigo-100 border-indigo-200 bg-indigo-800 text-gray-700 bg-white"
     };
     
-    const classes = colorMap[color as keyof typeof colorMap] || "from-earth-50 to-earth-100 border-earth-200 bg-earth-600 text-earth-900 bg-earth-200";
+    const classes = colorMap[color as keyof typeof colorMap] || "from-earth-50 to-earth-100 border-earth-200 bg-earth-800 text-gray-700 bg-white";
     const [gradient, border, iconBg, textColor, badgeBg] = classes.split(' ');
     
     return { gradient, border, iconBg, textColor, badgeBg };

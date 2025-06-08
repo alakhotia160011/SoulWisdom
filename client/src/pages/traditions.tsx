@@ -59,13 +59,13 @@ export default function Traditions() {
 
   const getColorClasses = (color: string) => {
     const colorMap = {
-      blue: "from-blue-300 to-blue-500 border-blue-200 hover:border-blue-300",
-      green: "from-green-300 to-green-500 border-green-200 hover:border-green-300",
-      orange: "from-orange-300 to-orange-500 border-orange-200 hover:border-orange-300",
-      purple: "from-purple-300 to-purple-500 border-purple-200 hover:border-purple-300",
-      gray: "from-gray-300 to-gray-500 border-gray-200 hover:border-gray-300",
-      yellow: "from-yellow-300 to-yellow-500 border-yellow-200 hover:border-yellow-300",
-      indigo: "from-indigo-300 to-indigo-500 border-indigo-200 hover:border-indigo-300",
+      blue: "from-blue-800 to-blue-900 border-blue-200 hover:border-blue-300",
+      green: "from-green-800 to-green-900 border-green-200 hover:border-green-300",
+      orange: "from-orange-800 to-orange-900 border-orange-200 hover:border-orange-300",
+      purple: "from-purple-800 to-purple-900 border-purple-200 hover:border-purple-300",
+      gray: "from-gray-800 to-gray-900 border-gray-200 hover:border-gray-300",
+      yellow: "from-yellow-800 to-yellow-900 border-yellow-200 hover:border-yellow-300",
+      indigo: "from-indigo-800 to-indigo-900 border-indigo-200 hover:border-indigo-300",
     };
     return colorMap[color as keyof typeof colorMap] || colorMap.blue;
   };
@@ -156,8 +156,8 @@ export default function Traditions() {
 
                 {/* Lesson Count Badge */}
                 <div className="flex items-center justify-between pt-2">
-                  <Badge variant="secondary" className="bg-amber-100 text-amber-900 border-amber-400 font-semibold">
-                    <BookOpen className="h-3 w-3 mr-1 text-amber-900" />
+                  <Badge variant="secondary" className="bg-white text-gray-700 border-gray-300 font-semibold shadow-sm">
+                    <BookOpen className="h-3 w-3 mr-1 text-gray-600" />
                     {tradition.lessonCount} lessons
                   </Badge>
                 </div>
