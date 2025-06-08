@@ -16,7 +16,11 @@ export default function EmailAdmin() {
 
   // Test email mutation
   const testEmailMutation = useMutation({
-    mutationFn: () => apiRequest("/api/email/test", { method: "POST" }),
+    mutationFn: async () => {
+      const response = await fetch("/api/email/test", { method: "POST" });
+      if (!response.ok) throw new Error("Test email failed");
+      return response.json();
+    },
     onSuccess: () => {
       toast({
         title: "Test email sent!",
@@ -34,7 +38,11 @@ export default function EmailAdmin() {
 
   // Send lesson email mutation
   const sendLessonMutation = useMutation({
-    mutationFn: () => apiRequest("/api/email/send", { method: "POST" }),
+    mutationFn: async () => {
+      const response = await fetch("/api/email/send", { method: "POST" });
+      if (!response.ok) throw new Error("Failed to send lesson email");
+      return response.json();
+    },
     onSuccess: (data: any) => {
       toast({
         title: "Lesson email sent!",
