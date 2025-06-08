@@ -32,6 +32,19 @@ export default function TodaysLesson() {
     return colorMap[color as keyof typeof colorMap] || "bg-sage-800 text-white";
   };
 
+  const getIconSymbol = (slug: string) => {
+    const symbolMap = {
+      'bible': '†',
+      'quran': '☪',
+      'bhagavad-gita': 'ॐ',
+      'dhammapada': '❋',
+      'tao-te-ching': '☯',
+      'upanishads': '◉',
+      'talmud': '✡'
+    };
+    return symbolMap[slug as keyof typeof symbolMap] || '◉';
+  };
+
   if (isLoading) {
     return (
       <section id="today" className="py-12 bg-gradient-to-b from-white to-earth-50">
@@ -95,9 +108,16 @@ export default function TodaysLesson() {
               {formatDate(lesson.date.toString())}
             </span>
             <span className="w-1 h-1 bg-earth-400 rounded-full"></span>
-            <span className={`px-3 py-1 rounded-full text-sm font-medium ${getTraditionColor(lesson.passage.tradition.color)}`}>
-              {lesson.passage.tradition.name}
-            </span>
+            <div className="flex items-center space-x-2">
+              <div className={`w-8 h-8 ${getTraditionColor(lesson.passage.tradition.color).replace('text-white', '')} rounded-lg flex items-center justify-center shadow-lg`}>
+                <span className="text-white text-lg font-bold drop-shadow-md">
+                  {getIconSymbol(lesson.passage.tradition.slug)}
+                </span>
+              </div>
+              <span className={`px-3 py-1 rounded-full text-sm font-medium ${getTraditionColor(lesson.passage.tradition.color)}`}>
+                {lesson.passage.tradition.name}
+              </span>
+            </div>
           </div>
           
           {/* Title */}
