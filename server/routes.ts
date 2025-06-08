@@ -233,6 +233,33 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Send welcome email manually
+  app.post("/api/email/welcome", async (req, res) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ message: "Email address is required" });
+      }
+
+      const todaysLesson = await storage.getTodaysLesson();
+      const emailSent = await emailService.sendWelcomeEmail(email, todaysLesson);
+      
+      if (emailSent) {
+        res.json({ 
+          message: "Welcome email sent successfully!",
+          recipient: email,
+          lessonIncluded: !!todaysLesson
+        });
+      } else {
+        res.status(500).json({ message: "Failed to send welcome email" });
+      }
+    } catch (error) {
+      console.error("Error sending welcome email:", error);
+      res.status(500).json({ message: "Failed to send welcome email" });
+    }
+  });
+
   // Send today's lesson email manually
   app.post("/api/email/send", async (req, res) => {
     try {
