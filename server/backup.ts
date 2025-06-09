@@ -1,6 +1,6 @@
 import { storage } from "./storage";
-import { writeFileSync, readFileSync, existsSync, mkdirSync } from "fs";
-import { join } from "path";
+import { writeFileSync, readFileSync, existsSync, mkdirSync, readdirSync, copyFileSync } from "fs";
+import { join, extname } from "path";
 
 interface BackupData {
   timestamp: string;
@@ -8,10 +8,12 @@ interface BackupData {
   traditions: any[];
   passages: any[];
   subscriptions: any[];
+  artworkFiles: string[];
 }
 
 export class DatabaseBackup {
   private backupDir = join(process.cwd(), "backups");
+  private artworkDir = join(process.cwd(), "public", "artwork");
 
   constructor() {
     // Ensure backup directory exists
@@ -29,12 +31,16 @@ export class DatabaseBackup {
       const traditions = await storage.getTraditions();
       const subscriptions = await storage.getActiveSubscriptions();
 
+      // Backup artwork files
+      const artworkFiles = await this.backupArtworkFiles();
+
       const backupData: BackupData = {
         timestamp: new Date().toISOString(),
         lessons,
         traditions,
         passages: [], // Will be populated from lessons if needed
-        subscriptions
+        subscriptions,
+        artworkFiles
       };
 
       // Create filename with timestamp
@@ -49,11 +55,56 @@ export class DatabaseBackup {
       console.log(`  - ${lessons.length} lessons backed up`);
       console.log(`  - ${traditions.length} traditions backed up`);
       console.log(`  - ${subscriptions.length} subscriptions backed up`);
+      console.log(`  - ${artworkFiles.length} artwork files backed up`);
 
       return filepath;
     } catch (error) {
       console.error("Failed to create backup:", error);
       throw error;
+    }
+  }
+
+  private async backupArtworkFiles(): Promise<string[]> {
+    try {
+      const artworkBackupDir = join(this.backupDir, "artwork");
+      
+      // Ensure artwork backup directory exists
+      if (!existsSync(artworkBackupDir)) {
+        mkdirSync(artworkBackupDir, { recursive: true });
+      }
+
+      // Check if artwork directory exists
+      if (!existsSync(this.artworkDir)) {
+        console.log("No artwork directory found, skipping artwork backup");
+        return [];
+      }
+
+      // Get all artwork files
+      const files = readdirSync(this.artworkDir);
+      const imageFiles = files.filter(file => {
+        const ext = extname(file).toLowerCase();
+        return ['.png', '.jpg', '.jpeg', '.gif', '.webp'].includes(ext);
+      });
+
+      const backedUpFiles: string[] = [];
+
+      // Copy each artwork file to backup directory
+      for (const file of imageFiles) {
+        const sourcePath = join(this.artworkDir, file);
+        const backupPath = join(artworkBackupDir, file);
+        
+        try {
+          copyFileSync(sourcePath, backupPath);
+          backedUpFiles.push(file);
+        } catch (error) {
+          console.error(`Failed to backup artwork file ${file}:`, error);
+        }
+      }
+
+      return backedUpFiles;
+    } catch (error) {
+      console.error("Error backing up artwork files:", error);
+      return [];
     }
   }
 
