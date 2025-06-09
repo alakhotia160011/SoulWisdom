@@ -215,6 +215,24 @@ class EmailService {
             font-size: 12px;
             margin-top: 10px;
         }
+        .website-button {
+            background-color: #8b7355;
+            color: white;
+            padding: 15px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            display: inline-block;
+            font-weight: bold;
+            margin: 20px 0;
+            text-align: center;
+        }
+        .website-button:hover {
+            background-color: #6d5a44;
+        }
+        .button-container {
+            text-align: center;
+            margin: 30px 0;
+        }
     </style>
 </head>
 <body>
@@ -227,7 +245,7 @@ class EmailService {
         </div>
 
         <div class="artwork">
-            <img src="${lesson.artworkUrl}" alt="${lesson.artworkDescription}" />
+            <img src="https://${process.env.REPLIT_DEV_DOMAIN || 'localhost:5000'}${lesson.artworkUrl}" alt="${lesson.artworkDescription}" />
             <p style="font-style: italic; color: #666; font-size: 14px; margin-top: 10px;">
                 ${lesson.artworkDescription}
             </p>
@@ -241,6 +259,12 @@ class EmailService {
         <div class="life-lesson">
             <h3>Life Lesson</h3>
             <p><strong>${lesson.lifeLesson}</strong></p>
+        </div>
+
+        <div class="button-container">
+            <a href="https://${process.env.REPLIT_DEV_DOMAIN || 'localhost:5000'}/lessons/${lesson.id}" class="website-button">
+                View Today's Lesson Online
+            </a>
         </div>
 
         <div class="footer">
@@ -257,6 +281,7 @@ class EmailService {
   }
 
   private createLessonEmailText(lesson: LessonWithDetails, today: string): string {
+    const baseUrl = process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:5000';
     return `
 DAILY SPIRITUAL LESSON - ${today}
 
@@ -271,7 +296,10 @@ ${lesson.lifeLesson}
 
 ARTWORK
 ${lesson.artworkDescription}
-View artwork: ${lesson.artworkUrl}
+View artwork: ${baseUrl}${lesson.artworkUrl}
+
+VIEW TODAY'S LESSON ONLINE
+${baseUrl}/lessons/${lesson.id}
 
 ---
 Daily Spiritual Lessons
