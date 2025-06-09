@@ -9,6 +9,7 @@ import { generateArtworkForLesson } from "./artwork-generator";
 import { getTodaysEmailTemplate, getSubscriberEmailList } from "./scheduler";
 import { generateSocialCard } from "./social-cards";
 import { emailService } from "./email-service";
+import { backupService } from "./backup";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Serve static artwork files
@@ -309,6 +310,30 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error sending daily lesson email:", error);
       res.status(500).json({ message: "Failed to send daily lesson email" });
+    }
+  });
+
+  // Backup endpoints
+  app.post("/api/backup/create", async (req, res) => {
+    try {
+      const backupPath = await backupService.createBackup();
+      res.json({ 
+        message: "Backup created successfully",
+        backupPath: backupPath.split('/').pop() // Return just filename for security
+      });
+    } catch (error) {
+      console.error("Error creating backup:", error);
+      res.status(500).json({ message: "Failed to create backup" });
+    }
+  });
+
+  app.get("/api/backup/list", async (req, res) => {
+    try {
+      const backups = backupService.listBackups();
+      res.json({ backups });
+    } catch (error) {
+      console.error("Error listing backups:", error);
+      res.status(500).json({ message: "Failed to list backups" });
     }
   });
 
