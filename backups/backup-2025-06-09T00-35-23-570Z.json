@@ -1,0 +1,223 @@
+{
+  "timestamp": "2025-06-09T00:35:23.570Z",
+  "lessons": [
+    {
+      "id": 5,
+      "passageId": 3,
+      "title": "The Path of Selfless Action",
+      "story": "In the sacred text of Bhagavad Gita 2:47, Krishna imparts timeless wisdom: You have a right to perform your prescribed duty, but do not become attached to the fruits of action. Never consider yourself the cause of the results of your activities, and never be attached to not doing your duty.\n\nThis teaching from the Action Without Attachment addresses the fundamental question of how to live and act in the world while maintaining spiritual purity. The key lies not in abandoning action, but in transforming our relationship to it.\n\nWhen we perform our duties - whether as parents, professionals, or community members - without attachment to personal gain or recognition, our actions become offerings to the divine. This transforms even the most mundane tasks into spiritual practice, allowing us to find meaning and purpose in service to something greater than ourselves.",
+      "lifeLesson": "Transform your daily actions into spiritual practice by performing them with dedication but without attachment to personal gain.",
+      "artworkUrl": "/artwork/lesson-3-1749412463105.png",
+      "artworkDescription": "Mughal miniature painting style artwork depicting The Path of Selfless Action",
+      "date": "2025-06-08T19:54:23.814Z",
+      "isGenerated": true,
+      "passage": {
+        "id": 3,
+        "traditionId": 3,
+        "source": "Bhagavad Gita 2:47",
+        "title": "The Right to Action",
+        "content": "You have the right to perform your actions, but you are not entitled to the fruits of your actions. Do not let the results be your motive, nor let your attachment be to inaction.",
+        "context": "Krishna's teaching to Arjuna on the battlefield about duty without attachment to results",
+        "theme": "Detachment and Duty",
+        "tradition": {
+          "id": 3,
+          "name": "Bhagavad Gita",
+          "slug": "bhagavad-gita",
+          "description": "Krishna's teachings on duty",
+          "color": "orange",
+          "icon": "fas fa-om",
+          "originPeriod": "400 BCE - 400 CE",
+          "originLocation": "Ancient India",
+          "spiritualTradition": "Hinduism",
+          "summary": "A foundational text of Hindu philosophy, addressing duty (dharma), devotion (bhakti), and the nature of reality through dialogue between Prince Arjuna and Lord Krishna.",
+          "famousQuotes": [
+            "You have the right to perform your actions, but you are not entitled to the fruits of action. - Bhagavad Gita 2:47",
+            "Whenever there is a decline in righteousness, I manifest myself. - Bhagavad Gita 4:7",
+            "The soul is neither born, and nor does it die. - Bhagavad Gita 2:20"
+          ],
+          "imageUrl": null,
+          "manuscriptStyle": "Sanskrit palm leaf manuscripts"
+        }
+      }
+    }
+  ],
+  "traditions": [
+    {
+      "id": 1,
+      "name": "Bible",
+      "slug": "bible",
+      "description": "Psalms, Job, Gospels, Letters",
+      "color": "blue",
+      "icon": "fas fa-cross",
+      "originPeriod": "c. 1200 BCE - 100 CE",
+      "originLocation": "Ancient Israel, Greece, Asia Minor",
+      "spiritualTradition": "Judaism & Christianity",
+      "summary": "The foundational text of Judaism and Christianity, containing moral guidance, historical narrative, and spiritual teachings that have profoundly influenced Western civilization.",
+      "famousQuotes": [
+        "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life. - John 3:16",
+        "The Lord is my shepherd, I lack nothing. - Psalm 23:1",
+        "Love your neighbor as yourself. - Matthew 22:39"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Hebrew & Greek manuscripts"
+    },
+    {
+      "id": 2,
+      "name": "Qur'an",
+      "slug": "quran",
+      "description": "Sacred verses of guidance",
+      "color": "green",
+      "icon": "fas fa-moon",
+      "originPeriod": "610-632 CE",
+      "originLocation": "Arabian Peninsula",
+      "spiritualTradition": "Islam",
+      "summary": "The central religious text of Islam, providing comprehensive guidance for personal conduct, social justice, and spiritual development for over 1.8 billion Muslims worldwide.",
+      "famousQuotes": [
+        "And whoever saves a life, it is as if he has saved mankind entirely. - Quran 5:32",
+        "Indeed, with hardship comes ease. - Quran 94:6",
+        "And it is He who created the heavens and earth in truth. - Quran 6:73"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Arabic calligraphy"
+    },
+    {
+      "id": 3,
+      "name": "Bhagavad Gita",
+      "slug": "bhagavad-gita",
+      "description": "Krishna's teachings on duty",
+      "color": "orange",
+      "icon": "fas fa-om",
+      "originPeriod": "400 BCE - 400 CE",
+      "originLocation": "Ancient India",
+      "spiritualTradition": "Hinduism",
+      "summary": "A foundational text of Hindu philosophy, addressing duty (dharma), devotion (bhakti), and the nature of reality through dialogue between Prince Arjuna and Lord Krishna.",
+      "famousQuotes": [
+        "You have the right to perform your actions, but you are not entitled to the fruits of action. - Bhagavad Gita 2:47",
+        "Whenever there is a decline in righteousness, I manifest myself. - Bhagavad Gita 4:7",
+        "The soul is neither born, and nor does it die. - Bhagavad Gita 2:20"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Sanskrit palm leaf manuscripts"
+    },
+    {
+      "id": 4,
+      "name": "Dhammapada",
+      "slug": "dhammapada",
+      "description": "Buddha's path to awakening",
+      "color": "purple",
+      "icon": "fas fa-lotus",
+      "originPeriod": "3rd century BCE",
+      "originLocation": "Ancient India, Sri Lanka",
+      "spiritualTradition": "Buddhism",
+      "summary": "One of the most widely read Buddhist texts, containing 423 verses that encapsulate the essence of Buddhist ethics, mental cultivation, and the path to enlightenment.",
+      "famousQuotes": [
+        "All that we are is the result of what we have thought. - Dhammapada 1:1",
+        "Hatred does not cease by hatred, but only by love. - Dhammapada 1:5",
+        "Better than a thousand hollow words, is one word that brings peace. - Dhammapada 8:100"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Pali manuscripts"
+    },
+    {
+      "id": 5,
+      "name": "Tao Te Ching",
+      "slug": "tao-te-ching",
+      "description": "The way of harmony",
+      "color": "gray",
+      "icon": "fas fa-yin-yang",
+      "originPeriod": "6th century BCE",
+      "originLocation": "Ancient China",
+      "spiritualTradition": "Taoism",
+      "summary": "Foundational text of Taoism, emphasizing natural harmony, wu wei (effortless action), and living in accordance with the Tao. Influences Eastern philosophy and modern mindfulness practices.",
+      "famousQuotes": [
+        "The journey of a thousand miles begins with one step. - Tao Te Ching 64",
+        "When people see some things as beautiful, other things become ugly. - Tao Te Ching 2",
+        "The wise are not learned; the learned are not wise. - Tao Te Ching 81"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Chinese brush calligraphy"
+    },
+    {
+      "id": 6,
+      "name": "Upanishads",
+      "slug": "upanishads",
+      "description": "Vedantic wisdom texts",
+      "color": "yellow",
+      "icon": "fas fa-fire",
+      "originPeriod": "800-200 BCE",
+      "originLocation": "Ancient India",
+      "spiritualTradition": "Hinduism",
+      "summary": "Core texts of Vedanta philosophy, influencing Hindu theology and practice. They explore profound questions about consciousness, reality, and the unity of existence.",
+      "famousQuotes": [
+        "Tat tvam asi (That thou art) - Chandogya Upanishad",
+        "From the unreal lead me to the real, from darkness lead me to light. - Brihadaranyaka Upanishad",
+        "The Self is one. Unmoving, it moves faster than the mind. - Isha Upanishad"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Sanskrit manuscripts"
+    },
+    {
+      "id": 7,
+      "name": "Talmud & Midrash",
+      "slug": "talmud",
+      "description": "Rabbinic wisdom",
+      "color": "indigo",
+      "icon": "fas fa-star-of-david",
+      "originPeriod": "200-500 CE",
+      "originLocation": "Babylonia, Palestine",
+      "spiritualTradition": "Judaism",
+      "summary": "Central to Jewish law, ethics, and theology. Provides detailed guidance on religious practice and moral conduct, forming the basis of Jewish legal decision-making.",
+      "famousQuotes": [
+        "Whoever saves one life, it is considered as if he saved an entire world. - Talmud, Sanhedrin 37a",
+        "In a place where there are no human beings, strive to be human. - Talmud, Avot 2:5",
+        "The day is short, the work is much. - Talmud, Avot 2:15"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Hebrew rabbinic script"
+    }
+  ],
+  "passages": [],
+  "subscriptions": [
+    {
+      "id": 1,
+      "email": "ary.lakhotia@gmail.com",
+      "isActive": true,
+      "createdAt": "2025-06-08T16:13:18.225Z"
+    },
+    {
+      "id": 2,
+      "email": "berliavaibhav@gmail.com",
+      "isActive": true,
+      "createdAt": "2025-06-08T16:17:54.667Z"
+    },
+    {
+      "id": 3,
+      "email": "dhwanilfs@gmail.com",
+      "isActive": true,
+      "createdAt": "2025-06-08T16:19:19.057Z"
+    },
+    {
+      "id": 4,
+      "email": "test.welcome@example.com",
+      "isActive": true,
+      "createdAt": "2025-06-08T16:29:13.982Z"
+    },
+    {
+      "id": 5,
+      "email": "welcome.test@example.com",
+      "isActive": true,
+      "createdAt": "2025-06-08T16:29:25.463Z"
+    },
+    {
+      "id": 6,
+      "email": "jakeladdis@proton.me",
+      "isActive": true,
+      "createdAt": "2025-06-08T21:23:12.034Z"
+    }
+  ],
+  "artworkFiles": [
+    "lesson-1-1749428412529.png",
+    "lesson-3-1749412463105.png",
+    "lesson-4-1749427938278.png"
+  ]
+}
