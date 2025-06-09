@@ -114,7 +114,7 @@ export default function TraditionsOverview() {
 
   if (isLoading) {
     return (
-      <section id="traditions" className="py-16 bg-white">
+      <section id="traditions" className="py-16 bg-earth-50">
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-12">
             <Skeleton className="h-8 w-64 mx-auto mb-4" />
@@ -140,7 +140,7 @@ export default function TraditionsOverview() {
   }
 
   return (
-    <section id="traditions" className="py-16 bg-white">
+    <section id="traditions" className="py-16 bg-earth-50">
       <div className="max-w-6xl mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl font-display font-semibold text-earth-900 mb-4">
