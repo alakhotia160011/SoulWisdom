@@ -7,7 +7,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { Search, ChevronRight, Clock } from "lucide-react";
+import { Search, ChevronRight, Clock, Home } from "lucide-react";
 import { Link } from "wouter";
 import type { LessonWithDetails, TraditionWithCount } from "@shared/schema";
 
@@ -66,6 +66,29 @@ export default function Archive() {
       
       <section className="py-16 bg-earth-50">
         <div className="max-w-6xl mx-auto px-4">
+          {/* Breadcrumb Navigation */}
+          <div className="flex items-center justify-between mb-8">
+            <div className="flex items-center gap-2 text-sm text-earth-600">
+              <Link href="/" className="hover:text-earth-800 transition-colors">Home</Link>
+              <span>/</span>
+              {traditionSlug ? (
+                <>
+                  <Link href="/archive" className="hover:text-earth-800 transition-colors">Archive</Link>
+                  <span>/</span>
+                  <span className="text-earth-900 font-medium capitalize">{traditionSlug.replace('-', ' ')}</span>
+                </>
+              ) : (
+                <span className="text-earth-900 font-medium">Archive</span>
+              )}
+            </div>
+            <Link href="/">
+              <Button variant="outline" className="border-earth-300 text-earth-700 hover:bg-earth-100">
+                <Home className="w-4 h-4 mr-2" />
+                Today's Lesson
+              </Button>
+            </Link>
+          </div>
+
           <div className="text-center mb-12">
             <h1 className="text-3xl font-display font-semibold text-earth-900 mb-4">
               Lesson Archive

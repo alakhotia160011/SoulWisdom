@@ -1,10 +1,28 @@
 import { aboutContent } from "@/lib/about-content";
 import profileImage from "@assets/Aryamaan_Lakhotia_1749416191319.jpg";
+import { Button } from "@/components/ui/button";
+import { Home } from "lucide-react";
+import { Link } from "wouter";
 
 export default function About() {
   return (
     <div className="min-h-screen bg-earth-50">
       <div className="container mx-auto px-4 py-16 max-w-4xl">
+        
+        {/* Breadcrumb Navigation */}
+        <div className="flex items-center justify-between mb-8">
+          <div className="flex items-center gap-2 text-sm text-earth-600">
+            <Link href="/" className="hover:text-earth-800 transition-colors">Home</Link>
+            <span>/</span>
+            <span className="text-earth-900 font-medium">About</span>
+          </div>
+          <Link href="/">
+            <Button variant="outline" className="border-earth-300 text-earth-700 hover:bg-earth-100">
+              <Home className="w-4 h-4 mr-2" />
+              Today's Lesson
+            </Button>
+          </Link>
+        </div>
         
         {/* About This Project Section */}
         <div className="mb-16">
