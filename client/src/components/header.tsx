@@ -64,18 +64,18 @@ export default function Header() {
   };
 
   return (
-    <header className="bg-white shadow-sm border-b border-earth-200 sticky top-0 z-50">
+    <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-stone-200 dark:border-gray-700 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-earth-500 to-sage-600 rounded-lg flex items-center justify-center">
+            <div className="w-10 h-10 bg-gradient-to-br from-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-md">
               <Scroll className="text-white w-5 h-5" />
             </div>
             <div>
-              <h1 className="text-xl font-display font-semibold text-earth-800">
+              <h1 className="text-xl font-serif font-semibold text-stone-800 dark:text-stone-200">
                 Daily Spiritual Lessons
               </h1>
-              <p className="text-sm text-earth-600">Wisdom for Every Day</p>
+              <p className="text-sm text-stone-600 dark:text-stone-400">Wisdom for Every Day</p>
             </div>
           </Link>
           
@@ -85,8 +85,8 @@ export default function Header() {
                 <button
                   className={`transition-colors font-medium ${
                     item.active 
-                      ? "text-earth-900" 
-                      : "text-earth-600 hover:text-earth-800"
+                      ? "text-stone-900 dark:text-stone-100" 
+                      : "text-stone-600 dark:text-stone-400 hover:text-stone-800 dark:hover:text-stone-200"
                   }`}
                 >
                   {item.name}
@@ -95,7 +95,7 @@ export default function Header() {
             ))}
             <Dialog open={subscribeOpen} onOpenChange={setSubscribeOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-earth-600 text-white hover:bg-earth-700">
+                <Button className="bg-stone-600 text-white hover:bg-stone-700 dark:bg-stone-700 dark:hover:bg-stone-600">
                   <Mail className="w-4 h-4 mr-2" />
                   Subscribe
                 </Button>
@@ -103,10 +103,10 @@ export default function Header() {
               <DialogContent className="sm:max-w-md">
                 <div className="space-y-6">
                   <div className="text-center">
-                    <h2 className="text-2xl font-display font-semibold text-earth-900 mb-2">
+                    <h2 className="text-2xl font-serif font-semibold text-stone-900 dark:text-stone-100 mb-2">
                       Daily Spiritual Lessons
                     </h2>
-                    <p className="text-earth-600">
+                    <p className="text-stone-600 dark:text-stone-400">
                       Receive authentic wisdom from sacred texts in your inbox every morning
                     </p>
                   </div>
