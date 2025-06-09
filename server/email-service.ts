@@ -262,7 +262,7 @@ class EmailService {
         </div>
 
         <div class="button-container">
-            <a href="https://${process.env.REPLIT_DEV_DOMAIN || 'localhost:5000'}/lessons/${lesson.id}" class="website-button">
+            <a href="https://${process.env.REPLIT_DEV_DOMAIN || 'localhost:5000'}/lesson/${lesson.id}" class="website-button">
                 View Today's Lesson Online
             </a>
         </div>
@@ -299,7 +299,7 @@ ${lesson.artworkDescription}
 View artwork: ${baseUrl}${lesson.artworkUrl}
 
 VIEW TODAY'S LESSON ONLINE
-${baseUrl}/lessons/${lesson.id}
+${baseUrl}/lesson/${lesson.id}
 
 ---
 Daily Spiritual Lessons
