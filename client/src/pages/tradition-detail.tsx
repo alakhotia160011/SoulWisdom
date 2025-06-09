@@ -7,12 +7,13 @@ import { ArrowLeft, BookOpen, Calendar, MapPin, Quote, Scroll, Users } from "luc
 import { Link } from "wouter";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import type { Tradition } from "@shared/schema";
 
 export default function TraditionDetail() {
   const [, params] = useRoute("/tradition/:slug");
   const slug = params?.slug;
 
-  const { data: tradition, isLoading } = useQuery({
+  const { data: tradition, isLoading } = useQuery<Tradition>({
     queryKey: [`/api/traditions/${slug}`],
     enabled: !!slug,
   });
@@ -103,6 +104,28 @@ export default function TraditionDetail() {
 
   const styling = getTraditionStyling(slug || '');
 
+  if (!tradition) {
+    return (
+      <>
+        <Header />
+        <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-red-50 flex items-center justify-center">
+          <div className="text-center">
+            <BookOpen className="h-24 w-24 text-amber-600 mx-auto mb-6" />
+            <h1 className="text-3xl font-bold text-amber-900 mb-4">Tradition Not Found</h1>
+            <p className="text-amber-700 mb-6">The spiritual tradition you're looking for doesn't exist.</p>
+            <Link href="/traditions">
+              <Button variant="outline" className="border-amber-600 text-amber-600 hover:bg-amber-50">
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to Traditions
+              </Button>
+            </Link>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
   return (
     <>
       <Header />
@@ -190,9 +213,9 @@ export default function TraditionDetail() {
               <CardContent>
                 <div className="bg-gradient-to-br from-white/80 to-white/60 rounded-lg p-8 text-center border border-earth-200">
                   <div className="text-6xl mb-4">📜</div>
-                  <p className="text-earth-800 font-semibold text-xl mb-2">{tradition.manuscriptStyle}</p>
+                  <p className="text-earth-800 font-semibold text-xl mb-2">{tradition.manuscriptStyle || 'Ancient Script'}</p>
                   <p className="text-earth-600 leading-relaxed">
-                    Traditional manuscripts of {tradition.name} were created using {tradition.manuscriptStyle.toLowerCase()} techniques, preserving sacred wisdom through centuries.
+                    Traditional manuscripts of {tradition.name} were created using {(tradition.manuscriptStyle || 'traditional').toLowerCase()} techniques, preserving sacred wisdom through centuries.
                   </p>
                 </div>
               </CardContent>
