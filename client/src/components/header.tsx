@@ -67,15 +67,15 @@ export default function Header() {
     <header className="bg-white dark:bg-gray-900 shadow-sm border-b border-stone-200 dark:border-gray-700 sticky top-0 z-50">
       <div className="max-w-6xl mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          <Link href="/" className="flex items-center space-x-3">
-            <div className="w-10 h-10 bg-gradient-to-br from-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-md">
-              <Scroll className="text-white w-5 h-5" />
+          <Link href="/" className="flex items-center space-x-4">
+            <div className="w-12 h-12 bg-gradient-to-br from-stone-600 to-amber-700 rounded-lg flex items-center justify-center shadow-md">
+              <Scroll className="text-white w-6 h-6" />
             </div>
-            <div>
-              <h1 className="text-xl font-serif font-semibold text-stone-800 dark:text-stone-200">
+            <div className="flex flex-col justify-center">
+              <h1 className="text-2xl font-serif font-semibold text-stone-800 dark:text-stone-200 leading-tight">
                 Daily Spiritual Lessons
               </h1>
-              <p className="text-sm text-stone-600 dark:text-stone-400">Wisdom for Every Day</p>
+              <p className="text-sm text-stone-600 dark:text-stone-400 -mt-1">Wisdom for Every Day</p>
             </div>
           </Link>
           
