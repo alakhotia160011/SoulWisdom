@@ -82,8 +82,8 @@ export class DatabaseBackup {
 
   listBackups(): string[] {
     try {
-      const fs = require('fs');
-      const files = fs.readdirSync(this.backupDir);
+      const { readdirSync } = require('fs');
+      const files = readdirSync(this.backupDir);
       return files.filter((file: string) => file.startsWith('backup-') && file.endsWith('.json'));
     } catch (error) {
       console.error("Failed to list backups:", error);
