@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { BookOpen, Home, ArrowLeft } from "lucide-react";
+import { BookOpen } from "lucide-react";
 import { Link } from "wouter";
-import { Button } from "@/components/ui/button";
+import Header from "@/components/header";
 
 interface Tradition {
   id: number;
@@ -123,22 +123,8 @@ export default function Traditions() {
 
   return (
     <div className="min-h-screen bg-earth-50">
+      <Header />
       <div className="container mx-auto px-4 py-16 max-w-6xl">
-        
-        {/* Breadcrumb Navigation */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-2 text-sm text-earth-600">
-            <Link href="/" className="hover:text-earth-800 transition-colors">Home</Link>
-            <span>/</span>
-            <span className="text-earth-900 font-medium">Traditions</span>
-          </div>
-          <Link href="/">
-            <Button variant="outline" className="border-earth-300 text-earth-700 hover:bg-earth-100">
-              <Home className="w-4 h-4 mr-2" />
-              Today's Lesson
-            </Button>
-          </Link>
-        </div>
         
         <div className="text-center mb-12">
           <h1 className="text-4xl md:text-5xl font-display text-earth-900 mb-4">
