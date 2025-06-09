@@ -35,21 +35,83 @@ export default function Traditions() {
     return '◈';
   };
 
+  const getTraditionColors = (slug: string) => {
+    const colorMap = {
+      'bible': {
+        background: 'from-blue-50 to-blue-100',
+        border: 'border-blue-200',
+        iconBg: 'bg-blue-800',
+        textColor: 'text-blue-900',
+        hoverBg: 'hover:from-blue-100 hover:to-blue-150'
+      },
+      'quran': {
+        background: 'from-green-50 to-green-100',
+        border: 'border-green-200',
+        iconBg: 'bg-green-800',
+        textColor: 'text-green-900',
+        hoverBg: 'hover:from-green-100 hover:to-green-150'
+      },
+      'bhagavad-gita': {
+        background: 'from-orange-50 to-orange-100',
+        border: 'border-orange-200',
+        iconBg: 'bg-orange-800',
+        textColor: 'text-orange-900',
+        hoverBg: 'hover:from-orange-100 hover:to-orange-150'
+      },
+      'dhammapada': {
+        background: 'from-purple-50 to-purple-100',
+        border: 'border-purple-200',
+        iconBg: 'bg-purple-800',
+        textColor: 'text-purple-900',
+        hoverBg: 'hover:from-purple-100 hover:to-purple-150'
+      },
+      'tao-te-ching': {
+        background: 'from-gray-50 to-gray-100',
+        border: 'border-gray-200',
+        iconBg: 'bg-gray-800',
+        textColor: 'text-gray-900',
+        hoverBg: 'hover:from-gray-100 hover:to-gray-150'
+      },
+      'upanishads': {
+        background: 'from-yellow-50 to-yellow-100',
+        border: 'border-yellow-200',
+        iconBg: 'bg-yellow-800',
+        textColor: 'text-yellow-900',
+        hoverBg: 'hover:from-yellow-100 hover:to-yellow-150'
+      },
+      'talmud': {
+        background: 'from-indigo-50 to-indigo-100',
+        border: 'border-indigo-200',
+        iconBg: 'bg-indigo-800',
+        textColor: 'text-indigo-900',
+        hoverBg: 'hover:from-indigo-100 hover:to-indigo-150'
+      }
+    };
+    
+    return colorMap[slug as keyof typeof colorMap] || {
+      background: 'from-earth-50 to-earth-100',
+      border: 'border-earth-200',
+      iconBg: 'bg-earth-800',
+      textColor: 'text-earth-900',
+      hoverBg: 'hover:from-earth-100 hover:to-earth-150'
+    };
+  };
+
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-stone-100 dark:from-gray-900 dark:to-gray-800">
+      <div className="min-h-screen bg-earth-50">
         <div className="container mx-auto px-4 py-16 max-w-6xl">
           <div className="text-center mb-12">
-            <div className="h-12 bg-stone-200 dark:bg-gray-700 rounded w-64 mx-auto mb-4 animate-pulse"></div>
-            <div className="h-6 bg-stone-100 dark:bg-gray-600 rounded w-96 mx-auto animate-pulse"></div>
+            <div className="h-12 bg-earth-200 rounded w-64 mx-auto mb-4 animate-pulse"></div>
+            <div className="h-6 bg-earth-100 rounded w-96 mx-auto animate-pulse"></div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {Array.from({ length: 7 }).map((_, i) => (
-              <div key={i} className="bg-white dark:bg-gray-800 rounded-lg shadow-lg p-8 animate-pulse">
-                <div className="h-6 bg-stone-200 dark:bg-gray-700 rounded w-3/4 mb-4"></div>
-                <div className="h-4 bg-stone-100 dark:bg-gray-600 rounded w-full mb-2"></div>
-                <div className="h-4 bg-stone-100 dark:bg-gray-600 rounded w-2/3 mb-6"></div>
-                <div className="h-10 bg-stone-200 dark:bg-gray-700 rounded w-full"></div>
+              <div key={i} className="bg-white rounded-lg shadow-lg p-8 animate-pulse border border-earth-100">
+                <div className="h-6 bg-earth-200 rounded w-3/4 mb-4"></div>
+                <div className="h-4 bg-earth-100 rounded w-full mb-2"></div>
+                <div className="h-4 bg-earth-100 rounded w-2/3 mb-6"></div>
+                <div className="h-10 bg-earth-200 rounded w-full"></div>
               </div>
             ))}
           </div>
@@ -59,42 +121,45 @@ export default function Traditions() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-stone-100 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-earth-50">
       <div className="container mx-auto px-4 py-16 max-w-6xl">
         
         <div className="text-center mb-12">
-          <h1 className="text-4xl md:text-5xl font-serif text-stone-800 dark:text-stone-200 mb-4">
+          <h1 className="text-4xl md:text-5xl font-display text-earth-900 mb-4">
             Sacred Traditions
           </h1>
-          <div className="w-24 h-1 bg-stone-600 dark:bg-stone-400 mx-auto mb-8"></div>
-          <p className="text-lg text-gray-600 dark:text-gray-400 max-w-3xl mx-auto leading-relaxed">
+          <div className="w-24 h-1 bg-earth-600 mx-auto mb-8"></div>
+          <p className="text-lg text-earth-700 max-w-3xl mx-auto leading-relaxed">
             Explore the profound wisdom of seven major spiritual traditions that form the foundation 
             of our daily lessons. Each tradition offers unique insights into the deepest questions of existence.
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {traditions?.map((tradition) => (
-            <Link key={tradition.id} href={`/tradition/${tradition.slug}`}>
-              <div className="bg-white dark:bg-gray-800 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 p-8 cursor-pointer group hover:-translate-y-1">
-                <div className="text-center mb-6">
-                  <div className="w-16 h-16 bg-stone-800 dark:bg-white text-white dark:text-stone-800 rounded-full flex items-center justify-center text-2xl mb-4 mx-auto shadow-lg">
-                    {getIconSymbol(tradition.icon)}
-                  </div>
-                  <h3 className="text-xl font-serif text-stone-700 dark:text-stone-300 mb-2">
-                    {tradition.name}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 text-sm mb-4">
-                    {tradition.description}
-                  </p>
-                  <div className="flex items-center justify-center text-stone-600 dark:text-stone-400 text-sm">
-                    <BookOpen className="w-4 h-4 mr-1" />
-                    <span>{tradition.lessonCount} lessons</span>
+          {traditions?.map((tradition) => {
+            const colors = getTraditionColors(tradition.slug);
+            return (
+              <Link key={tradition.id} href={`/tradition/${tradition.slug}`}>
+                <div className={`bg-gradient-to-br ${colors.background} ${colors.hoverBg} rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 p-8 cursor-pointer group hover:-translate-y-1 border ${colors.border}`}>
+                  <div className="text-center mb-6">
+                    <div className={`w-16 h-16 ${colors.iconBg} text-white rounded-lg flex items-center justify-center text-2xl mb-4 mx-auto shadow-lg`}>
+                      {getIconSymbol(tradition.icon)}
+                    </div>
+                    <h3 className={`text-xl font-display ${colors.textColor} mb-2`}>
+                      {tradition.name}
+                    </h3>
+                    <p className="text-gray-600 text-sm mb-4">
+                      {tradition.description}
+                    </p>
+                    <div className={`flex items-center justify-center ${colors.textColor} text-sm`}>
+                      <BookOpen className="w-4 h-4 mr-1" />
+                      <span>{tradition.lessonCount} lessons</span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            </Link>
-          ))}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="mt-16"></div>

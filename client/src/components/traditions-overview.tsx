@@ -98,74 +98,18 @@ export default function TraditionsOverview() {
     queryKey: ["/api/traditions"],
   });
 
-  const getTraditionColorClasses = (slug: string) => {
+  const getTraditionColorClasses = (color: string) => {
     const colorMap = {
-      'bible': {
-        background: 'bg-gradient-to-br from-blue-50 to-blue-100',
-        border: 'border-blue-200',
-        iconBg: 'bg-blue-800',
-        textColor: 'text-blue-900',
-        badgeBg: 'bg-blue-100',
-        badgeText: 'text-blue-800'
-      },
-      'quran': {
-        background: 'bg-gradient-to-br from-green-50 to-green-100',
-        border: 'border-green-200',
-        iconBg: 'bg-green-800',
-        textColor: 'text-green-900',
-        badgeBg: 'bg-green-100',
-        badgeText: 'text-green-800'
-      },
-      'bhagavad-gita': {
-        background: 'bg-gradient-to-br from-orange-50 to-orange-100',
-        border: 'border-orange-200',
-        iconBg: 'bg-orange-800',
-        textColor: 'text-orange-900',
-        badgeBg: 'bg-orange-100',
-        badgeText: 'text-orange-800'
-      },
-      'dhammapada': {
-        background: 'bg-gradient-to-br from-purple-50 to-purple-100',
-        border: 'border-purple-200',
-        iconBg: 'bg-purple-800',
-        textColor: 'text-purple-900',
-        badgeBg: 'bg-purple-100',
-        badgeText: 'text-purple-800'
-      },
-      'tao-te-ching': {
-        background: 'bg-gradient-to-br from-gray-50 to-gray-100',
-        border: 'border-gray-200',
-        iconBg: 'bg-gray-800',
-        textColor: 'text-gray-900',
-        badgeBg: 'bg-gray-100',
-        badgeText: 'text-gray-800'
-      },
-      'upanishads': {
-        background: 'bg-gradient-to-br from-yellow-50 to-yellow-100',
-        border: 'border-yellow-200',
-        iconBg: 'bg-yellow-800',
-        textColor: 'text-yellow-900',
-        badgeBg: 'bg-yellow-100',
-        badgeText: 'text-yellow-800'
-      },
-      'talmud': {
-        background: 'bg-gradient-to-br from-indigo-50 to-indigo-100',
-        border: 'border-indigo-200',
-        iconBg: 'bg-indigo-800',
-        textColor: 'text-indigo-900',
-        badgeBg: 'bg-indigo-100',
-        badgeText: 'text-indigo-800'
-      }
+      blue: "bg-blue-800",
+      green: "bg-green-800", 
+      orange: "bg-orange-800",
+      purple: "bg-purple-800",
+      gray: "bg-gray-800",
+      yellow: "bg-yellow-800",
+      indigo: "bg-indigo-800"
     };
     
-    return colorMap[slug as keyof typeof colorMap] || {
-      background: 'bg-gradient-to-br from-earth-50 to-earth-100',
-      border: 'border-earth-200',
-      iconBg: 'bg-earth-800',
-      textColor: 'text-earth-900',
-      badgeBg: 'bg-earth-100',
-      badgeText: 'text-earth-800'
-    };
+    return colorMap[color as keyof typeof colorMap] || "bg-earth-800";
   };
 
   if (isLoading) {
@@ -209,11 +153,11 @@ export default function TraditionsOverview() {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {traditions?.map((tradition) => {
-            const colorClasses = getTraditionColorClasses(tradition.slug);
+            const iconBgColor = getTraditionColorClasses(tradition.color);
             
             return (
-              <Card key={tradition.id} className="group hover:shadow-lg transition-shadow overflow-hidden">
-                <CardContent className={`p-6 ${colorClasses.background} border ${colorClasses.border}`}>
+              <Card key={tradition.id} className="group hover:shadow-lg transition-shadow bg-white border-earth-100">
+                <CardContent className="p-6">
                   <div className="text-center relative">
                     <div className="absolute top-0 right-0 z-10">
                       <Dialog>
@@ -225,7 +169,7 @@ export default function TraditionsOverview() {
                         <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
                           <DialogHeader>
                             <DialogTitle className="text-2xl font-display flex items-center gap-3">
-                              <div className={`w-10 h-10 ${colorClasses.iconBg} rounded-lg flex items-center justify-center shadow-lg`}>
+                              <div className={`w-10 h-10 ${iconBgColor} rounded-lg flex items-center justify-center shadow-lg`}>
                                 <span className="text-white text-lg font-bold drop-shadow-md">
                                   {getIconSymbol(tradition.slug)}
                                 </span>
@@ -294,7 +238,7 @@ export default function TraditionsOverview() {
                     </div>
                     
                     <div className="mb-4">
-                      <div className={`w-12 h-12 ${colorClasses.iconBg} rounded-lg flex items-center justify-center shadow-lg mx-auto`}>
+                      <div className={`w-12 h-12 ${iconBgColor} rounded-lg flex items-center justify-center shadow-lg mx-auto`}>
                         <span className="text-white text-xl font-bold drop-shadow-md">
                           {getIconSymbol(tradition.slug)}
                         </span>
@@ -302,13 +246,13 @@ export default function TraditionsOverview() {
                     </div>
                     
                     <Link href={`/archive/${tradition.slug}`} className="block">
-                      <h3 className={`font-display font-semibold ${colorClasses.textColor} mb-2 hover:opacity-80 transition-opacity`}>
+                      <h3 className="font-display font-semibold text-earth-900 mb-2 hover:text-earth-700 transition-colors">
                         {tradition.name}
                       </h3>
-                      <p className="text-sm text-gray-600 mb-3">
+                      <p className="text-sm text-earth-600 mb-3">
                         {tradition.description}
                       </p>
-                      <div className={`text-xs font-semibold ${colorClasses.badgeText} ${colorClasses.badgeBg} px-3 py-1 rounded-full inline-block border ${colorClasses.border}`}>
+                      <div className="text-xs font-semibold text-earth-700 bg-earth-100 px-3 py-1 rounded-full inline-block border border-earth-200">
                         {tradition.lessonCount} lessons
                       </div>
                     </Link>
