@@ -12,10 +12,12 @@ export default function TodaysLesson() {
   });
 
   const formatDate = (date: string) => {
+    // Format date in user's local timezone
     return new Date(date).toLocaleDateString('en-US', { 
       year: 'numeric', 
       month: 'long', 
-      day: 'numeric' 
+      day: 'numeric',
+      timeZone: Intl.DateTimeFormat().resolvedOptions().timeZone
     });
   };
 
