@@ -15,7 +15,7 @@ import {
   type TraditionWithCount
 } from "@shared/schema";
 import { db } from "./db";
-import { eq, desc, like, count, and, gte, lte, or } from "drizzle-orm";
+import { eq, desc, like, count, and, gte, lte, lt, or } from "drizzle-orm";
 
 export interface IStorage {
   // Traditions
@@ -316,8 +316,24 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getTodaysLesson(): Promise<LessonWithDetails | undefined> {
-    // Get the most recent lesson instead of filtering by exact date
-    // This ensures we always have a lesson to display
+    // Get today's date in EST timezone
+    const estToday = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
+    const estStartOfDay = new Date(estToday.getFullYear(), estToday.getMonth(), estToday.getDate());
+    const estEndOfDay = new Date(estToday.getFullYear(), estToday.getMonth(), estToday.getDate() + 1);
+
+    // First try to find a lesson created today in EST
+    const [todaysLesson] = await db
+      .select()
+      .from(lessons)
+      .where(and(gte(lessons.date, estStartOfDay), lt(lessons.date, estEndOfDay)))
+      .orderBy(desc(lessons.date))
+      .limit(1);
+
+    if (todaysLesson) {
+      return this.buildLessonWithDetails(todaysLesson);
+    }
+
+    // If no lesson for today, return the most recent lesson
     const [lesson] = await db
       .select()
       .from(lessons)

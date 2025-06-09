@@ -19,7 +19,7 @@ class DailyScheduler {
     }
 
     this.isRunning = true;
-    console.log(`Daily lesson scheduler started - will generate lessons at ${this.scheduledTime.hour}:${this.scheduledTime.minute.toString().padStart(2, '0')}`);
+    console.log(`Daily lesson scheduler started - will generate lessons at ${this.scheduledTime.hour}:${this.scheduledTime.minute.toString().padStart(2, '0')} EST (New York time)`);
 
     // Check every minute if it's time to generate a lesson
     this.intervalId = setInterval(() => {
@@ -37,9 +37,11 @@ class DailyScheduler {
   }
 
   private async checkAndGenerateLesson() {
+    // Use New York timezone (EST/EDT)
     const now = new Date();
-    const isScheduledTime = now.getHours() === this.scheduledTime.hour && 
-                           now.getMinutes() === this.scheduledTime.minute;
+    const nyTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+    const isScheduledTime = nyTime.getHours() === this.scheduledTime.hour && 
+                           nyTime.getMinutes() === this.scheduledTime.minute;
 
     if (isScheduledTime) {
       await this.generateLessonIfNeeded();

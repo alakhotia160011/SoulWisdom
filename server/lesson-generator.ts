@@ -159,7 +159,8 @@ async function createLessonFromPassage(storage: IStorage, passageData: any) {
     // Generate lesson content with AI artwork
     const lessonContent = await generateLessonContent(passageData);
     
-    // Create the lesson
+    // Create the lesson using EST timezone
+    const estDate = new Date(new Date().toLocaleString("en-US", {timeZone: "America/New_York"}));
     const lesson = await storage.createLesson({
       passageId: targetPassage.id,
       title: lessonContent.title,
@@ -167,7 +168,7 @@ async function createLessonFromPassage(storage: IStorage, passageData: any) {
       lifeLesson: lessonContent.lifeLesson,
       artworkUrl: lessonContent.artworkUrl,
       artworkDescription: lessonContent.artworkDescription,
-      date: new Date(),
+      date: estDate,
       isGenerated: true
     });
 
