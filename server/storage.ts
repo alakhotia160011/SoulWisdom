@@ -316,14 +316,11 @@ export class DatabaseStorage implements IStorage {
   }
 
   async getTodaysLesson(): Promise<LessonWithDetails | undefined> {
-    const today = new Date();
-    const startOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate());
-    const endOfDay = new Date(today.getFullYear(), today.getMonth(), today.getDate() + 1);
-
+    // Get the most recent lesson instead of filtering by exact date
+    // This ensures we always have a lesson to display
     const [lesson] = await db
       .select()
       .from(lessons)
-      .where(and(gte(lessons.date, startOfDay), lte(lessons.date, endOfDay)))
       .orderBy(desc(lessons.date))
       .limit(1);
 
