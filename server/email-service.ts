@@ -472,6 +472,55 @@ Wisdom from sacred traditions delivered to your inbox
 To unsubscribe, reply with "unsubscribe" in the subject line.
     `.trim();
   }
+
+  async sendNewSubscriberNotification(subscriberEmail: string): Promise<boolean> {
+    try {
+      const mailOptions = {
+        from: {
+          name: 'Daily Spiritual Lessons',
+          address: EMAIL_CONFIG.EMAIL_ADDRESS
+        },
+        to: "ary.lakhotia@gmail.com",
+        subject: "New Subscriber - Daily Spiritual Lessons",
+        text: `A new subscriber has joined Daily Spiritual Lessons: ${subscriberEmail}`,
+        html: `
+          <div style="font-family: Georgia, serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h1 style="color: #8b7355; text-align: center; margin-bottom: 30px;">New Subscriber Alert</h1>
+            <div style="background-color: #f8f6f3; padding: 20px; border-radius: 8px; border-left: 4px solid #8b7355; margin-bottom: 20px;">
+              <h2 style="color: #333; margin-top: 0;">Subscriber Details</h2>
+              <p style="margin: 10px 0; font-size: 16px; color: #333;">
+                <strong>Email:</strong> ${subscriberEmail}
+              </p>
+              <p style="margin: 10px 0; color: #666; font-size: 14px;">
+                <strong>Subscribed on:</strong> ${new Date().toLocaleString('en-US', { 
+                  timeZone: 'America/New_York',
+                  weekday: 'long',
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                  timeZoneName: 'short'
+                })}
+              </p>
+            </div>
+            <p style="color: #666; font-size: 14px; text-align: center; border-top: 1px solid #ddd; padding-top: 15px; margin-top: 30px;">
+              Daily Spiritual Lessons - Admin Notification System
+            </p>
+          </div>
+        `
+      };
+
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log(`✓ New subscriber notification sent to admin`);
+      console.log(`Message ID: ${info.messageId}`);
+      
+      return true;
+    } catch (error) {
+      console.error("Failed to send new subscriber notification:", error);
+      return false;
+    }
+  }
 }
 
 export const emailService = new EmailService();

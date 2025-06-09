@@ -225,6 +225,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.error("Error sending welcome email:", emailError);
         // Don't fail the subscription if welcome email fails
       }
+
+      // Send admin notification about new subscriber
+      try {
+        const adminNotificationSent = await emailService.sendNewSubscriberNotification(subscription.email);
+        
+        if (adminNotificationSent) {
+          console.log(`✓ Admin notification sent for new subscriber: ${subscription.email}`);
+        } else {
+          console.log(`⚠ Admin notification failed for new subscriber: ${subscription.email}`);
+        }
+      } catch (adminEmailError) {
+        console.error("Error sending admin notification:", adminEmailError);
+        // Don't fail the subscription if admin notification fails
+      }
       
       res.status(201).json({ 
         message: "Successfully subscribed! Welcome email sent.", 
