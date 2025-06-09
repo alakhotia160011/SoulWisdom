@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { BookOpen } from "lucide-react";
 import { Link } from "wouter";
 import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 interface Tradition {
   id: number;

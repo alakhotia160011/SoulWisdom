@@ -1,6 +1,7 @@
 import { aboutContent } from "@/lib/about-content";
 import profileImage from "@assets/Aryamaan_Lakhotia_1749416191319.jpg";
 import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 export default function About() {
   return (
@@ -110,6 +111,7 @@ export default function About() {
         {/* Bottom spacing */}
         <div className="mt-16"></div>
       </div>
+      <Footer />
     </div>
   );
 }
