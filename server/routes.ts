@@ -363,6 +363,44 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Send immediate test email
+  app.post("/api/send-test-email-now", async (req, res) => {
+    try {
+      const { email } = req.body;
+      
+      if (!email) {
+        return res.status(400).json({ message: "Email address required" });
+      }
+
+      // Get today's lesson
+      const todaysLesson = await storage.getTodaysLesson();
+      if (!todaysLesson) {
+        return res.status(404).json({ message: "No lesson available" });
+      }
+
+      // Send the lesson email immediately
+      const emailSent = await emailService.sendDailyLesson(todaysLesson, [{ 
+        id: 999, 
+        email: email, 
+        isActive: true, 
+        createdAt: new Date() 
+      }]);
+
+      if (emailSent) {
+        res.json({ 
+          message: `Test email sent immediately to ${email}`,
+          lesson: todaysLesson.title,
+          targetEmail: email
+        });
+      } else {
+        res.status(500).json({ message: "Failed to send test email" });
+      }
+    } catch (error) {
+      console.error("Error sending immediate test email:", error);
+      res.status(500).json({ message: "Failed to send test email" });
+    }
+  });
+
   app.get("/api/backup/list", async (req, res) => {
     try {
       const backups = backupService.listBackups();
