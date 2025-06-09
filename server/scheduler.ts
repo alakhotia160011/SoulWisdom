@@ -7,9 +7,16 @@ class DailyScheduler {
   private scheduledTime: { hour: number; minute: number };
   private isRunning: boolean = false;
   private intervalId: NodeJS.Timeout | null = null;
+  private testSchedules: Array<{ hour: number; minute: number; email: string; executed: boolean }> = [];
 
   constructor(hour: number = 6, minute: number = 0) {
     this.scheduledTime = { hour, minute };
+  }
+
+  // Add a one-time test email schedule
+  scheduleTestEmail(hour: number, minute: number, email: string) {
+    this.testSchedules.push({ hour, minute, email, executed: false });
+    console.log(`✓ Test email scheduled for ${hour}:${minute.toString().padStart(2, '0')} EST to ${email}`);
   }
 
   start() {
@@ -40,11 +47,54 @@ class DailyScheduler {
     // Use New York timezone (EST/EDT)
     const now = new Date();
     const nyTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
-    const isScheduledTime = nyTime.getHours() === this.scheduledTime.hour && 
-                           nyTime.getMinutes() === this.scheduledTime.minute;
+    const currentHour = nyTime.getHours();
+    const currentMinute = nyTime.getMinutes();
+    
+    // Check regular daily lesson schedule
+    const isScheduledTime = currentHour === this.scheduledTime.hour && 
+                           currentMinute === this.scheduledTime.minute;
 
     if (isScheduledTime) {
       await this.generateLessonIfNeeded();
+    }
+
+    // Check test email schedules
+    for (const testSchedule of this.testSchedules) {
+      if (!testSchedule.executed && 
+          currentHour === testSchedule.hour && 
+          currentMinute === testSchedule.minute) {
+        await this.sendTestLessonEmail(testSchedule.email);
+        testSchedule.executed = true;
+      }
+    }
+  }
+
+  private async sendTestLessonEmail(email: string) {
+    try {
+      console.log(`Sending test lesson email to ${email}...`);
+      
+      // Get today's lesson
+      const todaysLesson = await storage.getTodaysLesson();
+      if (!todaysLesson) {
+        console.error("No lesson available for test email");
+        return;
+      }
+
+      // Send the lesson email to the specified address
+      const emailSent = await emailService.sendDailyLesson(todaysLesson, [{ 
+        id: 999, 
+        email: email, 
+        isActive: true, 
+        createdAt: new Date() 
+      }]);
+
+      if (emailSent) {
+        console.log(`✓ Test lesson email sent successfully to ${email}`);
+      } else {
+        console.error(`✗ Failed to send test lesson email to ${email}`);
+      }
+    } catch (error) {
+      console.error("Error sending test lesson email:", error);
     }
   }
 

@@ -6,7 +6,7 @@ import { storage } from "./storage";
 import { insertSubscriptionSchema } from "@shared/schema";
 import { generateTodaysLesson, generateDemoLessons } from "./lesson-generator";
 import { generateArtworkForLesson } from "./artwork-generator";
-import { getTodaysEmailTemplate, getSubscriberEmailList } from "./scheduler";
+import { getTodaysEmailTemplate, getSubscriberEmailList, dailyScheduler } from "./scheduler";
 import { generateSocialCard } from "./social-cards";
 import { emailService } from "./email-service";
 import { backupService } from "./backup";
@@ -338,6 +338,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error creating backup:", error);
       res.status(500).json({ message: "Failed to create backup" });
+    }
+  });
+
+  // Schedule test email
+  app.post("/api/schedule-test-email", async (req, res) => {
+    try {
+      const { hour, minute, email } = req.body;
+      
+      if (!hour || !minute || !email) {
+        return res.status(400).json({ message: "Missing required fields: hour, minute, email" });
+      }
+
+      dailyScheduler.scheduleTestEmail(hour, minute, email);
+      
+      res.json({ 
+        message: `Test email scheduled for ${hour}:${minute.toString().padStart(2, '0')} EST to ${email}`,
+        scheduledTime: `${hour}:${minute.toString().padStart(2, '0')} EST`,
+        targetEmail: email
+      });
+    } catch (error) {
+      console.error("Error scheduling test email:", error);
+      res.status(500).json({ message: "Failed to schedule test email" });
     }
   });
 
