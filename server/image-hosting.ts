@@ -44,9 +44,8 @@ export class ImageHostingService {
       return artworkUrl;
     }
 
-    // For deployment, use environment-specific base URL
-    const baseUrl = process.env.RENDER_EXTERNAL_URL || 
-                   (process.env.REPLIT_DEV_DOMAIN ? `https://${process.env.REPLIT_DEV_DOMAIN}` : 'http://localhost:5000');
+    // Use the permanent Replit URL for images
+    const baseUrl = 'https://replit.com/@arylakhotia/SoulWisdom';
     
     return `${baseUrl}${artworkUrl}`;
   }

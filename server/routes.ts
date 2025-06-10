@@ -297,7 +297,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Send today's lesson email manually
+  // Send today's lesson email manually to all subscribers
   app.post("/api/email/send", async (req, res) => {
     try {
       const todaysLesson = await storage.getTodaysLesson();
@@ -324,6 +324,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error sending daily lesson email:", error);
       res.status(500).json({ message: "Failed to send daily lesson email" });
+    }
+  });
+
+  // Send test lesson email to admin only
+  app.post("/api/email/send-test", async (req, res) => {
+    try {
+      const todaysLesson = await storage.getTodaysLesson();
+      if (!todaysLesson) {
+        return res.status(404).json({ message: "No lesson available to send" });
+      }
+
+      // Create a test subscriber for admin email only
+      const testSubscriber = { email: "ary.lakhotia@gmail.com", id: 999, isActive: true, createdAt: new Date() };
+      const emailSent = await emailService.sendDailyLesson(todaysLesson, [testSubscriber]);
+      
+      if (emailSent) {
+        res.json({ 
+          message: "Test lesson email sent successfully to ary.lakhotia@gmail.com",
+          lessonTitle: todaysLesson.title
+        });
+      } else {
+        res.status(500).json({ message: "Failed to send test lesson email" });
+      }
+    } catch (error) {
+      console.error("Error sending test lesson email:", error);
+      res.status(500).json({ message: "Failed to send test lesson email" });
     }
   });
 

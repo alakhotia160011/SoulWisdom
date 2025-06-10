@@ -1,6 +1,5 @@
 import nodemailer from 'nodemailer';
 import type { LessonWithDetails, Subscription } from '@shared/schema';
-import { ImageHostingService } from './image-hosting.js';
 
 const EMAIL_CONFIG = {
   EMAIL_HOST: "smtp.gmail.com",
@@ -508,13 +507,7 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
       return artworkUrl;
     }
 
-    // Try to convert to base64 data URL for reliable email display
-    const dataUrl = ImageHostingService.convertImageToDataUrl(artworkUrl);
-    if (dataUrl) {
-      return dataUrl;
-    }
-
-    // Fallback to stable URL
+    // Use stable URL for deployment
     return ImageHostingService.getStableImageUrl(artworkUrl);
   }
 
