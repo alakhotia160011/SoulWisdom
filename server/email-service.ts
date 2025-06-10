@@ -507,8 +507,14 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
       return artworkUrl;
     }
 
-    // Use stable URL for deployment
-    return ImageHostingService.getStableImageUrl(artworkUrl);
+    // For emails, use a cloud image hosting service that's always accessible
+    // Extract lesson ID from filename for consistent seeding
+    const filename = artworkUrl.split('/').pop() || '';
+    const lessonMatch = filename.match(/lesson-(\d+)/);
+    const seed = lessonMatch ? lessonMatch[1] : '1';
+    
+    // Use Unsplash with consistent seed for spiritual/nature images
+    return `https://source.unsplash.com/800x600/?spiritual,nature,meditation,peaceful&sig=${seed}`;
   }
 
   async sendNewSubscriberNotification(subscriberEmail: string): Promise<boolean> {
