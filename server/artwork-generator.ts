@@ -85,7 +85,7 @@ Avoid: Modern elements, contemporary style, photorealistic people, inappropriate
       throw new Error("No image URL returned from OpenAI");
     }
 
-    // Download and save the image to permanent storage
+    // Save image locally for backup and return permanent OpenAI URL for emails
     const imageUrl = response.data[0].url;
     const filename = `lesson-${traditionId}-${Date.now()}.png`;
     const localPath = path.join(artworkDir, filename);
@@ -96,9 +96,12 @@ Avoid: Modern elements, contemporary style, photorealistic people, inappropriate
       fs.writeFileSync(localPath, Buffer.from(imageBuffer));
       
       console.log(`Artwork saved to: ${localPath}`);
+      console.log(`Using permanent OpenAI URL for emails: ${imageUrl}`);
       
+      // Return OpenAI URL for emails (permanent) and local URL for website
       return {
-        url: `/artwork/${filename}`,
+        url: imageUrl, // Use permanent OpenAI URL
+        localUrl: `/artwork/${filename}`, // Local backup for website
         description: `${tradition.style} artwork depicting ${storyTitle}`
       };
     } catch (downloadError) {
@@ -106,6 +109,7 @@ Avoid: Modern elements, contemporary style, photorealistic people, inappropriate
       // Return original URL if download fails
       return {
         url: imageUrl,
+        localUrl: imageUrl,
         description: `${tradition.style} artwork depicting ${storyTitle}`
       };
     }

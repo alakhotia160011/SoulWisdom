@@ -245,7 +245,7 @@ class EmailService {
         </div>
 
         <div class="artwork">
-            <img src="https://${process.env.RENDER_EXTERNAL_URL || process.env.REPLIT_DEV_DOMAIN || 'localhost:5000'}${lesson.artworkUrl}" alt="${lesson.artworkDescription}" />
+            <img src="${lesson.artworkUrl.startsWith('http') ? lesson.artworkUrl : `https://${process.env.RENDER_EXTERNAL_URL || process.env.REPLIT_DEV_DOMAIN || 'localhost:5000'}${lesson.artworkUrl}`}" alt="${lesson.artworkDescription}" />
             <p style="font-style: italic; color: #666; font-size: 14px; margin-top: 10px;">
                 ${lesson.artworkDescription}
             </p>
