@@ -1,6 +1,8 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
+// @ts-ignore
+import { keepAlive } from "../keep-alive.js";
 import { dailyScheduler } from "./scheduler";
 import { backupService } from "./backup";
 
@@ -75,6 +77,12 @@ app.use((req, res, next) => {
       await backupService.scheduleAutoBackup();
     } catch (error) {
       console.error("Failed to initialize backup service:", error);
+    }
+
+    // Start keep-alive service for 24/7 operation
+    if (process.env.NODE_ENV === 'production') {
+      keepAlive();
+      log("Keep-alive service started for 24/7 operation");
     }
   });
 })();
