@@ -262,8 +262,8 @@ class EmailService {
         </div>
 
         <div class="button-container">
-            <a href="https://${process.env.REPLIT_DEV_DOMAIN || 'localhost:5000'}/lesson/${lesson.id}" class="website-button">
-                View Today's Lesson Online
+            <a href="https://replit.com/@arylakhotia/SoulWisdom" class="website-button">
+                Read Today's Lesson Online
             </a>
         </div>
 
@@ -298,8 +298,8 @@ ARTWORK
 ${lesson.artworkDescription}
 View artwork: ${baseUrl}${lesson.artworkUrl}
 
-VIEW TODAY'S LESSON ONLINE
-${baseUrl}/lesson/${lesson.id}
+READ TODAY'S LESSON ONLINE
+https://replit.com/@arylakhotia/SoulWisdom
 
 ---
 Daily Spiritual Lessons
