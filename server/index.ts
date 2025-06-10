@@ -1,8 +1,7 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-// @ts-ignore
-import { keepAlive } from "../keep-alive.js";
+// Keep-alive functionality will be handled by Replit deployment system
 import { dailyScheduler } from "./scheduler";
 import { backupService } from "./backup";
 
@@ -79,10 +78,7 @@ app.use((req, res, next) => {
       console.error("Failed to initialize backup service:", error);
     }
 
-    // Start keep-alive service for 24/7 operation
-    if (process.env.NODE_ENV === 'production') {
-      keepAlive();
-      log("Keep-alive service started for 24/7 operation");
-    }
+    // 24/7 operation is handled by Replit deployment system
+    log("Application ready for 24/7 deployment on Replit");
   });
 })();
