@@ -98,10 +98,9 @@ Avoid: Modern elements, contemporary style, photorealistic people, inappropriate
       console.log(`Artwork saved to: ${localPath}`);
       console.log(`Using permanent OpenAI URL for emails: ${imageUrl}`);
       
-      // Return OpenAI URL for emails (permanent) and local URL for website
+      // Return local URL for website (OpenAI URLs expire)
       return {
-        url: imageUrl, // Use permanent OpenAI URL
-        localUrl: `/artwork/${filename}`, // Local backup for website
+        url: `/artwork/${filename}`,
         description: `${tradition.style} artwork depicting ${storyTitle}`
       };
     } catch (downloadError) {
@@ -109,7 +108,6 @@ Avoid: Modern elements, contemporary style, photorealistic people, inappropriate
       // Return original URL if download fails
       return {
         url: imageUrl,
-        localUrl: imageUrl,
         description: `${tradition.style} artwork depicting ${storyTitle}`
       };
     }

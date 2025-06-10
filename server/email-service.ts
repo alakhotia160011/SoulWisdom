@@ -1,5 +1,6 @@
 import nodemailer from 'nodemailer';
 import type { LessonWithDetails, Subscription } from '@shared/schema';
+import { ImageHostingService } from './image-hosting.js';
 
 const EMAIL_CONFIG = {
   EMAIL_HOST: "smtp.gmail.com",
@@ -245,7 +246,7 @@ class EmailService {
         </div>
 
         <div class="artwork">
-            <img src="${lesson.artworkUrl.startsWith('http') ? lesson.artworkUrl : `https://${process.env.RENDER_EXTERNAL_URL || process.env.REPLIT_DEV_DOMAIN || 'localhost:5000'}${lesson.artworkUrl}`}" alt="${lesson.artworkDescription}" />
+            <img src="${this.getImageSrcForEmail(lesson.artworkUrl)}" alt="${lesson.artworkDescription}" />
             <p style="font-style: italic; color: #666; font-size: 14px; margin-top: 10px;">
                 ${lesson.artworkDescription}
             </p>
@@ -499,6 +500,22 @@ Wisdom from sacred traditions delivered to your inbox
 
 To unsubscribe, reply with "unsubscribe" in the subject line.
     `.trim();
+  }
+
+  private getImageSrcForEmail(artworkUrl: string): string {
+    // If it's already a full URL, return as is
+    if (artworkUrl.startsWith('http')) {
+      return artworkUrl;
+    }
+
+    // Try to convert to base64 data URL for reliable email display
+    const dataUrl = ImageHostingService.convertImageToDataUrl(artworkUrl);
+    if (dataUrl) {
+      return dataUrl;
+    }
+
+    // Fallback to stable URL
+    return ImageHostingService.getStableImageUrl(artworkUrl);
   }
 
   async sendNewSubscriberNotification(subscriberEmail: string): Promise<boolean> {
