@@ -76,6 +76,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Force generate new lesson for today
+  app.post("/api/lessons/generate-new", async (req, res) => {
+    try {
+      console.log("Force generating new lesson for today");
+      
+      // Get recent lessons to avoid repetition
+      const recentLessons = await storage.getRecentLessons(7);
+      const usedPassageIds = recentLessons.map(lesson => lesson.passageId);
+      
+      // Import spiritual passages
+      const { spiritualPassages } = await import("./lesson-generator");
+      
+      // Find unused passage
+      const availablePassages = spiritualPassages.filter(passage => {
+        return !usedPassageIds.includes(passage.id);
+      });
+      
+      if (availablePassages.length === 0) {
+        // If all used, pick random
+        const randomIndex = Math.floor(Math.random() * spiritualPassages.length);
+        var selectedPassage = spiritualPassages[randomIndex];
+      } else {
+        const randomIndex = Math.floor(Math.random() * availablePassages.length);
+        var selectedPassage = availablePassages[randomIndex];
+      }
+      
+      // Create lesson from passage
+      const { createLessonFromPassage } = await import("./lesson-generator");
+      const newLesson = await createLessonFromPassage(storage, selectedPassage);
+      
+      if (!newLesson) {
+        return res.status(500).json({ message: "Failed to generate new lesson" });
+      }
+
+      res.json(newLesson);
+    } catch (error) {
+      console.error("Error generating new lesson:", error);
+      res.status(500).json({ message: "Failed to generate new lesson" });
+    }
+  });
+
   // Generate lessons for all traditions (demo purposes)
   app.post("/api/lessons/generate-demo", async (req, res) => {
     try {
