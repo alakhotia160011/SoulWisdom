@@ -81,30 +81,13 @@ export async function registerRoutes(app: Express): Promise<Server> {
     try {
       console.log("Force generating new lesson for today");
       
-      // Get recent lessons to avoid repetition
-      const recentLessons = await storage.getRecentLessons(7);
-      const usedPassageIds = recentLessons.map(lesson => lesson.passageId);
+      // Delete any existing lesson for today first
+      const today = new Date().toISOString().split('T')[0];
+      await storage.db?.execute(`DELETE FROM lessons WHERE DATE(date) = '${today}'`);
       
-      // Import spiritual passages
-      const { spiritualPassages } = await import("./lesson-generator");
-      
-      // Find unused passage
-      const availablePassages = spiritualPassages.filter(passage => {
-        return !usedPassageIds.includes(passage.id);
-      });
-      
-      if (availablePassages.length === 0) {
-        // If all used, pick random
-        const randomIndex = Math.floor(Math.random() * spiritualPassages.length);
-        var selectedPassage = spiritualPassages[randomIndex];
-      } else {
-        const randomIndex = Math.floor(Math.random() * availablePassages.length);
-        var selectedPassage = availablePassages[randomIndex];
-      }
-      
-      // Create lesson from passage
-      const { createLessonFromPassage } = await import("./lesson-generator");
-      const newLesson = await createLessonFromPassage(storage, selectedPassage);
+      // Generate fresh lesson
+      const { generateTodaysLesson } = await import("./lesson-generator");
+      const newLesson = await generateTodaysLesson(storage);
       
       if (!newLesson) {
         return res.status(500).json({ message: "Failed to generate new lesson" });

@@ -9,7 +9,7 @@ interface GeneratedLessonContent {
   artworkDescription: string;
 }
 
-const spiritualPassages = [
+export const spiritualPassages = [
   {
     traditionId: 1,
     source: "Matthew 18:12-14",
@@ -138,7 +138,7 @@ export async function generateDemoLessons(storage: IStorage) {
   return lessons;
 }
 
-async function createLessonFromPassage(storage: IStorage, passageData: any) {
+export async function createLessonFromPassage(storage: IStorage, passageData: any) {
   try {
     // First, ensure the passage exists in storage
     let passage = await storage.getPassagesByTradition(passageData.traditionId);
