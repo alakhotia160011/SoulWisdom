@@ -36,6 +36,7 @@ export interface IStorage {
   getLessonsByTradition(traditionSlug: string, limit?: number, offset?: number): Promise<LessonWithDetails[]>;
   searchLessons(query: string, limit?: number, offset?: number): Promise<LessonWithDetails[]>;
   createLesson(lesson: InsertLesson): Promise<Lesson>;
+  updateLessonEmailArtwork(lessonId: number, emailArtworkUrl: string): Promise<void>;
 
   // Subscriptions
   createSubscription(subscription: InsertSubscription): Promise<Subscription>;
