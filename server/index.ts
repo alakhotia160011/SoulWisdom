@@ -39,7 +39,26 @@ app.use((req, res, next) => {
   next();
 });
 
+async function waitForDatabase(maxRetries = 30, retryDelay = 2000) {
+  for (let i = 0; i < maxRetries; i++) {
+    if (process.env.DATABASE_URL) {
+      console.log(`✓ DATABASE_URL found after ${i} attempts`);
+      return true;
+    }
+    console.log(`Waiting for DATABASE_URL... attempt ${i + 1}/${maxRetries}`);
+    await new Promise(resolve => setTimeout(resolve, retryDelay));
+  }
+  console.error("DATABASE_URL not available after maximum retries");
+  return false;
+}
+
 (async () => {
+  // Wait for database URL in production environments
+  if (process.env.NODE_ENV === "production") {
+    console.log("Production environment detected, waiting for DATABASE_URL...");
+    await waitForDatabase();
+  }
+
   const server = await registerRoutes(app);
 
   app.use((err: any, _req: Request, res: Response, _next: NextFunction) => {
