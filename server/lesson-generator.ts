@@ -6,6 +6,7 @@ interface GeneratedLessonContent {
   story: string;
   lifeLesson: string;
   artworkUrl: string;
+  emailArtworkUrl: string;
   artworkDescription: string;
 }
 

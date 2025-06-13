@@ -63,7 +63,7 @@ export async function generateArtworkForLesson(
   traditionId: number, 
   storyTitle: string, 
   storyContent: string
-): Promise<{ url: string; description: string }> {
+): Promise<{ url: string; emailUrl: string; description: string }> {
   try {
     const tradition = traditionArtworkPrompts[traditionId.toString()];
     if (!tradition) {
@@ -96,29 +96,31 @@ Avoid: Modern elements, contemporary style, photorealistic people, inappropriate
       throw new Error("No image URL returned from OpenAI");
     }
 
-    // Save image locally for backup and return permanent OpenAI URL for emails
-    const imageUrl = response.data[0].url;
+    // Save image locally for backup and return both URLs
+    const openaiUrl = response.data[0].url;
     const filename = `lesson-${traditionId}-${Date.now()}.png`;
     const localPath = path.join(artworkDir, filename);
     
     try {
-      const imageResponse = await fetch(imageUrl);
+      const imageResponse = await fetch(openaiUrl);
       const imageBuffer = await imageResponse.arrayBuffer();
       fs.writeFileSync(localPath, Buffer.from(imageBuffer));
       
       console.log(`Artwork saved to: ${localPath}`);
-      console.log(`Using permanent OpenAI URL for emails: ${imageUrl}`);
+      console.log(`OpenAI URL for emails: ${openaiUrl}`);
       
-      // Return local URL for website (OpenAI URLs expire)
+      // Return both local URL for website and OpenAI URL for emails
       return {
         url: `/artwork/${filename}`,
+        emailUrl: openaiUrl,
         description: `${tradition.style} artwork depicting ${storyTitle}`
       };
     } catch (downloadError) {
       console.error("Error downloading/saving image:", downloadError);
       // Return original URL if download fails
       return {
-        url: imageUrl,
+        url: openaiUrl,
+        emailUrl: openaiUrl,
         description: `${tradition.style} artwork depicting ${storyTitle}`
       };
     }
@@ -130,12 +132,13 @@ Avoid: Modern elements, contemporary style, photorealistic people, inappropriate
     const fallbackArtwork = getFallbackArtwork(traditionId);
     return {
       url: fallbackArtwork.url,
+      emailUrl: fallbackArtwork.url,
       description: fallbackArtwork.description + " (fallback artwork)"
     };
   }
 }
 
-function getFallbackArtwork(traditionId: number): { url: string; description: string } {
+function getFallbackArtwork(traditionId: number): { url: string; emailUrl: string; description: string } {
   const traditionNames = ["", "bible", "quran", "bhagavad-gita", "dhammapada", "tao-te-ching", "upanishads", "talmud"];
   const traditionName = traditionNames[traditionId] || "bible";
   
@@ -164,6 +167,7 @@ function getFallbackArtwork(traditionId: number): { url: string; description: st
 
   return {
     url: randomUrl,
+    emailUrl: randomUrl,
     description: descriptions[traditionName as keyof typeof descriptions] || "Traditional spiritual artwork"
   };
 }

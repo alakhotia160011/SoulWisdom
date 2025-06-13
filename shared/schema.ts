@@ -35,6 +35,7 @@ export const lessons = pgTable("lessons", {
   story: text("story").notNull(),
   lifeLesson: text("life_lesson").notNull(),
   artworkUrl: text("artwork_url").notNull(),
+  emailArtworkUrl: text("email_artwork_url"), // OpenAI URL for emails
   artworkDescription: text("artwork_description").notNull(),
   date: timestamp("date").notNull(),
   isGenerated: boolean("is_generated").notNull().default(true),
