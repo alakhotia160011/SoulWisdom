@@ -52,11 +52,25 @@ async function waitForDatabase(maxRetries = 30, retryDelay = 2000) {
   return false;
 }
 
+async function waitForOpenAI(maxRetries = 15, retryDelay = 2000) {
+  for (let i = 0; i < maxRetries; i++) {
+    if (process.env.OPENAI_API_KEY) {
+      console.log(`✓ OPENAI_API_KEY found after ${i} attempts`);
+      return true;
+    }
+    console.log(`Waiting for OPENAI_API_KEY... attempt ${i + 1}/${maxRetries}`);
+    await new Promise(resolve => setTimeout(resolve, retryDelay));
+  }
+  console.warn("OPENAI_API_KEY not available after maximum retries - artwork generation will be disabled");
+  return false;
+}
+
 (async () => {
-  // Wait for database URL in production environments
+  // Wait for environment variables in production environments
   if (process.env.NODE_ENV === "production") {
-    console.log("Production environment detected, waiting for DATABASE_URL...");
+    console.log("Production environment detected, waiting for environment variables...");
     await waitForDatabase();
+    await waitForOpenAI();
   }
 
   const server = await registerRoutes(app);

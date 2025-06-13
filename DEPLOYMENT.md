@@ -19,14 +19,24 @@ This application is configured for production deployment on Render with the foll
 - `package.json` - Production build scripts configured
 
 #### Environment Variables Required on Render:
+
+**Critical Setup Step**: You must add these environment variables in the Render dashboard before deploying:
+
 ```
-DATABASE_URL - Automatically provided by Render PostgreSQL
-OPENAI_API_KEY - Your OpenAI API key
+DATABASE_URL - Automatically provided by Render PostgreSQL service
+OPENAI_API_KEY - Your OpenAI API key (REQUIRED for artwork generation)
 EMAIL_USER - SMTP email username
 EMAIL_PASS - SMTP email password  
 SMTP_HOST - SMTP server hostname
 SMTP_PORT - SMTP server port
 ```
+
+**⚠️ Important**: The deployment will fail if `OPENAI_API_KEY` is not set. To add it:
+1. Go to your Render dashboard
+2. Select your web service
+3. Click "Environment" tab
+4. Add `OPENAI_API_KEY` with your OpenAI API key as the value
+5. Save and redeploy
 
 ### 📊 Current System State
 

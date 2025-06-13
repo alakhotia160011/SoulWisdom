@@ -3,7 +3,17 @@ import fs from "fs";
 import path from "path";
 
 // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
-const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+let openai: OpenAI | null = null;
+
+function getOpenAIClient(): OpenAI {
+  if (!openai) {
+    if (!process.env.OPENAI_API_KEY) {
+      throw new Error("OPENAI_API_KEY environment variable is required for artwork generation");
+    }
+    openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+  }
+  return openai;
+}
 
 // Ensure artwork directory exists
 const artworkDir = path.join(process.cwd(), 'public', 'artwork');
@@ -73,7 +83,8 @@ Avoid: Modern elements, contemporary style, photorealistic people, inappropriate
 
     console.log(`Generating artwork for ${tradition.style}: ${storyTitle}`);
 
-    const response = await openai.images.generate({
+    const client = getOpenAIClient();
+    const response = await client.images.generate({
       model: "dall-e-3",
       prompt: prompt,
       n: 1,
