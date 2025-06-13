@@ -78,35 +78,79 @@ const lessonTemplates = {
   "The Sacred Value of Life": "Each soul contains infinite potential and divine spark. To honor and protect life - all life - is to participate in the sacred act of creation itself."
 };
 
-export async function generateTodaysLesson(storage: IStorage) {
+export async function generateTodaysLesson(storage: IStorage): Promise<any> {
   const existingLesson = await storage.getTodaysLesson();
   if (existingLesson) {
     return existingLesson;
   }
 
-  // Get existing lessons to avoid repeating recent passages
-  const recentLessons = await storage.getRecentLessons(7);
-  const usedPassageIds = recentLessons.map(lesson => lesson.passageId);
+  // Get all existing lessons to check for used passages
+  const allLessons = await storage.getRecentLessons(1000); // Get all lessons
+  const usedSources = new Set(allLessons.map(lesson => lesson.passage.source));
 
-  // Find a passage that hasn't been used recently
+  // Find passages that haven't been used at all
   const availablePassages = spiritualPassages.filter(passage => {
-    // Check if any existing passages match this tradition and source
-    const existingPassages = recentLessons.flatMap(lesson => lesson.passage);
-    return !existingPassages.some(existing => 
-      existing.traditionId === passage.traditionId && existing.source === passage.source
-    );
+    return !usedSources.has(passage.source);
   });
 
   if (availablePassages.length === 0) {
-    console.log("All passages used recently, selecting randomly");
-    const randomIndex = Math.floor(Math.random() * spiritualPassages.length);
-    return await createLessonFromPassage(storage, spiritualPassages[randomIndex]);
+    console.log("All hardcoded passages have been used, checking database for unused passages");
+    return await generateFromUnusedDatabasePassage(storage);
   }
 
   const randomIndex = Math.floor(Math.random() * availablePassages.length);
   const selectedPassage = availablePassages[randomIndex];
+  console.log(`Selected unused passage: ${selectedPassage.source} - ${selectedPassage.title}`);
 
   return await createLessonFromPassage(storage, selectedPassage);
+}
+
+async function generateFromUnusedDatabasePassage(storage: IStorage): Promise<any> {
+  // Get all lessons and passages from database
+  const allTraditions = await storage.getTraditions();
+  const allLessons = await storage.getRecentLessons(1000);
+  let unusedPassage = null;
+
+  for (const tradition of allTraditions) {
+    const passagesInTradition = await storage.getPassagesByTradition(tradition.id);
+    const usedPassageIds = new Set(allLessons.map(lesson => lesson.passageId));
+
+    const availablePassagesInTradition = passagesInTradition.filter(passage => 
+      !usedPassageIds.has(passage.id)
+    );
+
+    if (availablePassagesInTradition.length > 0) {
+      const randomIndex = Math.floor(Math.random() * availablePassagesInTradition.length);
+      unusedPassage = availablePassagesInTradition[randomIndex];
+      break;
+    }
+  }
+
+  if (!unusedPassage) {
+    console.log("All passages have been used, selecting randomly from oldest");
+    const oldestLesson = allLessons[allLessons.length - 1];
+    if (oldestLesson) {
+      unusedPassage = oldestLesson.passage;
+    } else {
+      // Fallback - use first hardcoded passage
+      const randomIndex = Math.floor(Math.random() * spiritualPassages.length);
+      return await createLessonFromPassage(storage, spiritualPassages[randomIndex]);
+    }
+  }
+
+  console.log(`Selected unused database passage: ${unusedPassage.source} - ${unusedPassage.title}`);
+  
+  // Convert database passage to format expected by createLessonFromPassage
+  const passageData = {
+    traditionId: unusedPassage.traditionId,
+    source: unusedPassage.source,
+    title: unusedPassage.title,
+    content: unusedPassage.content,
+    context: unusedPassage.context,
+    theme: unusedPassage.theme
+  };
+
+  return await createLessonFromPassage(storage, passageData);
 }
 
 export async function generateDemoLessons(storage: IStorage) {
@@ -138,8 +182,34 @@ export async function generateDemoLessons(storage: IStorage) {
   return lessons;
 }
 
-export async function createLessonFromPassage(storage: IStorage, passageData: any) {
+export async function createLessonFromPassage(storage: IStorage, passageData: any): Promise<any> {
   try {
+    // Check if this passage has already been used for a lesson
+    const allLessons = await storage.getRecentLessons(1000);
+    const duplicateLesson = allLessons.find(lesson => 
+      lesson.passage.source === passageData.source
+    );
+
+    if (duplicateLesson) {
+      console.log(`Passage ${passageData.source} already used in lesson: ${duplicateLesson.title}`);
+      console.log("Finding alternative unused passage...");
+      
+      // Find a different unused passage instead of recursion
+      const usedSources = new Set(allLessons.map(lesson => lesson.passage.source));
+      const availablePassages = spiritualPassages.filter(passage => {
+        return !usedSources.has(passage.source) && passage.source !== passageData.source;
+      });
+
+      if (availablePassages.length > 0) {
+        const randomIndex = Math.floor(Math.random() * availablePassages.length);
+        const alternativePassage = availablePassages[randomIndex];
+        console.log(`Using alternative passage: ${alternativePassage.source}`);
+        passageData = alternativePassage;
+      } else {
+        console.log("No unused passages available, proceeding with original");
+      }
+    }
+
     // First, ensure the passage exists in storage
     let passage = await storage.getPassagesByTradition(passageData.traditionId);
     let targetPassage = passage.find(p => p.source === passageData.source);
@@ -172,6 +242,7 @@ export async function createLessonFromPassage(storage: IStorage, passageData: an
       isGenerated: true
     });
 
+    console.log(`✓ Created new lesson: ${lesson.title} from ${passageData.source}`);
     return lesson;
   } catch (error) {
     console.error("Error creating lesson from passage:", error);
