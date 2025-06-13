@@ -245,7 +245,7 @@ class EmailService {
         </div>
 
         <div class="artwork">
-            <img src="${this.getImageSrcForEmail(lesson.artworkUrl)}" alt="${lesson.artworkDescription}" />
+            <img src="${this.getImageSrcForEmail(lesson)}" alt="${lesson.artworkDescription}" />
             <p style="font-style: italic; color: #666; font-size: 14px; margin-top: 10px;">
                 ${lesson.artworkDescription}
             </p>
@@ -262,7 +262,7 @@ class EmailService {
         </div>
 
         <div class="button-container">
-            <a href="https://replit.com/@arylakhotia/SoulWisdom" class="website-button">
+            <a href="${process.env.REPLIT_DOMAINS || 'http://localhost:5000'}/lesson/${lesson.id}" class="website-button">
                 Read Today's Lesson Online
             </a>
         </div>
@@ -429,7 +429,7 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
             <p><strong>${todaysLesson.title}</strong></p>
             <p style="font-style: italic; color: #666;">From ${todaysLesson.passage.tradition.name} - ${todaysLesson.passage.source}</p>
             <p style="text-align: center;">
-                <a href="${baseUrl}/" class="cta-button">Read Today's Lesson</a>
+                <a href="${baseUrl}/lesson/${todaysLesson.id}" class="cta-button">Read Today's Lesson</a>
             </p>
         </div>
         ` : `
@@ -501,20 +501,24 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
     `.trim();
   }
 
-  private getImageSrcForEmail(artworkUrl: string): string {
-    // If it's already a full URL, return as is
-    if (artworkUrl.startsWith('http')) {
-      return artworkUrl;
+  private getImageSrcForEmail(lesson: LessonWithDetails): string {
+    // Use the email artwork URL if available (OpenAI generated image)
+    if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.startsWith('http')) {
+      return lesson.emailArtworkUrl;
+    }
+    
+    // If no email artwork URL, check if main artwork URL is external
+    if (lesson.artworkUrl && lesson.artworkUrl.startsWith('http')) {
+      return lesson.artworkUrl;
     }
 
-    // For emails, use a cloud image hosting service that's always accessible
-    // Extract lesson ID from filename for consistent seeding
-    const filename = artworkUrl.split('/').pop() || '';
-    const lessonMatch = filename.match(/lesson-(\d+)/);
-    const seed = lessonMatch ? lessonMatch[1] : '1';
+    // For local artwork files, use data URI as fallback
+    if (lesson.artworkUrl && lesson.artworkUrl.startsWith('data:')) {
+      return lesson.artworkUrl;
+    }
     
-    // Use Unsplash with consistent seed for spiritual/nature images
-    return `https://source.unsplash.com/800x600/?spiritual,nature,meditation,peaceful&sig=${seed}`;
+    // Final fallback to a simple SVG
+    return "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f4f1e8'/%3E%3Ctext x='200' y='150' text-anchor='middle' font-family='serif' font-size='14' fill='%23654321'%3ESpiritual Artwork%3C/text%3E%3C/svg%3E";
   }
 
   async sendNewSubscriberNotification(subscriberEmail: string): Promise<boolean> {

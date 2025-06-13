@@ -238,6 +238,7 @@ export async function createLessonFromPassage(storage: IStorage, passageData: an
       story: lessonContent.story,
       lifeLesson: lessonContent.lifeLesson,
       artworkUrl: lessonContent.artworkUrl,
+      emailArtworkUrl: lessonContent.emailArtworkUrl,
       artworkDescription: lessonContent.artworkDescription,
       date: estDate,
       isGenerated: true
@@ -266,6 +267,7 @@ async function generateLessonContent(passageData: any): Promise<GeneratedLessonC
   
   // Generate artwork using OpenAI
   let artworkUrl = "";
+  let emailArtworkUrl = "";
   let artworkDescription = "";
   
   try {
@@ -275,11 +277,14 @@ async function generateLessonContent(passageData: any): Promise<GeneratedLessonC
       story
     );
     artworkUrl = artwork.url;
+    emailArtworkUrl = artwork.emailUrl;
     artworkDescription = artwork.description;
   } catch (error) {
     console.error("Error generating artwork, using fallback:", error);
     // Use a simple fallback
-    artworkUrl = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f4f1e8'/%3E%3Ctext x='200' y='150' text-anchor='middle' font-family='serif' font-size='14' fill='%23654321'%3ESpiritual Artwork%3C/text%3E%3C/svg%3E";
+    const fallbackSvg = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300' viewBox='0 0 400 300'%3E%3Crect width='400' height='300' fill='%23f4f1e8'/%3E%3Ctext x='200' y='150' text-anchor='middle' font-family='serif' font-size='14' fill='%23654321'%3ESpiritual Artwork%3C/text%3E%3C/svg%3E";
+    artworkUrl = fallbackSvg;
+    emailArtworkUrl = fallbackSvg;
     artworkDescription = "Traditional spiritual artwork";
   }
 
@@ -288,6 +293,7 @@ async function generateLessonContent(passageData: any): Promise<GeneratedLessonC
     story,
     lifeLesson,
     artworkUrl,
+    emailArtworkUrl,
     artworkDescription
   };
 }
