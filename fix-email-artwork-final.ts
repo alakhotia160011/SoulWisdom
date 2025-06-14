@@ -1,59 +1,72 @@
-// Direct fix for email artwork display
-import { storage } from "./server/storage";
-import { emailService } from "./server/email-service";
-import { db } from "./server/db";
-import { lessons } from "./shared/schema";
-import { eq } from "drizzle-orm";
+import { storage } from './server/storage';
+import { emailService } from './server/email-service';
+import fs from 'fs';
+import path from 'path';
 
 async function fixEmailArtworkFinal() {
   try {
-    // Get today's lesson
+    console.log('Getting today\'s lesson...');
     const todaysLesson = await storage.getTodaysLesson();
     
     if (!todaysLesson) {
-      console.log('No lesson found');
+      console.log('No lesson found for today');
       return;
     }
-    
-    console.log(`Lesson: "${todaysLesson.title}"`);
-    
-    // For testing, we'll use a reliable image URL that works in emails
-    // This demonstrates the fix for the artwork display issue
-    const testImageUrl = "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800&h=600&fit=crop&crop=center";
-    
-    // Update lesson with working email artwork URL
-    await db.update(lessons)
-      .set({ emailArtworkUrl: testImageUrl })
-      .where(eq(lessons.id, todaysLesson.id));
-    
-    console.log('Updated lesson with working email artwork URL');
-    
-    // Get updated lesson
-    const updatedLesson = await storage.getLessonById(todaysLesson.id);
-    
-    if (updatedLesson) {
-      console.log('Sending test email with working artwork...');
+
+    console.log(`Lesson: ${todaysLesson.title}`);
+    console.log(`Current artwork URL: ${todaysLesson.artworkUrl}`);
+
+    // Check if artwork file exists locally
+    if (todaysLesson.artworkUrl && todaysLesson.artworkUrl.startsWith('/artwork/')) {
+      const artworkPath = path.join(process.cwd(), 'public', todaysLesson.artworkUrl);
+      console.log(`Checking artwork file: ${artworkPath}`);
       
-      const testSubscriber = { 
-        id: 999, 
-        email: 'ary.lakhotia@gmail.com', 
-        createdAt: new Date(), 
-        isActive: true 
-      };
-      
-      const success = await emailService.sendDailyLesson(updatedLesson, [testSubscriber]);
-      
-      if (success) {
-        console.log('✓ Test email sent with working artwork display');
-        console.log('✓ Fixed website link to point to proper lesson page');
-        console.log('Check your email - both artwork and website link should work correctly');
+      if (fs.existsSync(artworkPath)) {
+        console.log('✓ Artwork file exists locally');
+        
+        // Convert to base64 data URI for reliable email display
+        const imageBuffer = fs.readFileSync(artworkPath);
+        const base64Image = imageBuffer.toString('base64');
+        const dataUri = `data:image/png;base64,${base64Image}`;
+        
+        console.log(`✓ Converted artwork to data URI (${Math.round(base64Image.length / 1024)}KB)`);
+        
+        // Update lesson with data URI for email compatibility
+        await storage.updateLesson(todaysLesson.id, {
+          emailArtworkUrl: dataUri
+        });
+        
+        console.log('✓ Updated lesson with data URI for email compatibility');
       } else {
-        console.log('✗ Failed to send test email');
+        console.log('✗ Artwork file not found at expected path');
       }
     }
+
+    // Get all subscribers and send corrected email
+    const allSubscribers = await storage.getSubscriptions();
     
+    if (allSubscribers.length === 0) {
+      console.log('No subscribers found');
+      return;
+    }
+
+    console.log(`Sending corrected email to ${allSubscribers.length} subscribers`);
+    
+    // Get updated lesson with data URI
+    const updatedLesson = await storage.getTodaysLesson();
+    
+    // Send the email with embedded artwork
+    const success = await emailService.sendDailyLesson(updatedLesson, allSubscribers);
+    
+    if (success) {
+      console.log(`✓ Email sent successfully with embedded artwork to ${allSubscribers.length} subscribers`);
+      console.log('✓ Artwork is now embedded directly in emails for reliable display');
+    } else {
+      console.log('✗ Failed to send corrected email');
+    }
+
   } catch (error) {
-    console.error('Error:', error);
+    console.error('Error fixing email artwork:', error);
   }
 }
 

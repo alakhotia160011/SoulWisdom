@@ -240,6 +240,32 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
+  // Test artwork accessibility
+  app.get("/api/test-artwork", async (req, res) => {
+    try {
+      const todaysLesson = await storage.getTodaysLesson();
+      if (!todaysLesson || !todaysLesson.artworkUrl) {
+        return res.status(404).json({ error: "No artwork found for today's lesson" });
+      }
+
+      const artworkPath = path.join(process.cwd(), 'public', todaysLesson.artworkUrl);
+      const fs = await import('fs');
+      
+      const exists = fs.existsSync(artworkPath);
+      const deployedUrl = `${emailService.getCurrentWebsiteUrl()}${todaysLesson.artworkUrl}`;
+      
+      res.json({
+        artworkUrl: todaysLesson.artworkUrl,
+        localPath: artworkPath,
+        fileExists: exists,
+        deployedUrl: deployedUrl,
+        lessonTitle: todaysLesson.title
+      });
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  });
+
   // Force send daily email to all subscribers
   app.post("/api/email/send-daily", async (req, res) => {
     try {
