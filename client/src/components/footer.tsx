@@ -117,92 +117,94 @@ export default function Footer() {
   return (
     <footer className="bg-stone-900 dark:bg-gray-950 text-stone-100">
       {/* Daily Wisdom Subscription Section */}
-      <div className="bg-stone-800 dark:bg-gray-900 border-b border-stone-700">
-        <div className="max-w-4xl mx-auto px-4 py-12 text-center">
-          <h2 className="text-3xl font-display font-semibold text-white mb-4">
-            Daily Wisdom in Your Inbox
-          </h2>
-          <p className="text-stone-300 text-lg mb-8 max-w-2xl mx-auto">
-            Receive each day's spiritual lesson directly via email or WhatsApp. Join thousands finding peace and guidance through timeless wisdom.
-          </p>
-          
-          <Tabs defaultValue="email" className="w-full max-w-2xl mx-auto">
-            <TabsList className="grid w-full grid-cols-2 mb-6 bg-stone-700">
-              <TabsTrigger value="email" className="flex items-center gap-2 data-[state=active]:bg-stone-600">
-                <Mail className="w-4 h-4" />
-                Email
-              </TabsTrigger>
-              <TabsTrigger value="whatsapp" className="flex items-center gap-2 data-[state=active]:bg-stone-600">
-                <MessageCircle className="w-4 h-4" />
-                WhatsApp
-              </TabsTrigger>
-            </TabsList>
+      <div className="bg-gradient-to-br from-slate-800 to-slate-900">
+        <div className="max-w-4xl mx-auto px-4 py-16 text-center">
+          <div className="bg-white/95 backdrop-blur-sm rounded-2xl p-8 border border-slate-200 shadow-xl">
+            <h2 className="text-3xl font-display font-semibold text-slate-800 mb-4">
+              Daily Wisdom in Your Inbox
+            </h2>
+            <p className="text-slate-600 text-lg mb-8 max-w-2xl mx-auto">
+              Receive each day's spiritual lesson directly via email or WhatsApp. Join thousands finding peace and guidance through timeless wisdom.
+            </p>
             
-            <TabsContent value="email" className="space-y-4">
-              <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-                <Input
-                  type="email"
-                  placeholder="Enter your email address"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="flex-1 px-4 py-3 rounded-lg border border-stone-600 bg-stone-700 text-white placeholder-stone-400 focus:ring-2 focus:ring-stone-500 focus:border-transparent"
-                  required
-                />
-                <Button 
-                  type="submit" 
-                  disabled={emailSubscriptionMutation.isPending}
-                  className="bg-stone-600 text-white px-6 py-3 rounded-lg hover:bg-stone-500 transition-colors font-medium"
-                >
-                  {emailSubscriptionMutation.isPending ? (
-                    "Subscribing..."
-                  ) : (
-                    <>
-                      <Mail className="w-4 h-4 mr-2" />
-                      Subscribe
-                    </>
-                  )}
-                </Button>
-              </form>
+            <Tabs defaultValue="email" className="w-full max-w-2xl mx-auto">
+              <TabsList className="grid w-full grid-cols-2 mb-6">
+                <TabsTrigger value="email" className="flex items-center gap-2">
+                  <Mail className="w-4 h-4" />
+                  Email
+                </TabsTrigger>
+                <TabsTrigger value="whatsapp" className="flex items-center gap-2">
+                  <MessageCircle className="w-4 h-4" />
+                  WhatsApp
+                </TabsTrigger>
+              </TabsList>
               
-              <p className="text-stone-400 text-sm">
-                <Lock className="inline w-4 h-4 mr-1" />
-                Your email is safe with us. Unsubscribe anytime.
-              </p>
-            </TabsContent>
-            
-            <TabsContent value="whatsapp" className="space-y-4">
-              <form onSubmit={handleWhatsAppSubmit} className="space-y-4 max-w-md mx-auto">
-                <Input
-                  type="tel"
-                  placeholder="+1234567890"
-                  value={phoneNumber}
-                  onChange={(e) => setPhoneNumber(e.target.value)}
-                  className="px-4 py-3 rounded-lg border border-stone-600 bg-stone-700 text-white placeholder-stone-400 focus:ring-2 focus:ring-stone-500 focus:border-transparent text-center"
-                  disabled={whatsappSubscriptionMutation.isPending}
-                />
+              <TabsContent value="email" className="space-y-4">
+                <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                  <Input
+                    type="email"
+                    placeholder="Enter your email address"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="flex-1 px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                    required
+                  />
+                  <Button 
+                    type="submit" 
+                    disabled={emailSubscriptionMutation.isPending}
+                    className="bg-slate-800 text-white px-6 py-3 rounded-lg hover:bg-slate-700 transition-colors font-medium"
+                  >
+                    {emailSubscriptionMutation.isPending ? (
+                      "Subscribing..."
+                    ) : (
+                      <>
+                        <Mail className="w-4 h-4 mr-2" />
+                        Subscribe
+                      </>
+                    )}
+                  </Button>
+                </form>
                 
-                <Button
-                  type="submit"
-                  className="w-full bg-stone-600 text-white px-6 py-3 rounded-lg hover:bg-stone-500 transition-colors font-medium"
-                  disabled={whatsappSubscriptionMutation.isPending}
-                >
-                  {whatsappSubscriptionMutation.isPending ? (
-                    "Subscribing..."
-                  ) : (
-                    <>
-                      <MessageCircle className="w-4 h-4 mr-2" />
-                      Subscribe to WhatsApp
-                    </>
-                  )}
-                </Button>
-              </form>
+                <p className="text-slate-500 text-sm">
+                  <Lock className="inline w-4 h-4 mr-1" />
+                  Your email is safe with us. Unsubscribe anytime.
+                </p>
+              </TabsContent>
+              
+              <TabsContent value="whatsapp" className="space-y-4">
+                <form onSubmit={handleWhatsAppSubmit} className="space-y-4 max-w-md mx-auto">
+                  <Input
+                    type="tel"
+                    placeholder="+1234567890"
+                    value={phoneNumber}
+                    onChange={(e) => setPhoneNumber(e.target.value)}
+                    className="px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-slate-500 focus:border-transparent text-center"
+                    disabled={whatsappSubscriptionMutation.isPending}
+                  />
+                  
+                  <Button
+                    type="submit"
+                    className="w-full bg-slate-800 text-white px-6 py-3 rounded-lg hover:bg-slate-700 transition-colors font-medium"
+                    disabled={whatsappSubscriptionMutation.isPending}
+                  >
+                    {whatsappSubscriptionMutation.isPending ? (
+                      "Subscribing..."
+                    ) : (
+                      <>
+                        <MessageCircle className="w-4 h-4 mr-2" />
+                        Subscribe to WhatsApp
+                      </>
+                    )}
+                  </Button>
+                </form>
 
-              <p className="text-stone-400 text-sm">
-                <Lock className="inline w-4 h-4 mr-1" />
-                Text "unsubscribe" anytime to stop messages. Your number is only used for daily lessons.
-              </p>
-            </TabsContent>
-          </Tabs>
+                <p className="text-slate-500 text-sm">
+                  <Lock className="inline w-4 h-4 mr-1" />
+                  Text "unsubscribe" anytime to stop messages. Your number is only used for daily lessons.
+                </p>
+              </TabsContent>
+            </Tabs>
+          </div>
         </div>
       </div>
 
