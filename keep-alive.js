@@ -38,11 +38,9 @@ function keepAlive() {
   }, 5 * 60 * 1000); // Every 5 minutes
 }
 
-// Only run keep-alive in production
-if (process.env.NODE_ENV === 'production') {
-  keepAlive();
-  console.log('Keep-alive service started for 24/7 operation');
-}
+// Always run keep-alive for 24/7 operation
+keepAlive();
+console.log('Keep-alive service started for 24/7 operation');
 
 module.exports = { keepAlive };
 module.exports.keepAlive = keepAlive;

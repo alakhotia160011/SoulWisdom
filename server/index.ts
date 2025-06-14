@@ -1,7 +1,8 @@
 import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
-// Keep-alive functionality will be handled by Replit deployment system
+// Keep-alive functionality for 24/7 operation
+import http from "http";
 import { dailyScheduler } from "./scheduler";
 import { backupService } from "./backup";
 import { initializeWhatsAppManual } from "./whatsapp-manual";
@@ -142,7 +143,8 @@ async function waitForOpenAI(maxRetries = 15, retryDelay = 2000) {
     // Note: Google Drive integration pending - using existing Imgur URLs for now
     console.log("Artwork hosting: Using existing cloud URLs for WhatsApp delivery");
 
-    // 24/7 operation is handled by Replit deployment system
+    // Start keep-alive service for 24/7 operation
+    startKeepAlive(port);
     log("Application ready for 24/7 deployment on Replit");
   });
 })();
