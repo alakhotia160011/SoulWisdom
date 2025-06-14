@@ -64,14 +64,17 @@ export class TwilioWhatsAppService {
 
   private async sendArtworkMessage(lesson: LessonWithDetails): Promise<boolean> {
     try {
-      // Try to get Google Drive URL for artwork
-      const driveUrl = await this.getGoogleDriveArtworkUrl(lesson);
+      // Get cloud-hosted artwork URL
+      const artworkUrl = await this.getGoogleDriveArtworkUrl(lesson);
+      console.log(`Artwork URL for WhatsApp: ${artworkUrl}`);
       
-      if (driveUrl) {
+      if (artworkUrl) {
         // Send artwork image with description
         const artworkMessage = `🎨 *Spiritual Artwork*\n\n"${lesson.title}"\n\n${lesson.artworkDescription}`;
-        return await this.sendMessage(artworkMessage, driveUrl);
+        console.log(`Sending artwork message with URL: ${artworkUrl}`);
+        return await this.sendMessage(artworkMessage, artworkUrl);
       } else {
+        console.log('No artwork URL available, sending description only');
         // Fallback to description only
         const artworkMessage = `🎨 *Spiritual Artwork*\n\n"${lesson.title}"\n\n${lesson.artworkDescription}\n\nThis artwork was created to complement today's spiritual lesson and enhance your meditation and reflection.`;
         return await this.sendMessage(artworkMessage);
@@ -86,21 +89,18 @@ export class TwilioWhatsAppService {
     try {
       // Use existing cloud-hosted artwork URLs
       if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.includes('imgur.com')) {
-        // Convert Imgur URL to direct image format
-        let imgurUrl = lesson.emailArtworkUrl;
-        if (!imgurUrl.endsWith('.jpg') && !imgurUrl.endsWith('.jpeg') && !imgurUrl.endsWith('.png')) {
-          // Ensure direct image URL format
-          const imgId = imgurUrl.split('/').pop();
-          imgurUrl = `https://i.imgur.com/${imgId}.jpg`;
-        }
-        return imgurUrl;
+        console.log(`Using Imgur URL: ${lesson.emailArtworkUrl}`);
+        return lesson.emailArtworkUrl;
       }
 
       // Use Replit domain for local artwork if available  
       if (lesson.artworkUrl && process.env.REPL_ID) {
-        return `https://${process.env.REPL_ID}.replit.app${lesson.artworkUrl}`;
+        const replitUrl = `https://${process.env.REPL_ID}.replit.app${lesson.artworkUrl}`;
+        console.log(`Using Replit URL: ${replitUrl}`);
+        return replitUrl;
       }
 
+      console.log('No valid artwork URL found');
       return null;
     } catch (error) {
       console.error('Error getting artwork URL:', error);
@@ -278,17 +278,32 @@ Daily lessons sent at 7 AM EST ✨`;
   private formatLessonForWhatsApp(lesson: LessonWithDetails): string {
     const date = new Date(lesson.date).toLocaleDateString();
     
-    // Truncate story for WhatsApp length limits
-    const shortStory = lesson.story.length > 800 ? 
-      lesson.story.substring(0, 800) + '...' : 
-      lesson.story;
+    // Split story into multiple messages if needed - WhatsApp limit is 4096 characters
+    // Keep story intact but check total length
+    const baseMessage = `🙏 *${lesson.title}*
+📖 _${lesson.passage.tradition.name}_ • ${date}
+📍 ${lesson.passage.source}
+
+*Life Lesson:*
+${lesson.lifeLesson}
+
+Type a question to explore this deeper!`;
+
+    const totalLength = baseMessage.length + lesson.story.length + 20; // +20 for "Today's Story:" header
+    
+    let storyText = lesson.story;
+    if (totalLength > 4000) {
+      // If too long, split the story appropriately
+      const availableSpace = 4000 - baseMessage.length - 20;
+      storyText = lesson.story.substring(0, availableSpace - 50) + '...\n\n(Reply "more" for the complete story)';
+    }
     
     return `🙏 *${lesson.title}*
 📖 _${lesson.passage.tradition.name}_ • ${date}
 📍 ${lesson.passage.source}
 
 *Today's Story:*
-${shortStory}
+${storyText}
 
 *Life Lesson:*
 ${lesson.lifeLesson}

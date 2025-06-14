@@ -1,48 +1,52 @@
-import { getWhatsAppManualService } from './server/whatsapp-manual';
+import { getTwilioWhatsAppService } from './server/whatsapp-twilio';
+import { storage } from './server/storage';
 
 async function testWhatsAppIntegration() {
-  console.log('🔧 Testing WhatsApp Integration');
-  console.log('================================\n');
-  
-  const whatsappService = getWhatsAppManualService();
-  
-  if (!whatsappService) {
-    console.log('❌ WhatsApp service not initialized');
-    console.log('Make sure WHATSAPP_ADMIN_NUMBER and OPENAI_API_KEY are set\n');
-    return;
-  }
-  
-  console.log('✅ WhatsApp service is ready\n');
-  
-  // Test different commands
-  const testCommands = [
-    'today',
-    'help',
-    'What is the meaning of life?',
-    'bible',
-    'How can I find inner peace?'
-  ];
-  
-  for (const command of testCommands) {
-    console.log(`📱 Command: "${command}"`);
-    console.log('─'.repeat(50));
+  try {
+    console.log('=== TESTING WHATSAPP INTEGRATION ===\n');
     
-    try {
-      const response = await whatsappService.processCommand(command);
-      console.log(`🤖 Response:\n${response}\n`);
-    } catch (error) {
-      console.log(`❌ Error: ${error}\n`);
+    const whatsappService = getTwilioWhatsAppService();
+    if (!whatsappService) {
+      console.error('WhatsApp service not initialized');
+      return;
     }
+
+    // Get today's lesson
+    const todaysLesson = await storage.getTodaysLesson();
+    if (!todaysLesson) {
+      console.error('No lesson found');
+      return;
+    }
+
+    console.log(`Testing lesson: ${todaysLesson.title}`);
+    console.log(`Story length: ${todaysLesson.story.length} characters`);
+    console.log(`Artwork URL: ${todaysLesson.emailArtworkUrl}`);
+    console.log('');
+
+    // Test daily lesson delivery with detailed logging
+    console.log('Sending daily lesson with artwork...');
+    const success = await whatsappService.sendDailyLesson();
     
-    console.log('═'.repeat(60));
-    console.log();
+    if (success) {
+      console.log('✅ Daily lesson sent successfully');
+    } else {
+      console.log('❌ Failed to send daily lesson');
+    }
+
+    // Test individual commands
+    console.log('\nTesting individual commands...');
+    
+    // Test "today" command
+    const todayResponse = await whatsappService.processIncomingMessage('today');
+    console.log(`Today command response length: ${todayResponse.length} characters`);
+    
+    // Test "help" command
+    const helpResponse = await whatsappService.processIncomingMessage('help');
+    console.log(`Help command response length: ${helpResponse.length} characters`);
+
+  } catch (error) {
+    console.error('Error in WhatsApp integration test:', error);
   }
-  
-  console.log('🎉 WhatsApp integration test completed!');
-  console.log('\nYou can now interact with your spiritual lessons through:');
-  console.log('• POST /api/whatsapp/message with {"command": "your message"}');
-  console.log('• GET /api/whatsapp/daily-lesson for today\'s lesson');
-  console.log('\nThe system will also send daily lessons at 7 AM EST automatically.');
 }
 
 testWhatsAppIntegration();
