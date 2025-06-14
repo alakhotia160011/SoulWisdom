@@ -530,6 +530,28 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Force daily email sending manually (emergency backup)
+  app.post("/api/force-daily-email", async (req, res) => {
+    try {
+      const result = await dailyScheduler.forceDailyEmail();
+      
+      if (result.success) {
+        res.json({ 
+          message: "Daily email sent successfully to all subscribers",
+          lesson: result.lesson
+        });
+      } else {
+        res.status(500).json({ 
+          message: "Failed to send daily email",
+          error: result.error
+        });
+      }
+    } catch (error) {
+      console.error("Error forcing daily email:", error);
+      res.status(500).json({ message: "Failed to force daily email" });
+    }
+  });
+
   // Backup endpoints
   app.post("/api/backup/create", async (req, res) => {
     try {
