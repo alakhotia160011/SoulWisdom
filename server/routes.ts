@@ -231,6 +231,46 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // WhatsApp webhook for incoming messages
+  app.post("/webhook/whatsapp", express.json(), async (req, res) => {
+    try {
+      const body = req.body;
+      console.log("WhatsApp webhook received:", JSON.stringify(body, null, 2));
+      
+      // Handle Twilio WhatsApp webhook format
+      if (body.MessageSid && body.From && body.Body) {
+        const fromNumber = body.From; // Already in whatsapp:+1234567890 format
+        const messageBody = body.Body;
+        
+        console.log(`Received WhatsApp message from ${fromNumber}: ${messageBody}`);
+        
+        // Process the message with our interactive WhatsApp service
+        const whatsappService = initializeTwilioWhatsApp();
+        await whatsappService.processIncomingMessage(messageBody, fromNumber);
+      }
+      
+      res.status(200).send("OK");
+    } catch (error) {
+      console.error("WhatsApp webhook error:", error);
+      res.status(500).send("Error");
+    }
+  });
+
+  // WhatsApp webhook verification
+  app.get("/webhook/whatsapp", (req, res) => {
+    const VERIFY_TOKEN = process.env.WHATSAPP_VERIFY_TOKEN || "spiritual_wisdom_token";
+    const mode = req.query["hub.mode"];
+    const token = req.query["hub.verify_token"];
+    const challenge = req.query["hub.challenge"];
+
+    if (mode === "subscribe" && token === VERIFY_TOKEN) {
+      console.log("WhatsApp webhook verified successfully");
+      res.status(200).send(challenge);
+    } else {
+      res.status(403).send("Forbidden");
+    }
+  });
+
   // Subscribe to email list
   app.post("/api/subscribe", async (req, res) => {
     try {

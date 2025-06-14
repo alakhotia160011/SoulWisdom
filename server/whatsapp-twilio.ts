@@ -288,15 +288,15 @@ export class TwilioWhatsAppService {
   private async handleQuestionText(question: string): Promise<string> {
     const todaysLesson = await storage.getTodaysLesson();
     
-    let context = "You are a spiritual wisdom assistant. Answer questions about spirituality, religion, and life lessons. Keep responses concise for WhatsApp (under 1600 characters).";
+    let context = "You are a compassionate spiritual guide with deep knowledge of world religions. Answer questions about spirituality, religion, and life guidance drawing from universal wisdom traditions. Keep responses under 1500 characters for WhatsApp.";
     
     if (todaysLesson) {
-      context += `\n\nToday's lesson context:\nTitle: ${todaysLesson.title}\nTradition: ${todaysLesson.passage.tradition.name}\nStory: ${todaysLesson.story.substring(0, 200)}...\nLife Lesson: ${todaysLesson.lifeLesson}`;
+      context += `\n\nToday's lesson context:\nTitle: ${todaysLesson.title}\nTradition: ${todaysLesson.passage.tradition.name}\nStory: ${todaysLesson.story}\nLife Lesson: ${todaysLesson.lifeLesson}`;
     }
 
     try {
       const response = await this.openai.chat.completions.create({
-        model: "gpt-4o",
+        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
         messages: [
           { role: "system", content: context },
           { role: "user", content: question }
@@ -309,6 +309,73 @@ export class TwilioWhatsAppService {
     } catch (error) {
       console.error('Error with OpenAI:', error);
       return "I'm having trouble accessing spiritual guidance right now. Please try again later.";
+    }
+  }
+
+  private async handleSpiritualGuidance(message: string): Promise<string> {
+    try {
+      const todaysLesson = await storage.getTodaysLesson();
+      const lessonContext = todaysLesson 
+        ? `Today's lesson: "${todaysLesson.title}" from ${todaysLesson.passage.tradition.name}. Life lesson: ${todaysLesson.lifeLesson}.` 
+        : "";
+
+      const response = await this.openai.chat.completions.create({
+        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        messages: [
+          { 
+            role: "system", 
+            content: `You are a compassionate spiritual guide with deep knowledge of world religions and wisdom traditions. ${lessonContext} Provide thoughtful, non-denominational spiritual guidance that draws from universal wisdom. Keep responses under 1500 characters for WhatsApp.`
+          },
+          { role: "user", content: message }
+        ],
+        max_tokens: 400
+      });
+
+      const guidance = response.choices[0].message.content || "Peace be with you on your spiritual journey.";
+      return `🙏 *Spiritual Guidance*\n\n${guidance}`;
+    } catch (error) {
+      console.error('Error with OpenAI spiritual guidance:', error);
+      return "I'm here to help with spiritual guidance. Please try asking your question again.";
+    }
+  }
+
+  private async getRandomInspiration(): Promise<string> {
+    try {
+      const response = await this.openai.chat.completions.create({
+        model: "gpt-4o", // the newest OpenAI model is "gpt-4o" which was released May 13, 2024. do not change this unless explicitly requested by the user
+        messages: [
+          { 
+            role: "system", 
+            content: "Generate an inspiring spiritual quote or reflection drawing from world wisdom traditions. Include the source tradition (Bible, Quran, Buddhism, Hinduism, Taoism, Judaism, etc.). Keep under 1400 characters for WhatsApp."
+          },
+          { role: "user", content: "Give me spiritual inspiration for today" }
+        ],
+        max_tokens: 350
+      });
+
+      const inspiration = response.choices[0].message.content || "May you find peace and wisdom in each moment of your journey.";
+      return `✨ *Daily Inspiration*\n\n${inspiration}`;
+    } catch (error) {
+      console.error('Error generating inspiration:', error);
+      return "✨ *Daily Inspiration*\n\nMay you find peace, wisdom, and compassion in each moment of your spiritual journey today.";
+    }
+  }
+
+  private async getTraditionsList(): Promise<string> {
+    try {
+      const traditions = await storage.getAllTraditions();
+      let response = "📚 *Spiritual Traditions Available*\n\n";
+      
+      traditions.forEach(tradition => {
+        response += `• ${tradition.name} - Type "${tradition.slug}"\n`;
+      });
+      
+      response += "\n*Commands:*\n• \"today\" - Today's lesson\n• \"inspire\" - Random inspiration\n• Ask any spiritual question!";
+      
+      return response;
+    } catch (error) {
+      console.error('Error getting traditions:', error);
+      return "📚 *Available Traditions*\n\n• Bible\n• Quran\n• Bhagavad Gita\n• Dhammapada\n• Tao Te Ching\n• Upanishads\n• Talmud\n\nType the tradition name or ask any spiritual question!";
     }
   }
 
@@ -354,31 +421,19 @@ Daily lessons sent at 7 AM EST ✨`;
 
   private formatLessonForWhatsApp(lesson: LessonWithDetails): string {
     const date = new Date(lesson.date).toLocaleDateString();
+    const websiteUrl = process.env.REPL_SLUG ? `https://${process.env.REPL_ID}.replit.app` : 'https://soulwisdom.replit.app';
     
-    // Build the message components
+    // Build complete message without truncation
     const header = `🙏 *${lesson.title}*\n📖 _${lesson.passage.tradition.name}_ • ${date}\n📍 ${lesson.passage.source}\n\n`;
-    const storyHeader = `*Today's Story:*\n`;
-    const lifeLessonSection = `\n\n*Life Lesson:*\n${lesson.lifeLesson}\n\nType "more" for full story or ask questions!`;
+    const storySection = `*Today's Story:*\n${lesson.story}\n\n`;
+    const lifeLessonSection = `*Life Lesson:*\n${lesson.lifeLesson}\n\n`;
+    const websiteSection = `🌐 *Read on Website:* ${websiteUrl}\n\n`;
+    const commandsSection = `💬 Ask me any spiritual questions!\n\nCommands: "inspire", "traditions", "help"`;
     
-    // Calculate available space for story (1600 char limit with buffer)
-    const fixedPartsLength = header.length + storyHeader.length + lifeLessonSection.length;
-    const maxStoryLength = 1550 - fixedPartsLength; // Safe buffer
+    const fullMessage = `${header}${storySection}${lifeLessonSection}${websiteSection}${commandsSection}`;
     
-    let storyText = lesson.story;
-    if (storyText.length > maxStoryLength) {
-      storyText = lesson.story.substring(0, maxStoryLength - 30) + '...\n\n(Reply "more" for complete story)';
-    }
-    
-    const finalMessage = `${header}${storyHeader}${storyText}${lifeLessonSection}`;
-    
-    // Final safety check
-    if (finalMessage.length > 1600) {
-      const safeStoryLength = 1550 - fixedPartsLength - 50; // Extra buffer
-      const truncatedStory = lesson.story.substring(0, safeStoryLength) + '...\n\n(Reply "more")';
-      return `${header}${storyHeader}${truncatedStory}${lifeLessonSection}`;
-    }
-    
-    return finalMessage;
+    // WhatsApp supports up to 4096 characters, so send full content
+    return fullMessage;
   }
 
   private formatLessonWithArtworkUrl(lesson: LessonWithDetails, artworkUrl: string | null): string {
