@@ -80,9 +80,20 @@ const lessonTemplates = {
 };
 
 export async function generateTodaysLesson(storage: IStorage): Promise<any> {
+  // Check if there's a lesson for today's actual date
+  const today = new Date();
+  const todayDateString = today.toISOString().split('T')[0]; // YYYY-MM-DD
+  
   const existingLesson = await storage.getTodaysLesson();
+  
+  // Only return existing lesson if it's actually from today
   if (existingLesson) {
-    return existingLesson;
+    const lessonDate = new Date(existingLesson.date).toISOString().split('T')[0];
+    if (lessonDate === todayDateString) {
+      return existingLesson;
+    } else {
+      console.log(`Existing lesson is from ${lessonDate}, generating fresh lesson for ${todayDateString}`);
+    }
   }
 
   // Get all existing lessons to check for used passages

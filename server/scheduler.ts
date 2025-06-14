@@ -10,6 +10,7 @@ class DailyScheduler {
   private isRunning: boolean = false;
   private intervalId: NodeJS.Timeout | null = null;
   private testSchedules: Array<{ hour: number; minute: number; email: string; executed: boolean }> = [];
+  private lastEmailSentDate: string | null = null;
 
   constructor(hour: number = 7, minute: number = 0) {
     this.scheduledTime = { hour, minute };
@@ -19,6 +20,47 @@ class DailyScheduler {
   scheduleTestEmail(hour: number, minute: number, email: string) {
     this.testSchedules.push({ hour, minute, email, executed: false });
     console.log(`✓ Test email scheduled for ${hour}:${minute.toString().padStart(2, '0')} EST to ${email}`);
+  }
+
+  // Force daily email sending manually
+  async forceDailyEmail() {
+    try {
+      console.log("🔄 Manually forcing daily email generation and sending...");
+      
+      const existingLesson = await storage.getTodaysLesson();
+      
+      if (existingLesson) {
+        console.log(`📧 Using existing lesson: "${existingLesson.title}"`);
+        await this.generateEmailTemplate(existingLesson);
+        
+        // Update the last sent date to prevent duplicates
+        const now = new Date();
+        const nyTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+        this.lastEmailSentDate = nyTime.toISOString().split('T')[0];
+        
+        return { success: true, lesson: existingLesson.title };
+      } else {
+        console.log("📝 No lesson exists, generating new lesson first...");
+        const newLesson = await generateTodaysLesson(storage);
+        
+        if (newLesson) {
+          console.log(`✓ Generated new lesson: "${newLesson.title}"`);
+          await this.generateEmailTemplate(newLesson);
+          
+          // Update the last sent date
+          const now = new Date();
+          const nyTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+          this.lastEmailSentDate = nyTime.toISOString().split('T')[0];
+          
+          return { success: true, lesson: newLesson.title };
+        } else {
+          throw new Error("Failed to generate new lesson");
+        }
+      }
+    } catch (error) {
+      console.error("❌ Error in force daily email:", error);
+      return { success: false, error: error.message };
+    }
   }
 
   start() {
@@ -63,8 +105,16 @@ class DailyScheduler {
                              currentMinute === this.scheduledTime.minute;
 
       if (isScheduledTime) {
-        console.log(`🔔 Scheduled time reached! Generating and sending daily lesson at ${currentHour}:${currentMinute.toString().padStart(2, '0')} EST`);
-        await this.generateLessonIfNeeded();
+        const today = nyTime.toISOString().split('T')[0]; // YYYY-MM-DD format
+        
+        // Check if we already sent email today
+        if (this.lastEmailSentDate === today) {
+          console.log(`✅ Daily email already sent today (${today}), skipping duplicate`);
+        } else {
+          console.log(`🔔 Scheduled time reached! Generating and sending daily lesson at ${currentHour}:${currentMinute.toString().padStart(2, '0')} EST`);
+          await this.generateLessonIfNeeded();
+          this.lastEmailSentDate = today;
+        }
       }
 
       // Check test email schedules
@@ -160,7 +210,7 @@ class DailyScheduler {
   private async generateEmailTemplate(lesson: any) {
     try {
       const subscribers = await storage.getActiveSubscriptions();
-      console.log(`Preparing to send email to ${subscribers.length} subscribers`);
+      console.log(`📧 Preparing to send daily lesson email to ${subscribers.length} subscribers`);
 
       if (subscribers.length > 0) {
         // Send automated email to all subscribers
@@ -168,15 +218,34 @@ class DailyScheduler {
         
         if (emailSent) {
           console.log(`✓ Daily lesson email sent automatically to ${subscribers.length} subscribers`);
+          
+          // Log the lesson details for verification
+          console.log(`✓ Email sent: "${lesson.title}" - ${lesson.passage.tradition.name}`);
         } else {
-          console.error("Failed to send daily lesson email");
+          console.error("❌ Failed to send daily lesson email - Check email configuration");
+          
+          // Try to send a notification to admin about the failure
+          try {
+            await emailService.sendTestEmail();
+            console.log("✓ Admin notification email sent about delivery failure");
+          } catch (notifyError) {
+            console.error("❌ Could not notify admin about email failure:", notifyError);
+          }
         }
       } else {
-        console.log("No subscribers to send emails to");
+        console.log("⚠️  No email subscribers found - skipping email delivery");
       }
       
     } catch (error) {
-      console.error("Error sending email:", error);
+      console.error("❌ Critical error in email generation:", error);
+      
+      // Try to notify admin of critical email system failure
+      try {
+        await emailService.sendTestEmail();
+        console.log("✓ Admin notification sent about critical email system error");
+      } catch (notifyError) {
+        console.error("❌ Could not notify admin about critical error:", notifyError);
+      }
     }
   }
 
