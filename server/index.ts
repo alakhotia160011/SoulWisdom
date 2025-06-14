@@ -9,6 +9,35 @@ import { initializeWhatsAppManual } from "./whatsapp-manual";
 import { initializeTwilioWhatsApp } from "./whatsapp-twilio";
 import { initializeGoogleDriveHosting } from "./google-drive-hosting";
 
+// Keep-alive function for 24/7 operation
+function startKeepAlive(port: number | string) {
+  setInterval(() => {
+    const options = {
+      hostname: process.env.REPLIT_DEV_DOMAIN || 'localhost',
+      port: port,
+      path: '/api/traditions',
+      method: 'GET',
+      headers: {
+        'User-Agent': 'KeepAlive/1.0'
+      }
+    };
+
+    const req = http.request(options, (res) => {
+      console.log(`Keep-alive ping: ${res.statusCode}`);
+    });
+
+    req.on('error', (err) => {
+      console.log('Keep-alive ping failed:', err.message);
+    });
+
+    req.setTimeout(5000, () => {
+      req.destroy();
+    });
+
+    req.end();
+  }, 5 * 60 * 1000); // Every 5 minutes
+}
+
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
