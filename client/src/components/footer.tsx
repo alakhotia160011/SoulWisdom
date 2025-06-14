@@ -4,13 +4,22 @@ import { Scroll, Twitter, Facebook, Instagram, Youtube, Mail, MessageCircle, Loc
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 
+const countryCodes = [
+  { code: "+1", country: "USA", flag: "🇺🇸" },
+  { code: "+44", country: "UK", flag: "🇬🇧" },
+  { code: "+91", country: "India", flag: "🇮🇳" },
+  { code: "+92", country: "Pakistan", flag: "🇵🇰" }
+];
+
 export default function Footer() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [countryCode, setCountryCode] = useState("+1");
   const { toast } = useToast();
 
   const emailSubscriptionMutation = useMutation({
@@ -88,14 +97,9 @@ export default function Footer() {
       return;
     }
 
-    // Format phone number for WhatsApp
-    let formattedNumber = phoneNumber.trim();
-    if (!formattedNumber.startsWith("+")) {
-      formattedNumber = "+" + formattedNumber.replace(/\D/g, "");
-    }
-    
-    // Add whatsapp: prefix for backend
-    const whatsappNumber = `whatsapp:${formattedNumber}`;
+    // Combine country code with phone number
+    const fullPhoneNumber = `${countryCode}${phoneNumber.replace(/\D/g, "")}`;
+    const whatsappNumber = `whatsapp:${fullPhoneNumber}`;
     
     whatsappSubscriptionMutation.mutate({
       phoneNumber: whatsappNumber,
@@ -173,14 +177,33 @@ export default function Footer() {
               
               <TabsContent value="whatsapp" className="space-y-4">
                 <form onSubmit={handleWhatsAppSubmit} className="space-y-4 max-w-md mx-auto">
-                  <Input
-                    type="tel"
-                    placeholder="+1234567890"
-                    value={phoneNumber}
-                    onChange={(e) => setPhoneNumber(e.target.value)}
-                    className="px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-slate-500 focus:border-transparent text-center"
-                    disabled={whatsappSubscriptionMutation.isPending}
-                  />
+                  <div className="flex gap-2">
+                    <Select value={countryCode} onValueChange={setCountryCode}>
+                      <SelectTrigger className="w-32 px-3 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 focus:ring-2 focus:ring-slate-500 focus:border-transparent">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {countryCodes.map((country) => (
+                          <SelectItem key={country.code} value={country.code}>
+                            <span className="flex items-center gap-2">
+                              <span>{country.flag}</span>
+                              <span>{country.code}</span>
+                              <span className="text-slate-600">{country.country}</span>
+                            </span>
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                    
+                    <Input
+                      type="tel"
+                      placeholder="1234567890"
+                      value={phoneNumber}
+                      onChange={(e) => setPhoneNumber(e.target.value)}
+                      className="flex-1 px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                      disabled={whatsappSubscriptionMutation.isPending}
+                    />
+                  </div>
                   
                   <Button
                     type="submit"

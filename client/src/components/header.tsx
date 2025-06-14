@@ -5,16 +5,25 @@ import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useMutation } from "@tanstack/react-query";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
 import { Scroll, Menu, Mail, Lock, MessageCircle } from "lucide-react";
+
+const countryCodes = [
+  { code: "+1", country: "USA", flag: "🇺🇸" },
+  { code: "+44", country: "UK", flag: "🇬🇧" },
+  { code: "+91", country: "India", flag: "🇮🇳" },
+  { code: "+92", country: "Pakistan", flag: "🇵🇰" }
+];
 
 export default function Header() {
   const [location] = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [countryCode, setCountryCode] = useState("+1");
   const [subscribeOpen, setSubscribeOpen] = useState(false);
   const { toast } = useToast();
 
