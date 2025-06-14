@@ -1,0 +1,551 @@
+{
+  "timestamp": "2025-06-14T12:31:04.073Z",
+  "lessons": [
+    {
+      "id": 15,
+      "passageId": 7,
+      "title": "Honoring the Sacred in Every Soul",
+      "story": "From Talmud, Sanhedrin 37a, the Talmudic sages teach us: Therefore, man was created alone, to teach you that whoever destroys a single soul, Scripture considers it as if he destroyed an entire world. And whoever saves a single soul, Scripture considers it as if he saved an entire world.\n\nThis profound teaching elevates the value of each individual life to cosmic significance. Every person contains within them infinite potential, unique perspectives, and the divine spark that connects them to the Creator.\n\nWhen we truly understand that each soul is a universe unto itself, our approach to relationships, justice, and compassion is transformed. We can no longer dismiss anyone as unimportant or expendable, for in doing so we would be destroying something of infinite worth. This teaching calls us to see the divine image in every face we encounter.",
+      "lifeLesson": "Honor the infinite worth of every soul you encounter, for each person carries the divine spark within them.",
+      "artworkUrl": "/artwork/lesson-7-1749899893486.png",
+      "emailArtworkUrl": "https://oaidalleapiprodscus.blob.core.windows.net/private/org-1xxVr9ttzF8CRNRG2NZausVZ/user-Y21XMLIlyG9lA0UbfpxpcTUx/img-UC9UfQZOR9wWwKQqQgOE3ULp.png?st=2025-06-14T10%3A18%3A13Z&se=2025-06-14T12%3A18%3A13Z&sp=r&sv=2024-08-04&sr=b&rscd=inline&rsct=image/png&skoid=475fd488-6c59-44a5-9aa9-31c4db451bea&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-06-13T13%3A47%3A00Z&ske=2025-06-14T13%3A47%3A00Z&sks=b&skv=2024-08-04&sig=1Oo2OP8xLgrIADKVZUtiGGCSUQpkEu6HtRYcpx%2BePS8%3D",
+      "artworkDescription": "Illuminated Hebrew manuscript style artwork depicting Honoring the Sacred in Every Soul",
+      "date": "2025-06-14T11:18:14.066Z",
+      "isGenerated": true,
+      "passage": {
+        "id": 7,
+        "traditionId": 7,
+        "source": "Talmud, Sanhedrin 37a",
+        "title": "The Value of One Life",
+        "content": "Whoever saves one life, it is considered as if he saved an entire world. And whoever destroys a soul, it is considered as if he destroyed an entire world.",
+        "context": "Rabbinic teaching emphasizing the infinite value of each human life",
+        "theme": "Human Dignity and Responsibility",
+        "tradition": {
+          "id": 7,
+          "name": "Talmud & Midrash",
+          "slug": "talmud",
+          "description": "Rabbinic wisdom",
+          "color": "indigo",
+          "icon": "fas fa-star-of-david",
+          "originPeriod": "200-500 CE",
+          "originLocation": "Babylonia, Palestine",
+          "spiritualTradition": "Judaism",
+          "summary": "Central to Jewish law, ethics, and theology. Provides detailed guidance on religious practice and moral conduct, forming the basis of Jewish legal decision-making.",
+          "famousQuotes": [
+            "Whoever saves one life, it is considered as if he saved an entire world. - Talmud, Sanhedrin 37a",
+            "In a place where there are no human beings, strive to be human. - Talmud, Avot 2:5",
+            "The day is short, the work is much. - Talmud, Avot 2:15"
+          ],
+          "imageUrl": null,
+          "manuscriptStyle": "Hebrew rabbinic script"
+        }
+      }
+    },
+    {
+      "id": 14,
+      "passageId": 6,
+      "title": "The Sacred Web of Universal Interconnection",
+      "story": "In the opening verse of the Isha Upanishad, one of the most profound and ancient spiritual texts, we encounter a revolutionary understanding of existence: \"The universe is the creation of the Supreme Power meant for the benefit of all creation. Each individual life form must learn to enjoy its benefits by forming a part of the system in close relation with other species. Let not any one species encroach upon others' rights.\"\n\nThis timeless wisdom, composed thousands of years ago, speaks directly to our modern ecological and social crises. The ancient sages understood what we are rediscovering today - that all life exists in sacred interconnection, and true prosperity comes not from domination but from harmonious cooperation.\n\nThe teaching reveals that the universe operates as a cosmic ecosystem where every being has a rightful place and purpose. From the smallest microorganism to the vast celestial bodies, each element contributes to the whole while receiving what it needs for flourishing. This is not mere poetry but practical wisdom for living.\n\nWhen we truly grasp this interconnectedness, we begin to see that harming others ultimately harms ourselves, and that true fulfillment comes from recognizing our role in the greater symphony of existence. The ant, the tree, the ocean, and the human being are all expressions of the same divine intelligence.\n\nThis ancient vision challenges modern mindsets of competition and scarcity, replacing them with collaboration and abundance consciousness. When we align with this universal principle, we discover that there is enough for everyone when we live in balance.",
+      "lifeLesson": "Live as a conscious participant in the interconnected web of existence, taking only what you need while contributing to the welfare of all beings.",
+      "artworkUrl": "/artwork/lesson-6-1749817847393.png",
+      "emailArtworkUrl": "https://i.imgur.com/tf8ivY1.jpeg",
+      "artworkDescription": "Ancient Sanskrit manuscript style depicting the cosmic web of interconnection with Om symbol, lotus flowers, sacred geometry, and diverse life forms in harmony",
+      "date": "2025-06-13T06:00:00.000Z",
+      "isGenerated": true,
+      "passage": {
+        "id": 6,
+        "traditionId": 6,
+        "source": "Isha Upanishad 1",
+        "title": "The Divine in All",
+        "content": "The universe is the creation of the Supreme Power meant for the benefit of all creation. Each individual life form must learn to enjoy its benefits by forming a part of the system in close relation with other species. Let not any one species encroach upon others' rights.",
+        "context": "Ancient Vedic wisdom about interconnectedness and cosmic harmony",
+        "theme": "Unity and Interconnectedness",
+        "tradition": {
+          "id": 6,
+          "name": "Upanishads",
+          "slug": "upanishads",
+          "description": "Vedantic wisdom texts",
+          "color": "yellow",
+          "icon": "fas fa-fire",
+          "originPeriod": "800-200 BCE",
+          "originLocation": "Ancient India",
+          "spiritualTradition": "Hinduism",
+          "summary": "Core texts of Vedanta philosophy, influencing Hindu theology and practice. They explore profound questions about consciousness, reality, and the unity of existence.",
+          "famousQuotes": [
+            "Tat tvam asi (That thou art) - Chandogya Upanishad",
+            "From the unreal lead me to the real, from darkness lead me to light. - Brihadaranyaka Upanishad",
+            "The Self is one. Unmoving, it moves faster than the mind. - Isha Upanishad"
+          ],
+          "imageUrl": null,
+          "manuscriptStyle": "Sanskrit manuscripts"
+        }
+      }
+    },
+    {
+      "id": 10,
+      "passageId": 1,
+      "title": "The Lost Sheep and Divine Love",
+      "story": "Jesus spoke this parable to the Pharisees and teachers of the law: \"Suppose one of you has a hundred sheep and loses one of them. Doesn't he leave the ninety-nine in the open country and go after the lost sheep until he finds it? And when he finds it, he joyfully puts it on his shoulders and goes home. Then he calls his friends and neighbors together and says, 'Rejoice with me; I have found my lost sheep.' I tell you that in the same way there will be more rejoicing in heaven over one sinner who repents than over ninety-nine righteous persons who do not need to repent.\"\n\nThis profound teaching reveals the infinite nature of divine love and the immeasurable worth of each individual soul. The shepherd's joy upon finding the lost sheep mirrors the celebration that occurs when someone who has strayed finds their way back to spiritual truth.\n\nIn our modern world, we often feel insignificant among billions of people, questioning whether our individual struggles or spiritual journey matters. This parable reminds us that each person is precious beyond measure. No matter how far we may have wandered from our path, divine love actively seeks us out.\n\nThe story also teaches us about the nature of true compassion. The shepherd doesn't wait for the sheep to find its way back - he actively searches, leaving comfort and security to rescue the lost. This demonstrates that authentic love is not passive but takes initiative to heal, restore, and reconnect.\n\nConsider how this applies to our relationships with others who may be struggling, lost, or making poor choices. Rather than judgment or abandonment, we're called to extend the same seeking love that seeks us.",
+      "lifeLesson": "Recognize your infinite worth and extend active, seeking love to others who may be struggling or lost.",
+      "artworkUrl": "/artwork/lesson-1-1749773530848.png",
+      "emailArtworkUrl": null,
+      "artworkDescription": "Byzantine illuminated manuscript depicting the Good Shepherd carrying a sheep on his shoulders, golden halos, medieval Christian iconography, parchment background with ornate borders, rich blues and golds",
+      "date": "2025-06-12T06:00:00.000Z",
+      "isGenerated": true,
+      "passage": {
+        "id": 1,
+        "traditionId": 1,
+        "source": "Matthew 18:12-14",
+        "title": "The Lost Sheep",
+        "content": "What do you think? If a man owns a hundred sheep, and one of them wanders away, will he not leave the ninety-nine on the hills and go to look for the one that wandered off? And if he finds it, truly I tell you, he is happier about that one sheep than about the ninety-nine that did not wander off. In the same way your Father in heaven is not willing that any of these little ones should perish.",
+        "context": "Jesus teaches about God's love for each individual soul",
+        "theme": "Divine Love and Forgiveness",
+        "tradition": {
+          "id": 1,
+          "name": "Bible",
+          "slug": "bible",
+          "description": "Psalms, Job, Gospels, Letters",
+          "color": "blue",
+          "icon": "fas fa-cross",
+          "originPeriod": "c. 1200 BCE - 100 CE",
+          "originLocation": "Ancient Israel, Greece, Asia Minor",
+          "spiritualTradition": "Judaism & Christianity",
+          "summary": "The foundational text of Judaism and Christianity, containing moral guidance, historical narrative, and spiritual teachings that have profoundly influenced Western civilization.",
+          "famousQuotes": [
+            "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life. - John 3:16",
+            "The Lord is my shepherd, I lack nothing. - Psalm 23:1",
+            "Love your neighbor as yourself. - Matthew 22:39"
+          ],
+          "imageUrl": null,
+          "manuscriptStyle": "Hebrew & Greek manuscripts"
+        }
+      }
+    },
+    {
+      "id": 9,
+      "passageId": 2,
+      "title": "The Divine Mercy and Human Patience",
+      "story": "In the sacred text of the Qur'an, we find the profound story of Moses and Al-Khidr, a mysterious servant of Allah who possessed divine knowledge. Moses, despite being a great prophet, requested to follow this enigmatic figure to learn from his wisdom.\n\n\"Verily you will not be able to have patience with me!\" Al-Khidr warned Moses. \"How can you have patience about things which you do not understand?\"\n\nYet Moses insisted, promising patience. As they journeyed together, Al-Khidr performed three seemingly incomprehensible acts: he damaged a ship belonging to poor people, took the life of a young man, and repaired a wall in a town whose people had refused them hospitality.\n\nEach time, Moses questioned these actions, unable to comprehend their purpose. Finally, Al-Khidr revealed the divine wisdom behind each deed: the ship was damaged to save it from a king who was seizing all vessels; the young man would have brought grief to his righteous parents; and beneath the wall lay a treasure belonging to two orphaned children.\n\nThis story illuminates how divine wisdom operates beyond human understanding. Sometimes what appears as hardship or injustice serves a greater purpose we cannot immediately perceive. The lesson teaches us humility before the mystery of existence and trust in divine providence.",
+      "lifeLesson": "Practice patience and trust in divine wisdom, understanding that apparent difficulties may serve purposes beyond our immediate comprehension.",
+      "artworkUrl": "/artwork/lesson-2-1749637055086.png",
+      "emailArtworkUrl": null,
+      "artworkDescription": "Islamic geometric patterns surrounding Moses and Al-Khidr by a riverside, traditional Arabic calligraphy, golden manuscripts with intricate borders, desert landscape in warm earth tones",
+      "date": "2025-06-11T06:00:00.000Z",
+      "isGenerated": true,
+      "passage": {
+        "id": 2,
+        "traditionId": 2,
+        "source": "Quran 18:65-82",
+        "title": "Moses and Al-Khidr",
+        "content": "So they found one of Our servants, on whom We had bestowed Mercy from Ourselves and whom We had taught knowledge from Our own Presence. Moses said to him: 'May I follow you, on the footing that you teach me something of the (higher) Truth which you have been taught?' The other said: 'Verily you will not be able to have patience with me!'",
+        "context": "The story of Moses learning from the mysterious servant Al-Khidr about divine wisdom",
+        "theme": "Divine Wisdom Beyond Appearances",
+        "tradition": {
+          "id": 2,
+          "name": "Qur'an",
+          "slug": "quran",
+          "description": "Sacred verses of guidance",
+          "color": "green",
+          "icon": "fas fa-moon",
+          "originPeriod": "610-632 CE",
+          "originLocation": "Arabian Peninsula",
+          "spiritualTradition": "Islam",
+          "summary": "The central religious text of Islam, providing comprehensive guidance for personal conduct, social justice, and spiritual development for over 1.8 billion Muslims worldwide.",
+          "famousQuotes": [
+            "And whoever saves a life, it is as if he has saved mankind entirely. - Quran 5:32",
+            "Indeed, with hardship comes ease. - Quran 94:6",
+            "And it is He who created the heavens and earth in truth. - Quran 6:73"
+          ],
+          "imageUrl": null,
+          "manuscriptStyle": "Arabic calligraphy"
+        }
+      }
+    },
+    {
+      "id": 7,
+      "passageId": 5,
+      "title": "The Wisdom of Humble Leadership",
+      "story": "In the Tao Te Ching, Lao Tzu reveals the paradox of true leadership: \"The best leaders are those the people hardly know exist. The next best is a leader who is loved and praised. Next comes the one who is feared. The worst one is the leader that is despised.\"\n\nThis ancient wisdom teaches us that the most effective leaders work through wu wei - effortless action. They guide without forcing, influence without dominating, and achieve great things while remaining humble. Like water that flows around obstacles yet carves the deepest valleys, the wise leader adapts to circumstances while maintaining their essential nature.\n\n\"When they have accomplished their task, the people say, 'Amazing! We did it, all by ourselves!'\" This is the hallmark of masterful leadership - empowering others to discover their own capabilities rather than seeking personal recognition.\n\nIn our daily lives, whether leading a team, raising children, or guiding friends, we can embody this principle by trusting in others' potential and creating space for their growth.",
+      "lifeLesson": "Lead by example and empower others to discover their own wisdom, achieving great things through humility rather than force.",
+      "artworkUrl": "/artwork/lesson-5-1749550674728.png",
+      "emailArtworkUrl": null,
+      "artworkDescription": "Chinese scroll painting depicting wu wei philosophy - serene mountain landscapes with flowing rivers that carve valleys through gentle persistence, traditional ink painting style with minimalist composition",
+      "date": "2025-06-10T06:00:00.000Z",
+      "isGenerated": true,
+      "passage": {
+        "id": 5,
+        "traditionId": 5,
+        "source": "Tao Te Ching 17",
+        "title": "The Invisible Leader",
+        "content": "The best leaders are those the people hardly know exist. The next best is a leader who is loved and praised. Next comes the one who is feared. The worst one is the leader that is despised. If you don't trust the people, they will become untrustworthy. The best leaders value their words, and use them sparingly. When they have accomplished their task, the people say, 'Amazing! We did it, all by ourselves!'",
+        "context": "Lao Tzu's teaching on wu wei - effortless action and humble leadership",
+        "theme": "Humility and Natural Action",
+        "tradition": {
+          "id": 5,
+          "name": "Tao Te Ching",
+          "slug": "tao-te-ching",
+          "description": "The way of harmony",
+          "color": "gray",
+          "icon": "fas fa-yin-yang",
+          "originPeriod": "6th century BCE",
+          "originLocation": "Ancient China",
+          "spiritualTradition": "Taoism",
+          "summary": "Foundational text of Taoism, emphasizing natural harmony, wu wei (effortless action), and living in accordance with the Tao. Influences Eastern philosophy and modern mindfulness practices.",
+          "famousQuotes": [
+            "The journey of a thousand miles begins with one step. - Tao Te Ching 64",
+            "When people see some things as beautiful, other things become ugly. - Tao Te Ching 2",
+            "The wise are not learned; the learned are not wise. - Tao Te Ching 81"
+          ],
+          "imageUrl": null,
+          "manuscriptStyle": "Chinese brush calligraphy"
+        }
+      }
+    },
+    {
+      "id": 6,
+      "passageId": 4,
+      "title": "The Power of Mind and Intention",
+      "story": "In the opening verses of the Dhammapada, the Buddha reveals a fundamental truth: \"Mind is the forerunner of all actions. Mind is chief; mind-made are they. If one speaks or acts with a serene mind, happiness follows, as surely as one's shadow.\"\n\nThis profound teaching illuminates how our mental state determines the quality of our entire experience. Every word we speak, every action we take, originates first in the mind. When we cultivate inner peace and clarity, our external world naturally reflects this harmony.\n\nThe Buddha continues: \"If one speaks or acts with an impure mind, suffering follows, as surely as the wheel follows the hoof of the ox.\" This reminds us that negative thoughts and intentions inevitably manifest as difficulties in our lives.\n\nBy understanding this principle, we gain the power to transform our reality by first transforming our inner landscape. Through mindfulness and right intention, we become architects of our own peace and happiness.",
+      "lifeLesson": "Cultivate mental clarity and positive intentions, for your thoughts shape your reality and determine your happiness.",
+      "artworkUrl": "/artwork/lesson-4-1749427938278.png",
+      "emailArtworkUrl": null,
+      "artworkDescription": "Serene Buddhist temple artwork depicting mindfulness and mental clarity",
+      "date": "2025-06-09T06:00:00.000Z",
+      "isGenerated": true,
+      "passage": {
+        "id": 4,
+        "traditionId": 4,
+        "source": "Dhammapada 1:1-2",
+        "title": "Mind as Foundation",
+        "content": "All that we are is the result of what we have thought: it is founded on our thoughts, it is made up of our thoughts. If a man speaks or acts with an evil thought, pain follows him, as the wheel follows the foot of the ox that draws the carriage.",
+        "context": "Buddha's teaching on the power of mind and thought in shaping our experience",
+        "theme": "Mindfulness and Mental Purity",
+        "tradition": {
+          "id": 4,
+          "name": "Dhammapada",
+          "slug": "dhammapada",
+          "description": "Buddha's path to awakening",
+          "color": "purple",
+          "icon": "fas fa-lotus",
+          "originPeriod": "3rd century BCE",
+          "originLocation": "Ancient India, Sri Lanka",
+          "spiritualTradition": "Buddhism",
+          "summary": "One of the most widely read Buddhist texts, containing 423 verses that encapsulate the essence of Buddhist ethics, mental cultivation, and the path to enlightenment.",
+          "famousQuotes": [
+            "All that we are is the result of what we have thought. - Dhammapada 1:1",
+            "Hatred does not cease by hatred, but only by love. - Dhammapada 1:5",
+            "Better than a thousand hollow words, is one word that brings peace. - Dhammapada 8:100"
+          ],
+          "imageUrl": null,
+          "manuscriptStyle": "Pali manuscripts"
+        }
+      }
+    },
+    {
+      "id": 5,
+      "passageId": 3,
+      "title": "The Path of Selfless Action",
+      "story": "In the sacred text of Bhagavad Gita 2:47, Krishna imparts timeless wisdom: You have a right to perform your prescribed duty, but do not become attached to the fruits of action. Never consider yourself the cause of the results of your activities, and never be attached to not doing your duty.\n\nThis teaching from the Action Without Attachment addresses the fundamental question of how to live and act in the world while maintaining spiritual purity. The key lies not in abandoning action, but in transforming our relationship to it.\n\nWhen we perform our duties - whether as parents, professionals, or community members - without attachment to personal gain or recognition, our actions become offerings to the divine. This transforms even the most mundane tasks into spiritual practice, allowing us to find meaning and purpose in service to something greater than ourselves.",
+      "lifeLesson": "Transform your daily actions into spiritual practice by performing them with dedication but without attachment to personal gain.",
+      "artworkUrl": "/artwork/lesson-3-1749412463105.png",
+      "emailArtworkUrl": null,
+      "artworkDescription": "Mughal miniature painting style artwork depicting The Path of Selfless Action",
+      "date": "2025-06-08T06:00:00.000Z",
+      "isGenerated": true,
+      "passage": {
+        "id": 3,
+        "traditionId": 3,
+        "source": "Bhagavad Gita 2:47",
+        "title": "The Right to Action",
+        "content": "You have the right to perform your actions, but you are not entitled to the fruits of your actions. Do not let the results be your motive, nor let your attachment be to inaction.",
+        "context": "Krishna's teaching to Arjuna on the battlefield about duty without attachment to results",
+        "theme": "Detachment and Duty",
+        "tradition": {
+          "id": 3,
+          "name": "Bhagavad Gita",
+          "slug": "bhagavad-gita",
+          "description": "Krishna's teachings on duty",
+          "color": "orange",
+          "icon": "fas fa-om",
+          "originPeriod": "400 BCE - 400 CE",
+          "originLocation": "Ancient India",
+          "spiritualTradition": "Hinduism",
+          "summary": "A foundational text of Hindu philosophy, addressing duty (dharma), devotion (bhakti), and the nature of reality through dialogue between Prince Arjuna and Lord Krishna.",
+          "famousQuotes": [
+            "You have the right to perform your actions, but you are not entitled to the fruits of action. - Bhagavad Gita 2:47",
+            "Whenever there is a decline in righteousness, I manifest myself. - Bhagavad Gita 4:7",
+            "The soul is neither born, and nor does it die. - Bhagavad Gita 2:20"
+          ],
+          "imageUrl": null,
+          "manuscriptStyle": "Sanskrit palm leaf manuscripts"
+        }
+      }
+    }
+  ],
+  "traditions": [
+    {
+      "id": 1,
+      "name": "Bible",
+      "slug": "bible",
+      "description": "Psalms, Job, Gospels, Letters",
+      "color": "blue",
+      "icon": "fas fa-cross",
+      "originPeriod": "c. 1200 BCE - 100 CE",
+      "originLocation": "Ancient Israel, Greece, Asia Minor",
+      "spiritualTradition": "Judaism & Christianity",
+      "summary": "The foundational text of Judaism and Christianity, containing moral guidance, historical narrative, and spiritual teachings that have profoundly influenced Western civilization.",
+      "famousQuotes": [
+        "For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life. - John 3:16",
+        "The Lord is my shepherd, I lack nothing. - Psalm 23:1",
+        "Love your neighbor as yourself. - Matthew 22:39"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Hebrew & Greek manuscripts"
+    },
+    {
+      "id": 2,
+      "name": "Qur'an",
+      "slug": "quran",
+      "description": "Sacred verses of guidance",
+      "color": "green",
+      "icon": "fas fa-moon",
+      "originPeriod": "610-632 CE",
+      "originLocation": "Arabian Peninsula",
+      "spiritualTradition": "Islam",
+      "summary": "The central religious text of Islam, providing comprehensive guidance for personal conduct, social justice, and spiritual development for over 1.8 billion Muslims worldwide.",
+      "famousQuotes": [
+        "And whoever saves a life, it is as if he has saved mankind entirely. - Quran 5:32",
+        "Indeed, with hardship comes ease. - Quran 94:6",
+        "And it is He who created the heavens and earth in truth. - Quran 6:73"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Arabic calligraphy"
+    },
+    {
+      "id": 3,
+      "name": "Bhagavad Gita",
+      "slug": "bhagavad-gita",
+      "description": "Krishna's teachings on duty",
+      "color": "orange",
+      "icon": "fas fa-om",
+      "originPeriod": "400 BCE - 400 CE",
+      "originLocation": "Ancient India",
+      "spiritualTradition": "Hinduism",
+      "summary": "A foundational text of Hindu philosophy, addressing duty (dharma), devotion (bhakti), and the nature of reality through dialogue between Prince Arjuna and Lord Krishna.",
+      "famousQuotes": [
+        "You have the right to perform your actions, but you are not entitled to the fruits of action. - Bhagavad Gita 2:47",
+        "Whenever there is a decline in righteousness, I manifest myself. - Bhagavad Gita 4:7",
+        "The soul is neither born, and nor does it die. - Bhagavad Gita 2:20"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Sanskrit palm leaf manuscripts"
+    },
+    {
+      "id": 4,
+      "name": "Dhammapada",
+      "slug": "dhammapada",
+      "description": "Buddha's path to awakening",
+      "color": "purple",
+      "icon": "fas fa-lotus",
+      "originPeriod": "3rd century BCE",
+      "originLocation": "Ancient India, Sri Lanka",
+      "spiritualTradition": "Buddhism",
+      "summary": "One of the most widely read Buddhist texts, containing 423 verses that encapsulate the essence of Buddhist ethics, mental cultivation, and the path to enlightenment.",
+      "famousQuotes": [
+        "All that we are is the result of what we have thought. - Dhammapada 1:1",
+        "Hatred does not cease by hatred, but only by love. - Dhammapada 1:5",
+        "Better than a thousand hollow words, is one word that brings peace. - Dhammapada 8:100"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Pali manuscripts"
+    },
+    {
+      "id": 5,
+      "name": "Tao Te Ching",
+      "slug": "tao-te-ching",
+      "description": "The way of harmony",
+      "color": "gray",
+      "icon": "fas fa-yin-yang",
+      "originPeriod": "6th century BCE",
+      "originLocation": "Ancient China",
+      "spiritualTradition": "Taoism",
+      "summary": "Foundational text of Taoism, emphasizing natural harmony, wu wei (effortless action), and living in accordance with the Tao. Influences Eastern philosophy and modern mindfulness practices.",
+      "famousQuotes": [
+        "The journey of a thousand miles begins with one step. - Tao Te Ching 64",
+        "When people see some things as beautiful, other things become ugly. - Tao Te Ching 2",
+        "The wise are not learned; the learned are not wise. - Tao Te Ching 81"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Chinese brush calligraphy"
+    },
+    {
+      "id": 6,
+      "name": "Upanishads",
+      "slug": "upanishads",
+      "description": "Vedantic wisdom texts",
+      "color": "yellow",
+      "icon": "fas fa-fire",
+      "originPeriod": "800-200 BCE",
+      "originLocation": "Ancient India",
+      "spiritualTradition": "Hinduism",
+      "summary": "Core texts of Vedanta philosophy, influencing Hindu theology and practice. They explore profound questions about consciousness, reality, and the unity of existence.",
+      "famousQuotes": [
+        "Tat tvam asi (That thou art) - Chandogya Upanishad",
+        "From the unreal lead me to the real, from darkness lead me to light. - Brihadaranyaka Upanishad",
+        "The Self is one. Unmoving, it moves faster than the mind. - Isha Upanishad"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Sanskrit manuscripts"
+    },
+    {
+      "id": 7,
+      "name": "Talmud & Midrash",
+      "slug": "talmud",
+      "description": "Rabbinic wisdom",
+      "color": "indigo",
+      "icon": "fas fa-star-of-david",
+      "originPeriod": "200-500 CE",
+      "originLocation": "Babylonia, Palestine",
+      "spiritualTradition": "Judaism",
+      "summary": "Central to Jewish law, ethics, and theology. Provides detailed guidance on religious practice and moral conduct, forming the basis of Jewish legal decision-making.",
+      "famousQuotes": [
+        "Whoever saves one life, it is considered as if he saved an entire world. - Talmud, Sanhedrin 37a",
+        "In a place where there are no human beings, strive to be human. - Talmud, Avot 2:5",
+        "The day is short, the work is much. - Talmud, Avot 2:15"
+      ],
+      "imageUrl": null,
+      "manuscriptStyle": "Hebrew rabbinic script"
+    }
+  ],
+  "passages": [],
+  "subscriptions": [
+    {
+      "id": 1,
+      "email": "ary.lakhotia@gmail.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-08T16:13:18.225Z"
+    },
+    {
+      "id": 2,
+      "email": "berliavaibhav@gmail.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-08T16:17:54.667Z"
+    },
+    {
+      "id": 3,
+      "email": "dhwanilfs@gmail.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-08T16:19:19.057Z"
+    },
+    {
+      "id": 4,
+      "email": "test.welcome@example.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-08T16:29:13.982Z"
+    },
+    {
+      "id": 5,
+      "email": "welcome.test@example.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-08T16:29:25.463Z"
+    },
+    {
+      "id": 6,
+      "email": "jakeladdis@proton.me",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-08T21:23:12.034Z"
+    },
+    {
+      "id": 7,
+      "email": "sk5202@columbia.edu",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-09T01:55:45.884Z"
+    },
+    {
+      "id": 8,
+      "email": "test.subscriber@example.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-09T02:03:19.390Z"
+    },
+    {
+      "id": 9,
+      "email": "newuser@gmail.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-09T02:03:32.775Z"
+    },
+    {
+      "id": 10,
+      "email": "test-deployment@example.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-10T10:19:25.093Z"
+    },
+    {
+      "id": 11,
+      "email": "saarthak.pmi@gmail.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-13T00:09:46.631Z"
+    },
+    {
+      "id": 12,
+      "email": "krishnapoddar947.kp@gmail.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-13T21:35:10.134Z"
+    },
+    {
+      "id": 13,
+      "email": "abdullahshahzadqureshi@gmail.com",
+      "phoneNumber": null,
+      "whatsappActive": false,
+      "emailActive": true,
+      "isActive": true,
+      "createdAt": "2025-06-13T23:43:48.656Z"
+    }
+  ],
+  "artworkFiles": [
+    "lesson-1-1749428412529.png",
+    "lesson-1-1749773530848.png",
+    "lesson-2-1749637055086.png",
+    "lesson-3-1749412463105.png",
+    "lesson-4-1749427938278.png",
+    "lesson-5-1749550674728.png",
+    "lesson-6-1749817847393.png",
+    "lesson-7-1749818241457.png",
+    "lesson-7-1749899893486.png"
+  ]
+}
