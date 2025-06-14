@@ -1,81 +1,56 @@
-import twilio from 'twilio';
+import { storage } from './server/storage';
 
 async function debugWhatsAppConfiguration() {
-  console.log('Debugging WhatsApp configuration...');
-  
-  const accountSid = process.env.TWILIO_ACCOUNT_SID;
-  const authToken = process.env.TWILIO_AUTH_TOKEN;
-  const fromNumber = process.env.TWILIO_PHONE_NUMBER;
-  const toNumber = process.env.WHATSAPP_ADMIN_NUMBER;
-  
-  console.log('Environment variables:');
-  console.log('- Account SID:', accountSid?.substring(0, 8) + '...');
-  console.log('- From number:', fromNumber);
-  console.log('- To number:', toNumber);
-  
-  if (!accountSid || !authToken || !fromNumber || !toNumber) {
-    console.error('Missing required environment variables');
-    return;
-  }
-  
   try {
-    const client = twilio(accountSid, authToken);
+    console.log('=== DEBUGGING WHATSAPP ARTWORK DELIVERY ===\n');
     
-    // Check account information
-    console.log('\nChecking account information...');
-    const account = await client.api.accounts(accountSid).fetch();
-    console.log('Account status:', account.status);
-    console.log('Account type:', account.type);
-    
-    // List phone numbers
-    console.log('\nListing phone numbers...');
-    const phoneNumbers = await client.incomingPhoneNumbers.list();
-    phoneNumbers.forEach(number => {
-      console.log(`- ${number.phoneNumber} (${number.capabilities})`);
-    });
-    
-    // Check message history
-    console.log('\nChecking recent messages...');
-    const messages = await client.messages.list({ limit: 5 });
-    messages.forEach(message => {
-      console.log(`Message ${message.sid}:`);
-      console.log(`  From: ${message.from}`);
-      console.log(`  To: ${message.to}`);
-      console.log(`  Status: ${message.status}`);
-      console.log(`  Error: ${message.errorCode || 'None'}`);
-      console.log(`  Date: ${message.dateCreated}`);
-      console.log('---');
-    });
-    
-    // Try sending a simple test message
-    console.log('\nSending simple test message...');
-    const testMessage = await client.messages.create({
-      body: 'Test message from spiritual lessons app - please confirm receipt',
-      from: `whatsapp:${fromNumber}`,
-      to: `whatsapp:${toNumber}`
-    });
-    
-    console.log('Test message sent:');
-    console.log('- Message SID:', testMessage.sid);
-    console.log('- Status:', testMessage.status);
-    console.log('- To:', testMessage.to);
-    console.log('- From:', testMessage.from);
-    
-    // Wait and check message status
-    setTimeout(async () => {
+    // Check today's lesson artwork URLs
+    const todaysLesson = await storage.getTodaysLesson();
+    if (!todaysLesson) {
+      console.error('❌ No lesson found for today');
+      return;
+    }
+
+    console.log('📖 Today\'s Lesson:', todaysLesson.title);
+    console.log('🎨 Local artwork URL:', todaysLesson.artworkUrl);
+    console.log('📧 Email artwork URL:', todaysLesson.emailArtworkUrl);
+    console.log('📝 Artwork description:', todaysLesson.artworkDescription);
+    console.log('');
+
+    // Test artwork URL accessibility
+    if (todaysLesson.emailArtworkUrl) {
+      console.log('🔍 Testing artwork URL accessibility...');
+      
       try {
-        const updatedMessage = await client.messages(testMessage.sid).fetch();
-        console.log('\nMessage status update:');
-        console.log('- Status:', updatedMessage.status);
-        console.log('- Error code:', updatedMessage.errorCode || 'None');
-        console.log('- Error message:', updatedMessage.errorMessage || 'None');
+        const response = await fetch(todaysLesson.emailArtworkUrl);
+        console.log('Status:', response.status);
+        console.log('Content-Type:', response.headers.get('content-type'));
+        console.log('URL accessible:', response.ok ? '✅ YES' : '❌ NO');
       } catch (error) {
-        console.error('Error checking message status:', error);
+        console.error('❌ URL fetch failed:', error.message);
       }
-    }, 5000);
-    
+    } else {
+      console.log('❌ No email artwork URL found');
+    }
+
+    // Check Twilio credentials
+    console.log('\n🔧 Twilio Configuration:');
+    console.log('Account SID exists:', !!process.env.TWILIO_ACCOUNT_SID);
+    console.log('Auth Token exists:', !!process.env.TWILIO_AUTH_TOKEN);
+    console.log('From Number exists:', !!process.env.TWILIO_PHONE_NUMBER);
+    console.log('Admin Number exists:', !!process.env.WHATSAPP_ADMIN_NUMBER);
+
+    if (process.env.TWILIO_ACCOUNT_SID) {
+      console.log('Account SID format valid:', process.env.TWILIO_ACCOUNT_SID.startsWith('AC') ? '✅' : '❌');
+    }
+
+    // Check environment variables
+    console.log('\n🌐 Environment:');
+    console.log('REPL_ID:', process.env.REPL_ID || 'Not set');
+    console.log('NODE_ENV:', process.env.NODE_ENV || 'Not set');
+
   } catch (error) {
-    console.error('Error in WhatsApp debugging:', error);
+    console.error('Debug error:', error);
   }
 }
 
