@@ -3,14 +3,17 @@ import {
   passages, 
   lessons, 
   subscriptions,
+  whatsappSubscribers,
   type Tradition, 
   type Passage, 
   type Lesson, 
   type Subscription,
+  type WhatsAppSubscriber,
   type InsertTradition, 
   type InsertPassage, 
   type InsertLesson, 
   type InsertSubscription,
+  type InsertWhatsAppSubscriber,
   type LessonWithDetails,
   type TraditionWithCount
 } from "@shared/schema";
@@ -41,6 +44,13 @@ export interface IStorage {
   // Subscriptions
   createSubscription(subscription: InsertSubscription): Promise<Subscription>;
   getActiveSubscriptions(): Promise<Subscription[]>;
+
+  // WhatsApp Subscriptions
+  getWhatsAppSubscribers(): Promise<WhatsAppSubscriber[]>;
+  getWhatsAppSubscriberByPhone(phoneNumber: string): Promise<WhatsAppSubscriber | undefined>;
+  createWhatsAppSubscriber(subscriber: InsertWhatsAppSubscriber): Promise<WhatsAppSubscriber>;
+  updateWhatsAppSubscriber(phoneNumber: string, updates: Partial<WhatsAppSubscriber>): Promise<void>;
+  deleteWhatsAppSubscriber(phoneNumber: string): Promise<void>;
 }
 
 export class DatabaseStorage implements IStorage {
@@ -452,6 +462,39 @@ export class DatabaseStorage implements IStorage {
 
   async getActiveSubscriptions(): Promise<Subscription[]> {
     return await db.select().from(subscriptions).where(eq(subscriptions.isActive, true));
+  }
+
+  // WhatsApp Subscriptions
+  async getWhatsAppSubscribers(): Promise<WhatsAppSubscriber[]> {
+    return await db.select().from(whatsappSubscribers).where(eq(whatsappSubscribers.isActive, true));
+  }
+
+  async getWhatsAppSubscriberByPhone(phoneNumber: string): Promise<WhatsAppSubscriber | undefined> {
+    const [subscriber] = await db.select()
+      .from(whatsappSubscribers)
+      .where(eq(whatsappSubscribers.phoneNumber, phoneNumber));
+    return subscriber;
+  }
+
+  async createWhatsAppSubscriber(insertSubscriber: InsertWhatsAppSubscriber): Promise<WhatsAppSubscriber> {
+    const [subscriber] = await db.insert(whatsappSubscribers).values({
+      ...insertSubscriber,
+      isActive: true,
+      createdAt: new Date()
+    }).returning();
+    return subscriber;
+  }
+
+  async updateWhatsAppSubscriber(phoneNumber: string, updates: Partial<WhatsAppSubscriber>): Promise<void> {
+    await db.update(whatsappSubscribers)
+      .set(updates)
+      .where(eq(whatsappSubscribers.phoneNumber, phoneNumber));
+  }
+
+  async deleteWhatsAppSubscriber(phoneNumber: string): Promise<void> {
+    await db.update(whatsappSubscribers)
+      .set({ isActive: false })
+      .where(eq(whatsappSubscribers.phoneNumber, phoneNumber));
   }
 
   private async buildLessonWithDetails(lesson: Lesson): Promise<LessonWithDetails | undefined> {

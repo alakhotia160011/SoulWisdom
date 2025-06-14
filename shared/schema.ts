@@ -44,7 +44,19 @@ export const lessons = pgTable("lessons", {
 export const subscriptions = pgTable("subscriptions", {
   id: serial("id").primaryKey(),
   email: text("email").notNull().unique(),
+  phoneNumber: text("phone_number"), // WhatsApp phone number
+  whatsappActive: boolean("whatsapp_active").notNull().default(false),
+  emailActive: boolean("email_active").notNull().default(true),
   isActive: boolean("is_active").notNull().default(true),
+  createdAt: timestamp("created_at").notNull().defaultNow(),
+});
+
+export const whatsappSubscribers = pgTable("whatsapp_subscribers", {
+  id: serial("id").primaryKey(),
+  phoneNumber: text("phone_number").notNull().unique(),
+  name: text("name"),
+  isActive: boolean("is_active").notNull().default(true),
+  joinedVia: text("joined_via").notNull().default("website"), // "website", "direct", "referral"
   createdAt: timestamp("created_at").notNull().defaultNow(),
 });
 
@@ -64,6 +76,14 @@ export const insertSubscriptionSchema = createInsertSchema(subscriptions).omit({
   id: true,
   createdAt: true,
 });
+
+export const insertWhatsAppSubscriberSchema = createInsertSchema(whatsappSubscribers).omit({
+  id: true,
+  createdAt: true,
+});
+
+export type WhatsAppSubscriber = typeof whatsappSubscribers.$inferSelect;
+export type InsertWhatsAppSubscriber = z.infer<typeof insertWhatsAppSubscriberSchema>;
 
 export type InsertTradition = z.infer<typeof insertTraditionSchema>;
 export type InsertPassage = z.infer<typeof insertPassageSchema>;
