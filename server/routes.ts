@@ -245,8 +245,12 @@ export async function registerRoutes(app: Express): Promise<Server> {
         console.log(`Received WhatsApp message from ${fromNumber}: ${messageBody}`);
         
         // Process the message with our interactive WhatsApp service
-        const whatsappService = initializeTwilioWhatsApp();
-        await whatsappService.processIncomingMessage(messageBody, fromNumber);
+        const whatsappService = getTwilioWhatsAppService();
+        if (whatsappService) {
+          await whatsappService.processIncomingMessage(messageBody, fromNumber);
+        } else {
+          console.error('WhatsApp service not initialized');
+        }
       }
       
       res.status(200).send("OK");
