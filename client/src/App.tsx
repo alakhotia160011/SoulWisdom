@@ -16,7 +16,7 @@ import FAQ from "@/pages/faq";
 import Privacy from "@/pages/privacy";
 import Terms from "@/pages/terms";
 import NotFound from "@/pages/not-found";
-import WhatsAppTest from "@/pages/WhatsAppTest";
+import WhatsAppTestPage from "@/pages/whatsapp-test";
 
 function Router() {
   return (
