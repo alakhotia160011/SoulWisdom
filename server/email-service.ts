@@ -510,12 +510,17 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
   }
 
   private getImageSrcForEmail(lesson: LessonWithDetails): string {
-    // Use the email artwork URL if available (OpenAI generated image)
+    // For local artwork files, always use the deployed website URL
+    if (lesson.artworkUrl && lesson.artworkUrl.startsWith('/artwork/')) {
+      return `${this.getWebsiteUrl()}${lesson.artworkUrl}`;
+    }
+    
+    // Use the email artwork URL if available and valid (OpenAI generated image)
     if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.startsWith('http')) {
       return lesson.emailArtworkUrl;
     }
     
-    // If no email artwork URL, check if main artwork URL is external (OpenAI URL)
+    // If no email artwork URL, check if main artwork URL is external
     if (lesson.artworkUrl && lesson.artworkUrl.startsWith('http')) {
       return lesson.artworkUrl;
     }
@@ -523,11 +528,6 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
     // For data URIs, use them directly
     if (lesson.artworkUrl && lesson.artworkUrl.startsWith('data:')) {
       return lesson.artworkUrl;
-    }
-    
-    // For local files, use the deployed website URL
-    if (lesson.artworkUrl && lesson.artworkUrl.startsWith('/artwork/')) {
-      return `${this.getWebsiteUrl()}${lesson.artworkUrl}`;
     }
     
     // Final fallback to a simple SVG
