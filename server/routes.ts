@@ -231,6 +231,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Check current email URL configuration
+  app.get("/api/email/url-check", (req, res) => {
+    res.json({
+      currentEmailUrl: emailService.getCurrentWebsiteUrl(),
+      environment: process.env.NODE_ENV,
+      timestamp: new Date().toISOString()
+    });
+  });
+
   // WhatsApp webhook for incoming messages
   app.post("/webhook/whatsapp", express.json(), async (req, res) => {
     try {

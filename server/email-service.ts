@@ -587,8 +587,13 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
   }
 
   private getWebsiteUrl(): string {
-    // Use the deployed website URL
+    // Always use the deployed website URL for email links
     return 'https://soul-wisdom-arylakhotia.replit.app';
+  }
+
+  // Public method to check current URL configuration
+  public getCurrentWebsiteUrl(): string {
+    return this.getWebsiteUrl();
   }
 }
 
