@@ -120,7 +120,9 @@ export default function EmailAdmin() {
   });
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <div className="min-h-screen bg-earth-50">
+      <Header />
+      <div className="container mx-auto px-4 py-8 max-w-6xl">
       <div className="mb-8">
         <h1 className="text-3xl font-bold text-slate-900 mb-2">Email Admin Dashboard</h1>
         <p className="text-slate-600">Manage daily spiritual lesson email distribution</p>
@@ -336,6 +338,8 @@ export default function EmailAdmin() {
           </div>
         </CardContent>
       </Card>
+      </div>
+      <Footer />
     </div>
   );
 }
