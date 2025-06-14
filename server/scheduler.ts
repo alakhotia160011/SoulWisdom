@@ -46,28 +46,39 @@ class DailyScheduler {
   }
 
   private async checkAndGenerateLesson() {
-    // Use New York timezone (EST/EDT)
-    const now = new Date();
-    const nyTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
-    const currentHour = nyTime.getHours();
-    const currentMinute = nyTime.getMinutes();
-    
-    // Check regular daily lesson schedule
-    const isScheduledTime = currentHour === this.scheduledTime.hour && 
-                           currentMinute === this.scheduledTime.minute;
-
-    if (isScheduledTime) {
-      await this.generateLessonIfNeeded();
-    }
-
-    // Check test email schedules
-    for (const testSchedule of this.testSchedules) {
-      if (!testSchedule.executed && 
-          currentHour === testSchedule.hour && 
-          currentMinute === testSchedule.minute) {
-        await this.sendTestLessonEmail(testSchedule.email);
-        testSchedule.executed = true;
+    try {
+      // Use New York timezone (EST/EDT)
+      const now = new Date();
+      const nyTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+      const currentHour = nyTime.getHours();
+      const currentMinute = nyTime.getMinutes();
+      
+      // Log current time for debugging (only log once per hour to avoid spam)
+      if (currentMinute === 0) {
+        console.log(`Scheduler check: Current NY time is ${currentHour}:${currentMinute.toString().padStart(2, '0')}, scheduled for ${this.scheduledTime.hour}:${this.scheduledTime.minute.toString().padStart(2, '0')}`);
       }
+      
+      // Check regular daily lesson schedule
+      const isScheduledTime = currentHour === this.scheduledTime.hour && 
+                             currentMinute === this.scheduledTime.minute;
+
+      if (isScheduledTime) {
+        console.log(`🔔 Scheduled time reached! Generating and sending daily lesson at ${currentHour}:${currentMinute.toString().padStart(2, '0')} EST`);
+        await this.generateLessonIfNeeded();
+      }
+
+      // Check test email schedules
+      for (const testSchedule of this.testSchedules) {
+        if (!testSchedule.executed && 
+            currentHour === testSchedule.hour && 
+            currentMinute === testSchedule.minute) {
+          console.log(`📧 Test email scheduled time reached for ${testSchedule.email}`);
+          await this.sendTestLessonEmail(testSchedule.email);
+          testSchedule.executed = true;
+        }
+      }
+    } catch (error) {
+      console.error("Error in scheduler check:", error);
     }
   }
 
