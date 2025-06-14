@@ -507,14 +507,22 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
       return lesson.emailArtworkUrl;
     }
     
-    // If no email artwork URL, check if main artwork URL is external
+    // If no email artwork URL, check if main artwork URL is external (OpenAI URL)
     if (lesson.artworkUrl && lesson.artworkUrl.startsWith('http')) {
       return lesson.artworkUrl;
     }
 
-    // For local artwork files, use data URI as fallback
+    // For data URIs, use them directly
     if (lesson.artworkUrl && lesson.artworkUrl.startsWith('data:')) {
       return lesson.artworkUrl;
+    }
+    
+    // For local files, we need to serve them through the web server
+    if (lesson.artworkUrl && lesson.artworkUrl.startsWith('/artwork/')) {
+      const baseUrl = process.env.REPLIT_DOMAINS ? 
+        `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
+        'http://localhost:5000';
+      return `${baseUrl}${lesson.artworkUrl}`;
     }
     
     // Final fallback to a simple SVG
