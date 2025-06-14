@@ -238,19 +238,27 @@ ${shortStory}
 *Life Lesson:*
 ${lesson.lifeLesson}
 
-🎨 _Spiritual artwork included_
-
 Type a question to explore this deeper!`;
   }
 
   private getWhatsAppArtworkUrl(lesson: LessonWithDetails): string | undefined {
-    // Use cloud-hosted artwork URL if available (Imgur URLs work best)
+    // Use cloud-hosted artwork URL if available (Imgur direct image URLs)
     if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.includes('imgur.com')) {
-      return lesson.emailArtworkUrl;
+      // Convert Imgur URL to direct image format if needed
+      let imgurUrl = lesson.emailArtworkUrl;
+      if (imgurUrl.includes('/') && !imgurUrl.endsWith('.jpg') && !imgurUrl.endsWith('.jpeg') && !imgurUrl.endsWith('.png')) {
+        // Convert imgur.com/xyz to i.imgur.com/xyz.jpg
+        const imgId = imgurUrl.split('/').pop();
+        imgurUrl = `https://i.imgur.com/${imgId}.jpg`;
+      }
+      return imgurUrl;
     }
     
-    // For now, skip artwork in WhatsApp to avoid delivery failures
-    // until we can ensure reliable media URLs
+    // Use Replit domain for local artwork if available
+    if (lesson.artworkUrl && process.env.REPLIT_DOMAIN) {
+      return `https://${process.env.REPLIT_DOMAIN}${lesson.artworkUrl}`;
+    }
+    
     return undefined;
   }
 }
