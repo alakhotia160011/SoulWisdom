@@ -120,6 +120,8 @@ export class TwilioWhatsAppService {
         return await this.getLessonByTraditionText(command);
       } else if (command.includes('?') || command.startsWith('what') || command.startsWith('how') || command.startsWith('why')) {
         return await this.handleQuestionText(messageBody);
+      } else if (command === 'more') {
+        return await this.getFullStoryText();
       } else if (command === 'help') {
         return this.getHelpText();
       } else {
@@ -173,6 +175,26 @@ export class TwilioWhatsAppService {
     }
 
     return message;
+  }
+
+  private async getFullStoryText(): Promise<string> {
+    const todaysLesson = await storage.getTodaysLesson();
+    
+    if (!todaysLesson) {
+      return "No lesson available. Type 'today' for the latest lesson.";
+    }
+
+    // Send the complete story in chunks if needed
+    const fullStory = todaysLesson.story;
+    const maxLength = 1500;
+    
+    if (fullStory.length <= maxLength) {
+      return `📖 *Complete Story*\n\n${fullStory}\n\n_End of story. Type a question to explore deeper!_`;
+    }
+    
+    // For very long stories, send first part and indicate more available
+    const firstPart = fullStory.substring(0, maxLength - 100);
+    return `📖 *Complete Story (Part 1)*\n\n${firstPart}...\n\n_Story continues. This is the full spiritual teaching from today's lesson._`;
   }
 
   private async getLessonByTraditionText(tradition: string): Promise<string> {
@@ -278,37 +300,30 @@ Daily lessons sent at 7 AM EST ✨`;
   private formatLessonForWhatsApp(lesson: LessonWithDetails): string {
     const date = new Date(lesson.date).toLocaleDateString();
     
-    // Split story into multiple messages if needed - WhatsApp limit is 4096 characters
-    // Keep story intact but check total length
-    const baseMessage = `🙏 *${lesson.title}*
-📖 _${lesson.passage.tradition.name}_ • ${date}
-📍 ${lesson.passage.source}
-
-*Life Lesson:*
-${lesson.lifeLesson}
-
-Type a question to explore this deeper!`;
-
-    const totalLength = baseMessage.length + lesson.story.length + 20; // +20 for "Today's Story:" header
+    // Build the message components
+    const header = `🙏 *${lesson.title}*\n📖 _${lesson.passage.tradition.name}_ • ${date}\n📍 ${lesson.passage.source}\n\n`;
+    const storyHeader = `*Today's Story:*\n`;
+    const lifeLessonSection = `\n\n*Life Lesson:*\n${lesson.lifeLesson}\n\nType "more" for full story or ask questions!`;
+    
+    // Calculate available space for story (1600 char limit with buffer)
+    const fixedPartsLength = header.length + storyHeader.length + lifeLessonSection.length;
+    const maxStoryLength = 1550 - fixedPartsLength; // Safe buffer
     
     let storyText = lesson.story;
-    if (totalLength > 4000) {
-      // If too long, split the story appropriately
-      const availableSpace = 4000 - baseMessage.length - 20;
-      storyText = lesson.story.substring(0, availableSpace - 50) + '...\n\n(Reply "more" for the complete story)';
+    if (storyText.length > maxStoryLength) {
+      storyText = lesson.story.substring(0, maxStoryLength - 30) + '...\n\n(Reply "more" for complete story)';
     }
     
-    return `🙏 *${lesson.title}*
-📖 _${lesson.passage.tradition.name}_ • ${date}
-📍 ${lesson.passage.source}
-
-*Today's Story:*
-${storyText}
-
-*Life Lesson:*
-${lesson.lifeLesson}
-
-Type a question to explore this deeper!`;
+    const finalMessage = `${header}${storyHeader}${storyText}${lifeLessonSection}`;
+    
+    // Final safety check
+    if (finalMessage.length > 1600) {
+      const safeStoryLength = 1550 - fixedPartsLength - 50; // Extra buffer
+      const truncatedStory = lesson.story.substring(0, safeStoryLength) + '...\n\n(Reply "more")';
+      return `${header}${storyHeader}${truncatedStory}${lifeLessonSection}`;
+    }
+    
+    return finalMessage;
   }
 
   private getWhatsAppArtworkUrl(lesson: LessonWithDetails): string | undefined {
