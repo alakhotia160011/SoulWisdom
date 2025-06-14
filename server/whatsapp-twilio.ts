@@ -16,13 +16,19 @@ export class TwilioWhatsAppService {
     this.openai = new OpenAI({ apiKey: openaiApiKey });
   }
 
-  async sendMessage(message: string): Promise<boolean> {
+  async sendMessage(message: string, mediaUrl?: string): Promise<boolean> {
     try {
-      const twilioMessage = await this.client.messages.create({
+      const messageOptions: any = {
         body: message,
         from: this.fromNumber,
         to: this.adminNumber
-      });
+      };
+
+      if (mediaUrl) {
+        messageOptions.mediaUrl = [mediaUrl];
+      }
+
+      const twilioMessage = await this.client.messages.create(messageOptions);
 
       console.log(`WhatsApp message sent successfully: ${twilioMessage.sid}`);
       return true;
@@ -41,7 +47,10 @@ export class TwilioWhatsAppService {
     const message = this.formatLessonForWhatsApp(todaysLesson);
     const dailyMessage = `🌅 *Daily Spiritual Lesson*\n\n${message}`;
     
-    return await this.sendMessage(dailyMessage);
+    // Get artwork URL - use cloud-hosted version for WhatsApp
+    const artworkUrl = this.getWhatsAppArtworkUrl(todaysLesson);
+    
+    return await this.sendMessage(dailyMessage, artworkUrl);
   }
 
   async processIncomingMessage(messageBody: string): Promise<string> {
@@ -74,7 +83,16 @@ export class TwilioWhatsAppService {
       return "No lesson found for today. The daily lesson will be generated at 7 AM EST.";
     }
 
-    return this.formatLessonForWhatsApp(todaysLesson);
+    const message = this.formatLessonForWhatsApp(todaysLesson);
+    const artworkUrl = this.getWhatsAppArtworkUrl(todaysLesson);
+    
+    // Send with artwork if available
+    if (artworkUrl) {
+      await this.sendMessage(message, artworkUrl);
+      return "Today's lesson with artwork has been sent!";
+    }
+
+    return message;
   }
 
   private async getYesterdaysLessonText(): Promise<string> {
@@ -90,7 +108,16 @@ export class TwilioWhatsAppService {
       return "No lesson found for yesterday.";
     }
 
-    return this.formatLessonForWhatsApp(yesterdaysLesson);
+    const message = this.formatLessonForWhatsApp(yesterdaysLesson);
+    const artworkUrl = this.getWhatsAppArtworkUrl(yesterdaysLesson);
+    
+    // Send with artwork if available
+    if (artworkUrl) {
+      await this.sendMessage(message, artworkUrl);
+      return "Yesterday's lesson with artwork has been sent!";
+    }
+
+    return message;
   }
 
   private async getLessonByTraditionText(tradition: string): Promise<string> {
@@ -114,7 +141,16 @@ export class TwilioWhatsAppService {
       return `No lessons found for ${tradition}`;
     }
 
-    return this.formatLessonForWhatsApp(lessons[0]);
+    const message = this.formatLessonForWhatsApp(lessons[0]);
+    const artworkUrl = this.getWhatsAppArtworkUrl(lessons[0]);
+    
+    // Send with artwork if available
+    if (artworkUrl) {
+      await this.sendMessage(message, artworkUrl);
+      return `${tradition} lesson with artwork has been sent!`;
+    }
+
+    return message;
   }
 
   private async handleQuestionText(question: string): Promise<string> {
@@ -202,7 +238,31 @@ ${shortStory}
 *Life Lesson:*
 ${lesson.lifeLesson}
 
+🎨 _Spiritual artwork included_
+
 Type a question to explore this deeper!`;
+  }
+
+  private getWhatsAppArtworkUrl(lesson: LessonWithDetails): string | undefined {
+    // Use cloud-hosted artwork URL if available
+    if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.startsWith('http')) {
+      return lesson.emailArtworkUrl;
+    }
+    
+    // Use regular artwork URL if available
+    if (lesson.artworkUrl && lesson.artworkUrl.startsWith('http')) {
+      return lesson.artworkUrl;
+    }
+    
+    // Construct full URL for local artwork
+    if (lesson.artworkUrl) {
+      const baseUrl = process.env.REPLIT_DOMAIN ? 
+        `https://${process.env.REPLIT_DOMAIN}` : 
+        'http://localhost:5000';
+      return `${baseUrl}${lesson.artworkUrl}`;
+    }
+    
+    return undefined;
   }
 }
 

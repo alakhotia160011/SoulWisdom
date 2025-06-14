@@ -544,8 +544,15 @@ export async function registerRoutes(app: Express): Promise<Server> {
       
       const twilioService = getTwilioWhatsAppService();
       if (twilioService) {
-        const sent = await twilioService.sendMessage(message || "Hello from your spiritual lessons app!");
-        res.json({ success: sent, message: sent ? "Message sent successfully" : "Failed to send message" });
+        // Get today's lesson and send with artwork
+        const todaysLesson = await storage.getTodaysLesson();
+        if (todaysLesson && message.includes("Daily Spiritual Lesson")) {
+          const sent = await twilioService.sendDailyLesson();
+          res.json({ success: sent, message: sent ? "Daily lesson with artwork sent successfully" : "Failed to send daily lesson" });
+        } else {
+          const sent = await twilioService.sendMessage(message || "Hello from your spiritual lessons app!");
+          res.json({ success: sent, message: sent ? "Message sent successfully" : "Failed to send message" });
+        }
       } else {
         res.status(503).json({ success: false, message: "Twilio WhatsApp service not available" });
       }
