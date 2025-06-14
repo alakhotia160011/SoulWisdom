@@ -1,78 +1,67 @@
-// Fix today's lesson with proper email artwork URL and test email
-import { storage } from "./server/storage";
-import { emailService } from "./server/email-service";
-import { generateArtworkForLesson } from "./server/artwork-generator";
+import { storage } from './server/storage';
+import fs from 'fs';
+import path from 'path';
 
 async function fixTodaysLessonArtwork() {
   try {
-    console.log('Getting today\'s lesson...');
-    const todaysLesson = await storage.getTodaysLesson();
+    console.log('Fixing today\'s lesson artwork URL...');
     
+    const todaysLesson = await storage.getTodaysLesson();
     if (!todaysLesson) {
-      console.log('No lesson found for today');
+      console.error('No lesson found');
       return;
     }
-    
-    console.log(`Current lesson: "${todaysLesson.title}"`);
-    console.log(`Current email artwork URL: ${todaysLesson.emailArtworkUrl || 'Not set'}`);
-    
-    if (!todaysLesson.emailArtworkUrl) {
-      console.log('Generating new artwork with email URL...');
+
+    console.log('Current lesson:', todaysLesson.title);
+    console.log('Current emailArtworkUrl:', todaysLesson.emailArtworkUrl);
+    console.log('Current artworkUrl:', todaysLesson.artworkUrl);
+
+    // Test current Imgur URL
+    try {
+      const response = await fetch(todaysLesson.emailArtworkUrl);
+      console.log('Imgur URL status:', response.status);
+      console.log('Content-Type:', response.headers.get('content-type'));
       
-      // Generate new artwork that includes email URL
-      const artwork = await generateArtworkForLesson(
-        todaysLesson.passage.tradition.id,
-        todaysLesson.title,
-        todaysLesson.story
-      );
-      
-      console.log(`Generated artwork - Website: ${artwork.url}, Email: ${artwork.emailUrl}`);
-      
-      // Update the lesson with the new email artwork URL
-      await storage.updateLessonEmailArtwork(todaysLesson.id, artwork.emailUrl);
-      
-      // Get the updated lesson
-      const updatedLesson = await storage.getLessonById(todaysLesson.id);
-      
-      if (updatedLesson) {
-        console.log('Sending test email with working artwork...');
-        
-        const testSubscriber = { 
-          id: 999, 
-          email: 'ary.lakhotia@gmail.com', 
-          createdAt: new Date(), 
-          isActive: true 
-        };
-        
-        const success = await emailService.sendDailyLesson(updatedLesson, [testSubscriber]);
-        
-        if (success) {
-          console.log('✓ Test email sent with working artwork URLs');
-          console.log(`Email artwork URL: ${updatedLesson.emailArtworkUrl}`);
-          console.log('Check your email - the artwork should now display properly');
-        } else {
-          console.log('✗ Failed to send test email');
+      if (response.ok) {
+        // Convert to direct image format if needed
+        let directUrl = todaysLesson.emailArtworkUrl;
+        if (!directUrl.endsWith('.jpg') && !directUrl.endsWith('.jpeg') && !directUrl.endsWith('.png')) {
+          // Extract image ID and make direct URL
+          const imgId = directUrl.split('/').pop();
+          directUrl = `https://i.imgur.com/${imgId}.jpg`;
+          console.log('Converted to direct URL:', directUrl);
+          
+          // Update lesson with direct URL
+          await storage.db.update(storage.lessonsTable)
+            .set({ emailArtworkUrl: directUrl })
+            .where(storage.eq(storage.lessonsTable.id, todaysLesson.id));
+          
+          console.log('Updated lesson with direct Imgur URL');
         }
       }
-    } else {
-      console.log('Lesson already has email artwork URL, sending test...');
-      
-      const testSubscriber = { 
-        id: 999, 
-        email: 'ary.lakhotia@gmail.com', 
-        createdAt: new Date(), 
-        isActive: true 
-      };
-      
-      const success = await emailService.sendDailyLesson(todaysLesson, [testSubscriber]);
-      
-      if (success) {
-        console.log('✓ Test email sent');
-      } else {
-        console.log('✗ Failed to send test email');
-      }
+    } catch (error) {
+      console.error('Error testing Imgur URL:', error);
     }
+
+    // Alternative: Use a known working test image
+    const testImageUrl = 'https://picsum.photos/800/600.jpg';
+    console.log('Testing with alternative image:', testImageUrl);
     
+    try {
+      const testResponse = await fetch(testImageUrl);
+      console.log('Test image status:', testResponse.status);
+      
+      if (testResponse.ok) {
+        await storage.db.update(storage.lessonsTable)
+          .set({ emailArtworkUrl: testImageUrl })
+          .where(storage.eq(storage.lessonsTable.id, todaysLesson.id));
+        
+        console.log('Updated lesson with test image URL');
+      }
+    } catch (error) {
+      console.error('Error with test image:', error);
+    }
+
   } catch (error) {
     console.error('Error fixing artwork:', error);
   }

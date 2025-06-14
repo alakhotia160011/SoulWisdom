@@ -122,28 +122,69 @@ export class TwilioWhatsAppService {
     }
   }
 
-  async processIncomingMessage(messageBody: string): Promise<string> {
+  async processIncomingMessage(messageBody: string, userNumber: string): Promise<string> {
     const command = messageBody.toLowerCase().trim();
     
     try {
-      if (command === 'today') {
-        return await this.getTodaysLessonText();
-      } else if (command === 'yesterday') {
-        return await this.getYesterdaysLessonText();
-      } else if (['bible', 'quran', 'gita', 'dhammapada', 'tao', 'upanishads', 'talmud'].includes(command)) {
-        return await this.getLessonByTraditionText(command);
-      } else if (command.includes('?') || command.startsWith('what') || command.startsWith('how') || command.startsWith('why')) {
-        return await this.handleQuestionText(messageBody);
-      } else if (command === 'more') {
-        return await this.getFullStoryText();
-      } else if (command === 'help') {
-        return this.getHelpText();
-      } else {
-        return await this.handleGeneralMessageText(messageBody);
+      // Command routing with immediate responses
+      switch (true) {
+        case command === 'today':
+          await this.sendResponseMessage(userNumber, await this.getTodaysLessonText());
+          return 'sent';
+          
+        case command === 'yesterday':
+          await this.sendResponseMessage(userNumber, await this.getYesterdaysLessonText());
+          return 'sent';
+          
+        case command === 'help':
+          await this.sendResponseMessage(userNumber, this.getHelpText());
+          return 'sent';
+          
+        case command === 'more':
+          await this.sendResponseMessage(userNumber, await this.getFullStoryText());
+          return 'sent';
+          
+        case command === 'inspire':
+          await this.sendResponseMessage(userNumber, await this.getRandomInspiration());
+          return 'sent';
+          
+        case command === 'traditions':
+          await this.sendResponseMessage(userNumber, await this.getTraditionsList());
+          return 'sent';
+          
+        case ['bible', 'quran', 'gita', 'dhammapada', 'tao', 'upanishads', 'talmud'].includes(command):
+          await this.sendResponseMessage(userNumber, await this.getLessonByTraditionText(command));
+          return 'sent';
+          
+        case command.includes('?') || command.startsWith('what') || command.startsWith('how') || command.startsWith('why'):
+          await this.sendResponseMessage(userNumber, await this.handleQuestionText(messageBody));
+          return 'sent';
+          
+        case command.length > 10: // Longer messages for spiritual guidance
+          await this.sendResponseMessage(userNumber, await this.handleSpiritualGuidance(messageBody));
+          return 'sent';
+          
+        default:
+          await this.sendResponseMessage(userNumber, await this.handleGeneralMessageText(messageBody));
+          return 'sent';
       }
     } catch (error) {
       console.error('Error processing message:', error);
-      return 'Sorry, I encountered an error. Please try again.';
+      await this.sendResponseMessage(userNumber, 'I\'m having trouble right now. Please try again in a moment.');
+      return 'error';
+    }
+  }
+
+  private async sendResponseMessage(toNumber: string, message: string): Promise<void> {
+    try {
+      await this.client.messages.create({
+        body: message,
+        from: this.fromNumber,
+        to: toNumber
+      });
+      console.log(`Response sent to ${toNumber}`);
+    } catch (error) {
+      console.error('Error sending response:', error);
     }
   }
 
