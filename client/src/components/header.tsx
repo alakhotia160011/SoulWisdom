@@ -104,14 +104,9 @@ export default function Header() {
       return;
     }
 
-    // Format phone number for WhatsApp
-    let formattedNumber = phoneNumber.trim();
-    if (!formattedNumber.startsWith("+")) {
-      formattedNumber = "+" + formattedNumber.replace(/\D/g, "");
-    }
-    
-    // Add whatsapp: prefix for backend
-    const whatsappNumber = `whatsapp:${formattedNumber}`;
+    // Combine country code with phone number
+    const fullPhoneNumber = `${countryCode}${phoneNumber.replace(/\D/g, "")}`;
+    const whatsappNumber = `whatsapp:${fullPhoneNumber}`;
     
     whatsappSubscriptionMutation.mutate({
       phoneNumber: whatsappNumber,
@@ -226,14 +221,33 @@ export default function Header() {
                     
                     <TabsContent value="whatsapp" className="space-y-4">
                       <form onSubmit={handleWhatsAppSubmit} className="space-y-4">
-                        <Input
-                          type="tel"
-                          placeholder="+1234567890"
-                          value={phoneNumber}
-                          onChange={(e) => setPhoneNumber(e.target.value)}
-                          className="w-full"
-                          required
-                        />
+                        <div className="flex gap-2">
+                          <Select value={countryCode} onValueChange={setCountryCode}>
+                            <SelectTrigger className="w-24">
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {countryCodes.map((country) => (
+                                <SelectItem key={country.code} value={country.code}>
+                                  <span className="flex items-center gap-1">
+                                    <span>{country.flag}</span>
+                                    <span>{country.code}</span>
+                                  </span>
+                                </SelectItem>
+                              ))}
+                            </SelectContent>
+                          </Select>
+                          
+                          <Input
+                            type="tel"
+                            placeholder="1234567890"
+                            value={phoneNumber}
+                            onChange={(e) => setPhoneNumber(e.target.value)}
+                            className="flex-1"
+                            required
+                          />
+                        </div>
+                        
                         <Button 
                           type="submit" 
                           disabled={whatsappSubscriptionMutation.isPending}
