@@ -2,6 +2,7 @@ import twilio from 'twilio';
 import { storage } from './storage';
 import { LessonWithDetails } from '../shared/schema';
 import OpenAI from 'openai';
+import { getGoogleDriveHosting } from './google-drive-hosting';
 
 export class TwilioWhatsAppService {
   private client: twilio.Twilio;
@@ -62,9 +63,47 @@ export class TwilioWhatsAppService {
   }
 
   private async sendArtworkMessage(lesson: LessonWithDetails): Promise<boolean> {
-    const artworkMessage = `🎨 *Spiritual Artwork*\n\n"${lesson.title}"\n\n${lesson.artworkDescription}\n\nThis artwork was created to complement today's spiritual lesson and enhance your meditation and reflection.`;
-    
-    return await this.sendMessage(artworkMessage);
+    try {
+      // Try to get Google Drive URL for artwork
+      const driveUrl = await this.getGoogleDriveArtworkUrl(lesson);
+      
+      if (driveUrl) {
+        // Send artwork image with description
+        const artworkMessage = `🎨 *Spiritual Artwork*\n\n"${lesson.title}"\n\n${lesson.artworkDescription}`;
+        return await this.sendMessage(artworkMessage, driveUrl);
+      } else {
+        // Fallback to description only
+        const artworkMessage = `🎨 *Spiritual Artwork*\n\n"${lesson.title}"\n\n${lesson.artworkDescription}\n\nThis artwork was created to complement today's spiritual lesson and enhance your meditation and reflection.`;
+        return await this.sendMessage(artworkMessage);
+      }
+    } catch (error) {
+      console.error('Error sending artwork message:', error);
+      return false;
+    }
+  }
+
+  private async getGoogleDriveArtworkUrl(lesson: LessonWithDetails): Promise<string | null> {
+    try {
+      const driveHosting = getGoogleDriveHosting();
+      if (!driveHosting || !lesson.artworkUrl) {
+        return null;
+      }
+
+      // Extract filename from artwork URL
+      const fileName = lesson.artworkUrl.split('/').pop();
+      if (!fileName) {
+        return null;
+      }
+
+      // Upload to Google Drive and get public URL
+      const driveUrl = await driveHosting.uploadArtwork(lesson.artworkUrl, fileName);
+      console.log(`Artwork uploaded to Google Drive: ${driveUrl}`);
+      return driveUrl;
+
+    } catch (error) {
+      console.error('Error getting Google Drive artwork URL:', error);
+      return null;
+    }
   }
 
   async processIncomingMessage(messageBody: string): Promise<string> {

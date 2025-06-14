@@ -6,6 +6,7 @@ import { dailyScheduler } from "./scheduler";
 import { backupService } from "./backup";
 import { initializeWhatsAppManual } from "./whatsapp-manual";
 import { initializeTwilioWhatsApp } from "./whatsapp-twilio";
+import { initializeGoogleDriveHosting } from "./google-drive-hosting";
 
 const app = express();
 app.use(express.json());
@@ -135,6 +136,24 @@ async function waitForOpenAI(maxRetries = 15, retryDelay = 2000) {
       }
     } else {
       console.log("WhatsApp services not initialized - missing credentials");
+    }
+
+    // Initialize Google Drive hosting for artwork
+    const googleCredentials = [
+      process.env.GOOGLE_PROJECT_ID,
+      process.env.GOOGLE_PRIVATE_KEY,
+      process.env.GOOGLE_CLIENT_EMAIL,
+      process.env.GOOGLE_CLIENT_ID
+    ];
+
+    if (googleCredentials.every(cred => cred)) {
+      console.log("Initializing Google Drive artwork hosting...");
+      const driveHosting = initializeGoogleDriveHosting();
+      if (driveHosting) {
+        await driveHosting.initializeFolder();
+      }
+    } else {
+      console.log("Google Drive hosting not initialized - missing credentials");
     }
 
     // 24/7 operation is handled by Replit deployment system
