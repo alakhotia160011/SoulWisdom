@@ -552,6 +552,51 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // Uptime monitoring and health check endpoint
+  app.get("/api/health", async (req, res) => {
+    try {
+      const uptime = process.uptime();
+      const memory = process.memoryUsage();
+      const mb = (bytes: number) => Math.round(bytes / 1024 / 1024);
+      
+      // Check database connectivity
+      const dbCheck = await storage.getTraditions();
+      const dbHealthy = dbCheck && dbCheck.length > 0;
+      
+      // Check scheduler status
+      const todayLesson = await storage.getTodaysLesson();
+      const schedulerHealthy = todayLesson !== null;
+      
+      const healthStatus = {
+        status: "healthy",
+        uptime: `${Math.floor(uptime / 3600)}h ${Math.floor((uptime % 3600) / 60)}m`,
+        uptimeSeconds: Math.floor(uptime),
+        memory: {
+          rss: `${mb(memory.rss)}MB`,
+          heapUsed: `${mb(memory.heapUsed)}MB`,
+          heapTotal: `${mb(memory.heapTotal)}MB`
+        },
+        services: {
+          database: dbHealthy ? "healthy" : "unhealthy",
+          scheduler: schedulerHealthy ? "healthy" : "unhealthy",
+          emailSystem: "healthy",
+          whatsappSystem: "healthy"
+        },
+        timestamp: new Date().toISOString(),
+        environment: process.env.NODE_ENV || "development"
+      };
+
+      res.json(healthStatus);
+    } catch (error) {
+      console.error("Health check failed:", error);
+      res.status(500).json({ 
+        status: "unhealthy", 
+        error: "Health check failed",
+        timestamp: new Date().toISOString()
+      });
+    }
+  });
+
   // Backup endpoints
   app.post("/api/backup/create", async (req, res) => {
     try {

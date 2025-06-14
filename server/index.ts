@@ -9,38 +9,98 @@ import { initializeWhatsAppManual } from "./whatsapp-manual";
 import { initializeTwilioWhatsApp } from "./whatsapp-twilio";
 import { initializeGoogleDriveHosting } from "./google-drive-hosting";
 
-// Keep-alive function for 24/7 operation
+// Enhanced keep-alive function for 24/7 operation
 function startKeepAlive(port: number | string) {
+  // Internal self-ping every 3 minutes
   setInterval(() => {
     const options = {
-      hostname: process.env.REPLIT_DEV_DOMAIN || 'localhost',
+      hostname: 'localhost',
       port: port,
       path: '/api/traditions',
       method: 'GET',
       headers: {
-        'User-Agent': 'KeepAlive/1.0'
+        'User-Agent': 'KeepAlive-Internal/1.0'
       }
     };
 
     const req = http.request(options, (res) => {
-      console.log(`Keep-alive ping: ${res.statusCode}`);
+      console.log(`Internal keep-alive: ${res.statusCode} at ${new Date().toISOString()}`);
     });
 
     req.on('error', (err) => {
-      console.log('Keep-alive ping failed:', err.message);
+      console.error('Internal keep-alive failed:', err.message);
     });
 
-    req.setTimeout(5000, () => {
+    req.setTimeout(3000, () => {
       req.destroy();
     });
 
     req.end();
-  }, 5 * 60 * 1000); // Every 5 minutes
+  }, 3 * 60 * 1000); // Every 3 minutes
+
+  // External health check every 10 minutes
+  setInterval(() => {
+    const replitUrl = process.env.REPLIT_DOMAINS?.split(',')[0];
+    if (replitUrl) {
+      const options = {
+        hostname: replitUrl,
+        port: 443,
+        path: '/api/traditions',
+        method: 'GET',
+        headers: {
+          'User-Agent': 'KeepAlive-External/1.0'
+        }
+      };
+
+      const req = http.request(options, (res) => {
+        console.log(`External health check: ${res.statusCode} at ${new Date().toISOString()}`);
+      });
+
+      req.on('error', (err) => {
+        console.error('External health check failed:', err.message);
+      });
+
+      req.setTimeout(10000, () => {
+        req.destroy();
+      });
+
+      req.end();
+    }
+  }, 10 * 60 * 1000); // Every 10 minutes
+
+  console.log('Enhanced keep-alive system started for Always On deployment');
 }
 
+// Process monitoring and crash prevention
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
+  console.error('Stack:', error.stack);
+  // Don't exit - log and continue
+});
+
+process.on('unhandledRejection', (reason, promise) => {
+  console.error('Unhandled Rejection at:', promise, 'reason:', reason);
+  // Don't exit - log and continue
+});
+
+// Memory usage monitoring
+setInterval(() => {
+  const usage = process.memoryUsage();
+  const mb = (bytes: number) => Math.round(bytes / 1024 / 1024);
+  console.log(`Memory: RSS ${mb(usage.rss)}MB, Heap ${mb(usage.heapUsed)}/${mb(usage.heapTotal)}MB`);
+  
+  // Force garbage collection if heap usage is high
+  if (usage.heapUsed > 200 * 1024 * 1024) { // 200MB threshold
+    if (global.gc) {
+      global.gc();
+      console.log('Forced garbage collection due to high memory usage');
+    }
+  }
+}, 15 * 60 * 1000); // Every 15 minutes
+
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: false, limit: '10mb' }));
 
 app.use((req, res, next) => {
   const start = Date.now();
