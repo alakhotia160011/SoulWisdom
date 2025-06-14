@@ -132,6 +132,9 @@ class DailyScheduler {
               console.error("✗ Failed to send daily lesson via WhatsApp");
             }
           }
+
+          // Send to WhatsApp subscribers
+          await this.sendWhatsAppLessons(newLesson);
         } else {
           console.error("Failed to generate today's lesson");
         }
@@ -319,6 +322,55 @@ class DailyScheduler {
     } catch (error) {
       console.error("Error fetching subscriber emails:", error);
       return [];
+    }
+  }
+
+  private async sendWhatsAppLessons(lesson: any) {
+    try {
+      const whatsappSubscribers = await storage.getWhatsAppSubscribers();
+      
+      if (whatsappSubscribers.length > 0) {
+        console.log(`📱 Sending lesson to ${whatsappSubscribers.length} WhatsApp subscribers...`);
+        
+        const { initializeTwilioWhatsApp } = await import('./whatsapp-twilio');
+        const whatsappService = initializeTwilioWhatsApp();
+        
+        let successCount = 0;
+        
+        for (const subscriber of whatsappSubscribers) {
+          try {
+            const lessonMessage = `🌅 *Daily Spiritual Lesson*
+
+🙏 *${lesson.title}*
+📖 _${lesson.passage.tradition.name}_ • ${new Date(lesson.date).toLocaleDateString()}
+📍 ${lesson.passage.source}
+
+*Today's Story:*
+${lesson.story}
+
+*Life Lesson:*
+${lesson.lifeLesson}
+
+🌐 *Read on Website:* ${process.env.REPL_SLUG ? `https://${process.env.REPL_ID}.replit.app` : 'https://soulwisdom.replit.app'}
+
+💬 Ask me any spiritual questions!`;
+
+            await whatsappService.sendResponseMessage(subscriber.phoneNumber, lessonMessage);
+            successCount++;
+            console.log(`✓ Sent to ${subscriber.phoneNumber}`);
+            
+            // Small delay between messages to avoid rate limiting
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            
+          } catch (error) {
+            console.error(`Error sending to ${subscriber.phoneNumber}:`, error);
+          }
+        }
+        
+        console.log(`✓ WhatsApp lessons sent successfully to ${successCount}/${whatsappSubscribers.length} subscribers`);
+      }
+    } catch (error) {
+      console.error("Error sending WhatsApp lessons:", error);
     }
   }
 }

@@ -126,6 +126,26 @@ export class TwilioWhatsAppService {
     const command = messageBody.toLowerCase().trim();
     
     try {
+      // Check if user is subscribed
+      const subscriber = await storage.getWhatsAppSubscriberByPhone(userNumber);
+      
+      // Handle subscription commands first
+      if (command === 'subscribe' || command === 'join') {
+        await this.handleSubscription(userNumber);
+        return 'sent';
+      }
+      
+      if (command === 'unsubscribe' || command === 'stop') {
+        await this.handleUnsubscription(userNumber);
+        return 'sent';
+      }
+      
+      // If not subscribed, prompt to subscribe for most commands
+      if (!subscriber && !['help', 'subscribe', 'join'].includes(command)) {
+        await this.sendResponseMessage(userNumber, this.getSubscriptionPrompt());
+        return 'sent';
+      }
+      
       // Command routing with immediate responses
       switch (true) {
         case command === 'today':
@@ -137,7 +157,7 @@ export class TwilioWhatsAppService {
           return 'sent';
           
         case command === 'help':
-          await this.sendResponseMessage(userNumber, this.getHelpText());
+          await this.sendResponseMessage(userNumber, this.getHelpText(!!subscriber));
           return 'sent';
           
         case command === 'more':
@@ -173,6 +193,90 @@ export class TwilioWhatsAppService {
       await this.sendResponseMessage(userNumber, 'I\'m having trouble right now. Please try again in a moment.');
       return 'error';
     }
+  }
+
+  private async handleSubscription(userNumber: string): Promise<void> {
+    try {
+      const existingSubscriber = await storage.getWhatsAppSubscriberByPhone(userNumber);
+      
+      if (existingSubscriber) {
+        if (existingSubscriber.isActive) {
+          await this.sendResponseMessage(userNumber, '🙏 You\'re already subscribed to daily spiritual lessons! Type "today" to get today\'s lesson or "help" for commands.');
+        } else {
+          // Reactivate subscription
+          await storage.updateWhatsAppSubscriber(userNumber, { isActive: true });
+          await this.sendResponseMessage(userNumber, '🌅 Welcome back! Your subscription has been reactivated. You\'ll receive daily lessons at 7 AM EST.');
+          
+          // Send today's lesson as welcome back
+          const todaysLesson = await this.getTodaysLessonText();
+          await this.sendResponseMessage(userNumber, todaysLesson);
+        }
+      } else {
+        // New subscription
+        await storage.createWhatsAppSubscriber({
+          phoneNumber: userNumber,
+          joinedVia: 'whatsapp'
+        });
+        
+        await this.sendResponseMessage(userNumber, await this.getWelcomeMessage());
+        
+        // Send today's lesson as welcome gift
+        const todaysLesson = await this.getTodaysLessonText();
+        await this.sendResponseMessage(userNumber, todaysLesson);
+      }
+    } catch (error) {
+      console.error('Error handling subscription:', error);
+      await this.sendResponseMessage(userNumber, 'Sorry, there was an issue with your subscription. Please try again.');
+    }
+  }
+
+  private async handleUnsubscription(userNumber: string): Promise<void> {
+    try {
+      await storage.deleteWhatsAppSubscriber(userNumber);
+      await this.sendResponseMessage(userNumber, '😔 You\'ve been unsubscribed from daily spiritual lessons. We\'ll miss you! Reply "subscribe" anytime to rejoin our spiritual community.');
+    } catch (error) {
+      console.error('Error handling unsubscription:', error);
+      await this.sendResponseMessage(userNumber, 'There was an issue processing your request. Please try again.');
+    }
+  }
+
+  private getSubscriptionPrompt(): string {
+    return `🙏 *Welcome to Spiritual Wisdom*
+
+To receive daily spiritual lessons and interactive guidance, please reply:
+
+*"subscribe"* or *"join"*
+
+You'll get:
+• Daily lessons at 7 AM EST
+• Full stories with website links
+• Interactive Q&A with spiritual guidance
+• Wisdom from 7 spiritual traditions
+
+Reply "help" for more info.`;
+  }
+
+  private async getWelcomeMessage(): Promise<string> {
+    const websiteUrl = process.env.REPL_SLUG ? `https://${process.env.REPL_ID}.replit.app` : 'https://soulwisdom.replit.app';
+    
+    return `🌅 *Welcome to Daily Spiritual Wisdom!*
+
+Thank you for subscribing! You'll now receive:
+
+📖 Daily spiritual lessons at 7 AM EST
+🎨 Beautiful spiritual artwork 
+💬 Interactive Q&A guidance
+🌐 Full lessons on our website
+
+*Available Commands:*
+• "today" - Today's lesson
+• "inspire" - Random inspiration
+• "traditions" - Browse by tradition
+• Ask any spiritual question!
+
+🌐 *Website:* ${websiteUrl}
+
+Your spiritual journey starts now...`;
   }
 
   private async sendResponseMessage(toNumber: string, message: string): Promise<void> {
@@ -379,12 +483,29 @@ export class TwilioWhatsAppService {
     }
   }
 
-  private getHelpText(): string {
+  private getHelpText(isSubscribed: boolean = false): string {
+    if (!isSubscribed) {
+      return `🙏 *Spiritual Wisdom Bot*
+
+*To get started:*
+• Reply "subscribe" to join daily lessons
+
+*Commands available after subscribing:*
+• "today" - Today's lesson
+• "inspire" - Random inspiration
+• "traditions" - Browse spiritual paths
+• Ask any spiritual question
+
+Daily lessons sent at 7 AM EST ✨`;
+    }
+
     return `🙏 *Spiritual Lessons Bot*
 
 *Commands:*
 • "today" - Today's lesson
 • "yesterday" - Yesterday's lesson  
+• "inspire" - Random inspiration
+• "traditions" - Browse all traditions
 • "bible", "quran", "gita" - Latest from tradition
 
 *Ask Questions:*
@@ -393,6 +514,10 @@ Just type naturally about spirituality or life guidance
 *Examples:*
 • "What does today's lesson mean?"
 • "How can I practice patience?"
+• "Help me find inner peace"
+
+*Manage:*
+• "unsubscribe" - Stop daily lessons
 
 Daily lessons sent at 7 AM EST ✨`;
   }

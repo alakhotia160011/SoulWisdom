@@ -271,6 +271,75 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
+  // WhatsApp subscription management
+  app.get("/api/whatsapp/subscribers", async (req, res) => {
+    try {
+      const subscribers = await storage.getWhatsAppSubscribers();
+      res.json({ 
+        count: subscribers.length,
+        subscribers: subscribers.map(sub => ({
+          phoneNumber: sub.phoneNumber,
+          name: sub.name,
+          joinedVia: sub.joinedVia,
+          createdAt: sub.createdAt,
+          isActive: sub.isActive
+        }))
+      });
+    } catch (error) {
+      console.error("Error fetching WhatsApp subscribers:", error);
+      res.status(500).json({ message: "Failed to fetch WhatsApp subscribers" });
+    }
+  });
+
+  app.post("/api/whatsapp/subscribe", async (req, res) => {
+    try {
+      const { phoneNumber, name } = req.body;
+      
+      if (!phoneNumber) {
+        return res.status(400).json({ message: "Phone number is required" });
+      }
+
+      const existingSubscriber = await storage.getWhatsAppSubscriberByPhone(phoneNumber);
+      
+      if (existingSubscriber) {
+        if (existingSubscriber.isActive) {
+          return res.status(409).json({ message: "Already subscribed" });
+        } else {
+          // Reactivate subscription
+          await storage.updateWhatsAppSubscriber(phoneNumber, { isActive: true });
+          return res.json({ message: "Subscription reactivated", subscriber: existingSubscriber });
+        }
+      }
+
+      const subscriber = await storage.createWhatsAppSubscriber({
+        phoneNumber,
+        name,
+        joinedVia: 'website'
+      });
+
+      res.status(201).json({ message: "Subscribed successfully", subscriber });
+    } catch (error) {
+      console.error("Error creating WhatsApp subscription:", error);
+      res.status(500).json({ message: "Failed to create subscription" });
+    }
+  });
+
+  app.delete("/api/whatsapp/unsubscribe", async (req, res) => {
+    try {
+      const { phoneNumber } = req.body;
+      
+      if (!phoneNumber) {
+        return res.status(400).json({ message: "Phone number is required" });
+      }
+
+      await storage.deleteWhatsAppSubscriber(phoneNumber);
+      res.json({ message: "Unsubscribed successfully" });
+    } catch (error) {
+      console.error("Error unsubscribing:", error);
+      res.status(500).json({ message: "Failed to unsubscribe" });
+    }
+  });
+
   // Subscribe to email list
   app.post("/api/subscribe", async (req, res) => {
     try {
