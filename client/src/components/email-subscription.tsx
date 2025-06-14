@@ -195,16 +195,7 @@ export default function EmailSubscription() {
                 </Button>
               </form>
 
-              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-600">
-                <p className="font-medium mb-2">What happens next:</p>
-                <ol className="list-decimal list-inside space-y-1 text-left">
-                  <li>You'll receive a welcome confirmation</li>
-                  <li>Daily lessons start arriving at 7 AM EST</li>
-                  <li>Full spiritual content with website links</li>
-                </ol>
-              </div>
-
-              <p className="text-slate-500 text-sm">
+              <p className="text-slate-500 text-sm mt-4">
                 <Lock className="inline w-4 h-4 mr-1" />
                 Text "unsubscribe" anytime to stop messages. Your number is only used for daily lessons.
               </p>
