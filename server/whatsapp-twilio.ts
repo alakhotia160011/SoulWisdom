@@ -2,7 +2,7 @@ import twilio from 'twilio';
 import { storage } from './storage';
 import { LessonWithDetails } from '../shared/schema';
 import OpenAI from 'openai';
-import { ImageHostingService } from './image-hosting';
+import { ReplitArtworkHosting } from './replit-hosting';
 
 export class TwilioWhatsAppService {
   private client: twilio.Twilio;
@@ -103,25 +103,14 @@ export class TwilioWhatsAppService {
 
   private async getGoogleDriveArtworkUrl(lesson: LessonWithDetails): Promise<string | null> {
     try {
-      // Priority 1: Use cloud-hosted artwork URLs (Imgur)
-      if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.includes('imgur.com')) {
-        console.log(`Using cloud artwork URL: ${lesson.emailArtworkUrl}`);
-        return lesson.emailArtworkUrl;
-      }
-
-      // Priority 2: Use Replit-hosted local artwork
-      if (lesson.artworkUrl && process.env.REPL_ID) {
-        const replitUrl = ImageHostingService.getStableImageUrl(lesson.artworkUrl);
-        console.log(`Using Replit artwork URL: ${replitUrl}`);
-        
-        // Verify URL is accessible
-        try {
-          const response = await fetch(replitUrl);
-          if (response.ok && response.headers.get('content-type')?.startsWith('image/')) {
-            return replitUrl;
-          }
-        } catch (fetchError) {
-          console.log(`Replit URL not accessible: ${fetchError.message}`);
+      // Get the best available artwork URL using Replit hosting
+      const artworkUrl = ReplitArtworkHosting.getBestArtworkUrl(lesson);
+      
+      if (artworkUrl) {
+        // Test URL accessibility before returning
+        const isAccessible = await ReplitArtworkHosting.testUrlAccessibility(artworkUrl);
+        if (isAccessible) {
+          return artworkUrl;
         }
       }
 
