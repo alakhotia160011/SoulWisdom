@@ -5,6 +5,7 @@ import { setupVite, serveStatic, log } from "./vite";
 import { dailyScheduler } from "./scheduler";
 import { backupService } from "./backup";
 import { initializeWhatsAppManual } from "./whatsapp-manual";
+import { initializeTwilioWhatsApp } from "./whatsapp-twilio";
 
 const app = express();
 app.use(express.json());
@@ -112,15 +113,28 @@ async function waitForOpenAI(maxRetries = 15, retryDelay = 2000) {
       console.error("Failed to initialize backup service:", error);
     }
 
-    // Initialize WhatsApp manual service if admin number is provided
+    // Initialize WhatsApp services
     const whatsappAdminNumber = process.env.WHATSAPP_ADMIN_NUMBER;
     const openaiApiKey = process.env.OPENAI_API_KEY;
+    const twilioAccountSid = process.env.TWILIO_ACCOUNT_SID;
+    const twilioAuthToken = process.env.TWILIO_AUTH_TOKEN;
+    const twilioPhoneNumber = process.env.TWILIO_PHONE_NUMBER;
     
     if (whatsappAdminNumber && openaiApiKey) {
       console.log("Initializing WhatsApp manual service...");
       initializeWhatsAppManual(whatsappAdminNumber, openaiApiKey);
+      
+      // Initialize Twilio WhatsApp if credentials are available and Account SID format is correct
+      if (twilioAccountSid && twilioAuthToken && twilioPhoneNumber && twilioAccountSid.startsWith('AC')) {
+        console.log("Initializing Twilio WhatsApp service...");
+        const twilioFromNumber = `whatsapp:${twilioPhoneNumber}`;
+        const twilioToNumber = `whatsapp:${whatsappAdminNumber}`;
+        initializeTwilioWhatsApp(twilioAccountSid, twilioAuthToken, twilioFromNumber, twilioToNumber, openaiApiKey);
+      } else {
+        console.log("Twilio WhatsApp not initialized - Account SID must start with 'AC'");
+      }
     } else {
-      console.log("WhatsApp service not initialized - WHATSAPP_ADMIN_NUMBER or OPENAI_API_KEY not provided");
+      console.log("WhatsApp services not initialized - missing credentials");
     }
 
     // 24/7 operation is handled by Replit deployment system

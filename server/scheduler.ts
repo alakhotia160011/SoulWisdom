@@ -2,6 +2,7 @@ import { storage } from "./storage";
 import { generateTodaysLesson } from "./lesson-generator";
 import { emailService } from "./email-service";
 import { getWhatsAppService } from "./whatsapp-service";
+import { getTwilioWhatsAppService } from "./whatsapp-twilio";
 
 // Simple in-memory scheduler for daily lesson generation
 class DailyScheduler {
@@ -118,6 +119,18 @@ class DailyScheduler {
           const whatsappService = getWhatsAppService();
           if (whatsappService) {
             await whatsappService.sendDailyLessonToAdmin(newLesson);
+          }
+          
+          // Send via Twilio WhatsApp if available
+          const twilioWhatsAppService = getTwilioWhatsAppService();
+          if (twilioWhatsAppService) {
+            console.log("Sending daily lesson via Twilio WhatsApp...");
+            const sent = await twilioWhatsAppService.sendDailyLesson();
+            if (sent) {
+              console.log("✓ Daily lesson sent via WhatsApp");
+            } else {
+              console.error("✗ Failed to send daily lesson via WhatsApp");
+            }
           }
         } else {
           console.error("Failed to generate today's lesson");
