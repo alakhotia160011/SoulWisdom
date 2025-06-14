@@ -45,21 +45,13 @@ export class TwilioWhatsAppService {
       return false;
     }
 
-    const message = this.formatLessonForWhatsApp(todaysLesson);
-    const dailyMessage = `🌅 *Daily Spiritual Lesson*\n\n${message}`;
+    // Include artwork URL in main lesson message due to trial account limits
+    const artworkUrl = await this.getGoogleDriveArtworkUrl(todaysLesson);
+    const message = this.formatLessonWithArtworkUrl(todaysLesson, artworkUrl);
     
-    // Send lesson text first
-    const textSent = await this.sendMessage(dailyMessage);
-    if (!textSent) {
-      return false;
-    }
-
-    // Send artwork separately if available
-    if (todaysLesson.artworkDescription) {
-      await this.sendArtworkMessage(todaysLesson);
-    }
+    const finalMessage = `🌅 *Daily Spiritual Lesson*\n\n${message}`;
     
-    return true;
+    return await this.sendMessage(finalMessage);
   }
 
   private async sendArtworkMessage(lesson: LessonWithDetails): Promise<boolean> {
@@ -324,6 +316,42 @@ Daily lessons sent at 7 AM EST ✨`;
     }
     
     return finalMessage;
+  }
+
+  private formatLessonWithArtworkUrl(lesson: LessonWithDetails, artworkUrl: string | null): string {
+    const date = new Date(lesson.date).toLocaleDateString();
+    
+    // Build message components
+    const header = `🙏 *${lesson.title}*\n📖 _${lesson.passage.tradition.name}_ • ${date}\n📍 ${lesson.passage.source}\n\n`;
+    const lifeLessonSection = `\n\n*Life Lesson:*\n${lesson.lifeLesson}\n\nType "more" for full story!`;
+    
+    let artworkSection = '';
+    if (artworkUrl) {
+      artworkSection = `\n\n🎨 *Spiritual Artwork:* ${artworkUrl}`;
+    }
+    
+    // Calculate space for story
+    const fixedLength = header.length + lifeLessonSection.length + artworkSection.length;
+    const maxStoryLength = 1550 - fixedLength;
+    
+    let storyText = lesson.story;
+    if (storyText.length > maxStoryLength) {
+      storyText = lesson.story.substring(0, maxStoryLength - 30) + '...\n\n(Reply "more")';
+    }
+    
+    return `${header}*Today's Story:*\n${storyText}${lifeLessonSection}${artworkSection}`;
+  }
+
+  private formatShortLessonForWhatsApp(lesson: LessonWithDetails): string {
+    const date = new Date(lesson.date).toLocaleDateString();
+    
+    return `🙏 *${lesson.title}*
+📖 _${lesson.passage.tradition.name}_ • ${date}
+
+*Life Lesson:*
+${lesson.lifeLesson}
+
+Type "today" for full story or "more" for details!`;
   }
 
   private getWhatsAppArtworkUrl(lesson: LessonWithDetails): string | undefined {
