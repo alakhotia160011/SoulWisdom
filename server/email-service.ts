@@ -510,12 +510,32 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
   }
 
   private getImageSrcForEmail(lesson: LessonWithDetails): string {
-    // For local artwork files, always use the deployed website URL
+    // Use embedded data URI if available (most reliable for emails)
+    if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.startsWith('data:')) {
+      return lesson.emailArtworkUrl;
+    }
+
+    // For local artwork files, convert to embedded data URI for email reliability
     if (lesson.artworkUrl && lesson.artworkUrl.startsWith('/artwork/')) {
+      try {
+        const fs = require('fs');
+        const path = require('path');
+        const artworkPath = path.join(process.cwd(), 'public', lesson.artworkUrl);
+        
+        if (fs.existsSync(artworkPath)) {
+          const imageBuffer = fs.readFileSync(artworkPath);
+          const base64Image = imageBuffer.toString('base64');
+          return `data:image/png;base64,${base64Image}`;
+        }
+      } catch (error) {
+        console.error('Error reading artwork file:', error);
+      }
+      
+      // Fallback to deployed website URL if file reading fails
       return `${this.getWebsiteUrl()}${lesson.artworkUrl}`;
     }
     
-    // Use the email artwork URL if available and valid (OpenAI generated image)
+    // Use external artwork URL if available
     if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.startsWith('http')) {
       return lesson.emailArtworkUrl;
     }
