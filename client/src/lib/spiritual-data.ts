@@ -1,102 +1,298 @@
-// Sample spiritual passages for lesson generation
+// Expanded spiritual passages synchronized with server-side data
 export const spiritualPassages = [
-  // Bible
+  // Bible - Christianity & Judaism
   {
     traditionId: 1,
-    source: "Genesis 37-50",
-    title: "Joseph's Journey from Pit to Palace",
-    content: "Joseph was sold into slavery by his brothers, falsely imprisoned, yet interpreted Pharaoh's dreams and became ruler of Egypt. When famine came, his brothers came seeking food. Joseph revealed himself saying, 'You intended to harm me, but God intended it for good to accomplish what is now being done, the saving of many lives.'",
-    context: "The complete story of Joseph's trials, faith, and ultimate redemption",
-    theme: "Divine Purpose in Suffering"
+    source: "Matthew 18:12-14",
+    title: "The Lost Sheep",
+    content: "What do you think? If a man owns a hundred sheep, and one of them wanders away, will he not leave the ninety-nine on the hills and go to look for the one that wandered off? And if he finds it, truly I tell you, he is happier about that one sheep than about the ninety-nine that did not wander off. In the same way your Father in heaven is not willing that any of these little ones should perish.",
+    context: "Jesus teaches about God's love for each individual soul",
+    theme: "Divine Love and Forgiveness"
   },
   {
     traditionId: 1,
     source: "Luke 15:11-32",
-    title: "The Prodigal Son's Return",
-    content: "A son demanded his inheritance, squandered it in wild living, and found himself feeding pigs in poverty. Coming to his senses, he returned home expecting to be a servant. Instead, his father ran to embrace him, put a robe on him, and celebrated his return.",
+    title: "The Prodigal Son",
+    content: "A man had two sons. The younger one said to his father, 'Father, give me my share of the estate.' So he divided his property between them. Not long after that, the younger son got together all he had, set off for a distant country and there squandered his wealth in wild living. But while he was still a long way off, his father saw him and was filled with compassion for him; he ran to his son, threw his arms around him and kissed him.",
     context: "Jesus' parable about unconditional love and forgiveness",
     theme: "Unconditional Love and Forgiveness"
   },
   {
     traditionId: 1,
-    source: "1 Kings 19:9-13",
-    title: "Elijah and the Still Small Voice",
-    content: "After defeating the prophets of Baal, Elijah fled in fear. God told him to stand on the mountain. A great wind tore the mountains, then an earthquake, then fire - but God was not in these. After the fire came a gentle whisper, and Elijah knew this was God's voice.",
-    context: "Elijah's encounter with God after his triumph and despair",
-    theme: "Finding God in Stillness"
+    source: "Psalm 23:1-4",
+    title: "The Lord is My Shepherd",
+    content: "The Lord is my shepherd, I lack nothing. He makes me lie down in green pastures, he leads me beside quiet waters, he refreshes my soul. He guides me along the right paths for his name's sake. Even though I walk through the darkest valley, I will fear no evil, for you are with me; your rod and your staff, they comfort me.",
+    context: "David's psalm of trust and divine protection",
+    theme: "Trust and Divine Protection"
+  },
+  {
+    traditionId: 1,
+    source: "1 Corinthians 13:4-7",
+    title: "The Nature of Love",
+    content: "Love is patient, love is kind. It does not envy, it does not boast, it is not proud. It does not dishonor others, it is not self-seeking, it is not easily angered, it keeps no record of wrongs. Love does not delight in evil but rejoices with the truth. It always protects, always trusts, always hopes, always perseveres.",
+    context: "Paul's teaching on the essential nature of divine love",
+    theme: "Divine Love and Compassion"
+  },
+  {
+    traditionId: 1,
+    source: "Matthew 5:3-4",
+    title: "The Beatitudes",
+    content: "Blessed are the poor in spirit, for theirs is the kingdom of heaven. Blessed are those who mourn, for they will be comforted. Blessed are the meek, for they will inherit the earth. Blessed are those who hunger and thirst for righteousness, for they will be filled.",
+    context: "Jesus' teachings on spiritual blessedness and character",
+    theme: "Spiritual Blessedness"
   },
 
-  // Qur'an
+  // Qur'an - Islam
   {
     traditionId: 2,
-    source: "Qur'an 18:60-82",
-    title: "Moses and Al-Khidr's Journey",
-    content: "Moses traveled with a mysterious servant of Allah (Al-Khidr) who performed seemingly harsh acts: damaging a ship, killing a young man, and repairing a wall for inhospitable people. When Moses questioned each act, Al-Khidr revealed the divine wisdom: the ship was saved from seizure, the young man would have grieved his righteous parents, and treasure was preserved for orphaned children underneath the wall.",
-    context: "The story of hidden divine wisdom behind apparent hardships",
+    source: "Quran 18:65-82",
+    title: "Moses and Al-Khidr",
+    content: "So they found one of Our servants, on whom We had bestowed Mercy from Ourselves and whom We had taught knowledge from Our own Presence. Moses said to him: 'May I follow you, on the footing that you teach me something of the (higher) Truth which you have been taught?' The other said: 'Verily you will not be able to have patience with me!'",
+    context: "The story of Moses learning from the mysterious servant Al-Khidr about divine wisdom",
     theme: "Divine Wisdom Beyond Appearances"
   },
   {
     traditionId: 2,
-    source: "Qur'an 12:4-101",
-    title: "Joseph's Dream and Destiny",
-    content: "Young Joseph dreamed of eleven stars, the sun and moon prostrating to him. His jealous brothers threw him in a well, sold him into slavery. Through false accusation and imprisonment, Joseph's ability to interpret dreams eventually brought him before the king. He became Egypt's treasurer, saved the land from famine, and his family - including his brothers - came to him for help, fulfilling his childhood dream.",
-    context: "The complete story of Prophet Joseph (Yusuf) from dream to fulfillment",
-    theme: "Divine Destiny Through Trials"
+    source: "Quran 2:255",
+    title: "Ayat al-Kursi (Throne Verse)",
+    content: "Allah - there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills.",
+    context: "The most celebrated verse in the Qur'an about Allah's eternal nature",
+    theme: "Divine Majesty and Omniscience"
+  },
+  {
+    traditionId: 2,
+    source: "Quran 24:35",
+    title: "The Light Verse",
+    content: "Allah is the light of the heavens and the earth. The example of His light is like a niche within which is a lamp, the lamp is within glass, the glass as if it were a brilliant star lit from a blessed olive tree, neither of the east nor of the west, whose oil would almost glow even if untouched by fire. Light upon light. Allah guides to His light whom He wills.",
+    context: "The famous verse describing Allah as the divine light illuminating all existence",
+    theme: "Divine Light and Guidance"
+  },
+  {
+    traditionId: 2,
+    source: "Quran 55:1-4",
+    title: "The Compassionate",
+    content: "The Most Compassionate taught the Qur'an, created humanity, and taught them speech. The sun and the moon follow their calculated courses; the stars and the trees bow down in worship.",
+    context: "Opening of Surah Ar-Rahman highlighting Allah's mercy and creation",
+    theme: "Divine Compassion and Creation"
+  },
+  {
+    traditionId: 2,
+    source: "Quran 94:5-6",
+    title: "After Hardship Comes Ease",
+    content: "For indeed, with hardship comes ease. Indeed, with hardship comes ease.",
+    context: "Allah's promise that relief follows every difficulty",
+    theme: "Hope and Perseverance"
   },
 
-  // Bhagavad Gita
+  // Bhagavad Gita - Hinduism
   {
     traditionId: 3,
-    source: "Bhagavad Gita 1:28-47",
-    title: "Arjuna's Dilemma on the Battlefield",
-    content: "Standing between two armies ready for war, Arjuna saw teachers, fathers, sons, and friends on both sides. His bow slipped from his hands and he said to Krishna, 'I cannot fight those whom I should honor. How can we be happy by killing our own people? It is better for me to be killed unarmed than to kill these noble souls.' Overwhelmed with grief, Arjuna sat down in his chariot, refusing to fight.",
-    context: "The moral crisis that prompted Krishna's teachings in the Bhagavad Gita",
-    theme: "Duty vs. Compassion"
+    source: "Bhagavad Gita 2:47",
+    title: "Action Without Attachment",
+    content: "You have a right to perform your prescribed duty, but do not become attached to the fruits of action. Never consider yourself the cause of the results of your activities, and never be attached to not doing your duty.",
+    context: "Krishna's teaching to Arjuna about performing duty without attachment to results",
+    theme: "Selfless Service"
   },
   {
     traditionId: 3,
-    source: "Bhagavad Gita 11:5-55",
-    title: "Krishna Reveals His Universal Form",
-    content: "Krishna granted Arjuna divine sight to see His cosmic form. Arjuna beheld the entire universe within Krishna's body - countless forms, faces, and eyes, blazing like a thousand suns. Overwhelmed and terrified by this vision of divine infinity, Arjuna begged Krishna to return to his familiar, gentle form. Krishna then appeared again in his beautiful human form, comforting Arjuna.",
-    context: "The climactic revelation of divine reality in the Bhagavad Gita",
-    theme: "Divine Transcendence and Grace"
+    source: "Bhagavad Gita 4:7-8",
+    title: "Divine Incarnation",
+    content: "Whenever there is a decline in righteousness and an increase in unrighteousness, O Arjuna, at that time I manifest myself on earth. To deliver the pious and to annihilate the miscreants, as well as to reestablish the principles of dharma, I appear in every age.",
+    context: "Krishna explains why the divine incarnates in the world",
+    theme: "Divine Justice and Righteousness"
+  },
+  {
+    traditionId: 3,
+    source: "Bhagavad Gita 6:5",
+    title: "Self as Friend or Enemy",
+    content: "One must deliver himself with the help of his mind, and not degrade himself. The mind is the friend of the conditioned soul, and his enemy as well. For him who has conquered the mind, the mind is the best of friends; but for one who has failed to do so, his mind will remain the greatest enemy.",
+    context: "Krishna's teaching on mastering the mind for spiritual progress",
+    theme: "Self-Mastery and Mental Discipline"
+  },
+  {
+    traditionId: 3,
+    source: "Bhagavad Gita 9:22",
+    title: "Divine Providence",
+    content: "But those who always worship Me with exclusive devotion, meditating on My transcendental form—to them I carry what they lack, and I preserve what they have.",
+    context: "Krishna's promise to provide for his devoted followers",
+    theme: "Divine Protection and Devotion"
+  },
+  {
+    traditionId: 3,
+    source: "Bhagavad Gita 18:66",
+    title: "Surrender to the Divine",
+    content: "Abandon all forms of dharma and simply surrender unto Me alone. I shall liberate you from all sinful reactions; do not fear.",
+    context: "Krishna's final instruction to Arjuna about complete surrender",
+    theme: "Divine Grace and Surrender"
   },
 
-  // Dhammapada
+  // Dhammapada - Buddhism
   {
     traditionId: 4,
-    source: "Buddhist Jataka Tales",
-    title: "The Monkey King's Sacrifice",
-    content: "A monkey king saw his troop trapped on one side of a river with hunters approaching. He stretched his body across the chasm as a bridge, allowing all 80,000 monkeys to escape safely. Though his back was broken from their weight, he saved every one. When the human king who witnessed this asked why, the monkey king replied, 'A true leader finds joy not in being served, but in serving others, even unto death.'",
-    context: "A Jataka tale about the Buddha's past life as a compassionate leader",
-    theme: "Selfless Leadership"
+    source: "Dhammapada 1:1-2",
+    title: "Mind as the Forerunner",
+    content: "Mind is the forerunner of all actions. Mind is chief; mind-made are they. If one speaks or acts with a serene mind, happiness follows, as surely as one's shadow. Mind is the forerunner of all actions. Mind is chief; mind-made are they. If one speaks or acts with an impure mind, suffering follows, as surely as the wheel follows the hoof of the ox.",
+    context: "Buddha's teaching on the power of mind and intention",
+    theme: "Mindfulness and Right Intention"
   },
   {
     traditionId: 4,
-    source: "Buddhist Texts",
-    title: "The Buddha and Angulimala",
-    content: "Angulimala was a serial killer who wore a necklace of his victims' fingers, terrorizing the land. When he chased the Buddha to make him his 1000th victim, the Buddha walked calmly while Angulimala, though running, could not catch up. Amazed, Angulimala stopped and listened to the Buddha's teaching about compassion. He became a monk and eventually achieved enlightenment, proving that even the most violent person can transform.",
-    context: "The story of how the Buddha converted a notorious killer through compassion",
-    theme: "Redemption and Transformation"
+    source: "Dhammapada 5:1",
+    title: "Hatred and Love",
+    content: "Hatred does not cease by hatred, but only by love; this is the eternal rule.",
+    context: "Buddha's teaching on overcoming hatred through compassion",
+    theme: "Compassion and Non-Violence"
+  },
+  {
+    traditionId: 4,
+    source: "Dhammapada 183",
+    title: "The Teaching of All Buddhas",
+    content: "Not to do any evil, to cultivate good, to purify one's mind—this is the teaching of all Buddhas.",
+    context: "The core ethical teaching shared by all Buddhas",
+    theme: "Ethical Conduct and Purification"
+  },
+  {
+    traditionId: 4,
+    source: "Dhammapada 160",
+    title: "Self-Reliance",
+    content: "Self is the master of self. Who else could be the master? With self well-subdued, one obtains the master that is hard to obtain.",
+    context: "Buddha's teaching on personal responsibility and self-mastery",
+    theme: "Self-Reliance and Inner Strength"
+  },
+  {
+    traditionId: 4,
+    source: "Dhammapada 279",
+    title: "The Path of Awakening",
+    content: "All formations are impermanent. When one sees this with wisdom, one turns away from suffering. This is the path of purification.",
+    context: "Buddha's teaching on impermanence and the path to liberation",
+    theme: "Impermanence and Liberation"
   },
 
-  // Tao Te Ching
+  // Tao Te Ching - Taoism
   {
     traditionId: 5,
-    source: "Taoist Stories",
-    title: "Zhuangzi's Butterfly Dream",
-    content: "Zhuangzi dreamed he was a butterfly, fluttering happily here and there, enjoying himself completely and knowing nothing about being Zhuangzi. Suddenly he awakened, and there he was, definitely Zhuangzi. But he didn't know if he were Zhuangzi who had dreamt he was a butterfly, or a butterfly dreaming he was Zhuangzi. This is the transformation of things.",
-    context: "A famous Taoist parable about the nature of reality and identity",
-    theme: "The Nature of Reality"
+    source: "Tao Te Ching 17",
+    title: "The Invisible Leader",
+    content: "The best leaders are those the people hardly know exist. The next best is a leader who is loved and praised. Next comes the one who is feared. The worst one is the leader that is despised. If you don't trust the people, they will become untrustworthy. The best leaders value their words, and use them sparingly. When they have accomplished their task, the people say, 'Amazing! We did it, all by ourselves!'",
+    context: "Lao Tzu's teaching on wu wei - effortless action and humble leadership",
+    theme: "Humility and Natural Action"
   },
   {
     traditionId: 5,
-    source: "Taoist Wisdom",
-    title: "The Empty Cup",
-    content: "A learned professor visited a Zen master to inquire about Tao. The master served tea, pouring until the cup overflowed. 'Stop!' cried the professor. 'The cup is full!' The master replied, 'Yes, and like this cup, you are full of your own ideas. How can I teach you about Tao until you first empty your cup?'",
-    context: "A teaching story about the necessity of beginner's mind in learning",
-    theme: "Emptiness and Learning"
+    source: "Tao Te Ching 1",
+    title: "The Mystery of the Tao",
+    content: "The Tao that can be spoken is not the eternal Tao. The name that can be named is not the eternal name. The nameless is the beginning of heaven and earth. The named is the mother of ten thousand things. Ever desireless, one can see the mystery. Ever desiring, one can see the manifestations.",
+    context: "The opening verse describing the ineffable nature of the Tao",
+    theme: "The Ineffable Divine"
   },
+  {
+    traditionId: 5,
+    source: "Tao Te Ching 8",
+    title: "The Virtue of Water",
+    content: "The highest goodness is like water. Water benefits all things and does not compete. It dwells in places that all disdain. This is why it is so near to the Tao. In dwelling, be close to the land. In meditation, go deep in the heart. In dealing with others, be gentle and kind.",
+    context: "Lao Tzu uses water as a metaphor for the Tao's way of being",
+    theme: "Humility and Gentle Strength"
+  },
+  {
+    traditionId: 5,
+    source: "Tao Te Ching 33",
+    title: "True Strength",
+    content: "Knowing others is intelligence; knowing yourself is true wisdom. Mastering others is strength; mastering yourself is true power. If you realize that you have enough, you are truly rich.",
+    context: "Lao Tzu's teaching on the difference between external and internal power",
+    theme: "Self-Knowledge and Contentment"
+  },
+  {
+    traditionId: 5,
+    source: "Tao Te Ching 81",
+    title: "The Sage's Way",
+    content: "True words are not beautiful; beautiful words are not true. Those who are good do not argue; those who argue are not good. Those who know are not learned; the learned do not know. The sage does not attempt anything very big, and thus achieves greatness.",
+    context: "The final chapter summarizing the sage's approach to life",
+    theme: "Wisdom and Simplicity"
+  },
+
+  // Upanishads - Vedanta Hinduism
+  {
+    traditionId: 6,
+    source: "Isha Upanishad 1",
+    title: "The Divine in All",
+    content: "The universe is the creation of the Supreme Power meant for the benefit of all creation. Each individual life form must learn to enjoy its benefits by forming a part of the system in close relation with other species. Let not any one species encroach upon others' rights.",
+    context: "Ancient Vedic wisdom about interconnectedness and cosmic harmony",
+    theme: "Unity and Interconnectedness"
+  },
+  {
+    traditionId: 6,
+    source: "Chandogya Upanishad 6.8.7",
+    title: "Tat Tvam Asi",
+    content: "That which is the subtle essence—this whole world has that as its soul. That is Reality. That is Atman. That art thou.",
+    context: "The great statement revealing the identity of individual soul with universal consciousness",
+    theme: "Unity of Self and Divine"
+  },
+  {
+    traditionId: 6,
+    source: "Katha Upanishad 1.3.14",
+    title: "Rise, Awake",
+    content: "Arise, awake, and stop not until the goal is reached. The path is sharp as the edge of a razor, so say the wise—hard to tread and difficult to cross.",
+    context: "A call to spiritual awakening and persistent effort on the path",
+    theme: "Spiritual Awakening and Perseverance"
+  },
+  {
+    traditionId: 6,
+    source: "Brihadaranyaka Upanishad 1.3.28",
+    title: "From Darkness to Light",
+    content: "Lead me from the unreal to the real. Lead me from darkness to light. Lead me from death to immortality.",
+    context: "The famous prayer for spiritual transformation and realization",
+    theme: "Spiritual Transformation"
+  },
+  {
+    traditionId: 6,
+    source: "Mandukya Upanishad 7",
+    title: "The Fourth State",
+    content: "Turiya is not that which is conscious of the inner world, nor that which is conscious of the outer world, nor that which is conscious of both, nor that which is a mass of consciousness. It is not simple consciousness nor is it unconsciousness. It is unperceived, unrelated, inconceivable, uninferable, unthinkable, indescribable.",
+    context: "Description of the fourth state of consciousness beyond waking, dreaming, and deep sleep",
+    theme: "Transcendent Consciousness"
+  },
+
+  // Talmud & Midrash - Judaism
+  {
+    traditionId: 7,
+    source: "Talmud, Sanhedrin 37a",
+    title: "The Value of One Life",
+    content: "Therefore, man was created alone, to teach you that whoever destroys a single soul, Scripture considers it as if he destroyed an entire world. And whoever saves a single soul, Scripture considers it as if he saved an entire world.",
+    context: "Rabbinic teaching on the infinite value of every human life",
+    theme: "The Sacred Value of Life"
+  },
+  {
+    traditionId: 7,
+    source: "Talmud, Avot 2:5",
+    title: "Be Human",
+    content: "In a place where there are no human beings, strive to be human.",
+    context: "Hillel's teaching on moral leadership and human dignity",
+    theme: "Moral Courage and Leadership"
+  },
+  {
+    traditionId: 7,
+    source: "Talmud, Avot 1:14",
+    title: "If Not Now, When?",
+    content: "If I am not for myself, who will be for me? If I am only for myself, what am I? And if not now, when?",
+    context: "Hillel's famous questions about self-responsibility and action",
+    theme: "Personal Responsibility and Action"
+  },
+  {
+    traditionId: 7,
+    source: "Talmud, Shabbat 31a",
+    title: "The Golden Rule",
+    content: "What is hateful to you, do not do to your fellow. This is the whole Torah; the rest is commentary. Go and learn it.",
+    context: "Hillel's concise summary of ethical living",
+    theme: "Ethical Treatment of Others"
+  },
+  {
+    traditionId: 7,
+    source: "Talmud, Avot 3:1",
+    title: "Know Your Place",
+    content: "Reflect on three things and you will not come to sin: Know from where you came, where you are going, and before whom you will give account and reckoning.",
+    context: "Rabbi Akavya's teaching on maintaining spiritual perspective",
+    theme: "Spiritual Accountability and Humility"
+  }
 
   // Upanishads
   {

@@ -11,6 +11,7 @@ interface GeneratedLessonContent {
 }
 
 export const spiritualPassages = [
+  // Bible - Christianity & Judaism
   {
     traditionId: 1,
     source: "Matthew 18:12-14",
@@ -20,6 +21,40 @@ export const spiritualPassages = [
     theme: "Divine Love and Forgiveness"
   },
   {
+    traditionId: 1,
+    source: "Luke 15:11-32",
+    title: "The Prodigal Son",
+    content: "A man had two sons. The younger one said to his father, 'Father, give me my share of the estate.' So he divided his property between them. Not long after that, the younger son got together all he had, set off for a distant country and there squandered his wealth in wild living. But while he was still a long way off, his father saw him and was filled with compassion for him; he ran to his son, threw his arms around him and kissed him.",
+    context: "Jesus' parable about unconditional love and forgiveness",
+    theme: "Unconditional Love and Forgiveness"
+  },
+  {
+    traditionId: 1,
+    source: "Psalm 23:1-4",
+    title: "The Lord is My Shepherd",
+    content: "The Lord is my shepherd, I lack nothing. He makes me lie down in green pastures, he leads me beside quiet waters, he refreshes my soul. He guides me along the right paths for his name's sake. Even though I walk through the darkest valley, I will fear no evil, for you are with me; your rod and your staff, they comfort me.",
+    context: "David's psalm of trust and divine protection",
+    theme: "Trust and Divine Protection"
+  },
+  {
+    traditionId: 1,
+    source: "1 Corinthians 13:4-7",
+    title: "The Nature of Love",
+    content: "Love is patient, love is kind. It does not envy, it does not boast, it is not proud. It does not dishonor others, it is not self-seeking, it is not easily angered, it keeps no record of wrongs. Love does not delight in evil but rejoices with the truth. It always protects, always trusts, always hopes, always perseveres.",
+    context: "Paul's teaching on the essential nature of divine love",
+    theme: "Divine Love and Compassion"
+  },
+  {
+    traditionId: 1,
+    source: "Matthew 5:3-4",
+    title: "The Beatitudes",
+    content: "Blessed are the poor in spirit, for theirs is the kingdom of heaven. Blessed are those who mourn, for they will be comforted. Blessed are the meek, for they will inherit the earth. Blessed are those who hunger and thirst for righteousness, for they will be filled.",
+    context: "Jesus' teachings on spiritual blessedness and character",
+    theme: "Spiritual Blessedness"
+  },
+
+  // Qur'an - Islam
+  {
     traditionId: 2,
     source: "Quran 18:65-82",
     title: "Moses and Al-Khidr",
@@ -27,6 +62,40 @@ export const spiritualPassages = [
     context: "The story of Moses learning from the mysterious servant Al-Khidr about divine wisdom",
     theme: "Divine Wisdom Beyond Appearances"
   },
+  {
+    traditionId: 2,
+    source: "Quran 2:255",
+    title: "Ayat al-Kursi (Throne Verse)",
+    content: "Allah - there is no deity except Him, the Ever-Living, the Sustainer of existence. Neither drowsiness overtakes Him nor sleep. To Him belongs whatever is in the heavens and whatever is on the earth. Who is it that can intercede with Him except by His permission? He knows what is before them and what will be after them, and they encompass not a thing of His knowledge except for what He wills.",
+    context: "The most celebrated verse in the Qur'an about Allah's eternal nature",
+    theme: "Divine Majesty and Omniscience"
+  },
+  {
+    traditionId: 2,
+    source: "Quran 24:35",
+    title: "The Light Verse",
+    content: "Allah is the light of the heavens and the earth. The example of His light is like a niche within which is a lamp, the lamp is within glass, the glass as if it were a brilliant star lit from a blessed olive tree, neither of the east nor of the west, whose oil would almost glow even if untouched by fire. Light upon light. Allah guides to His light whom He wills.",
+    context: "The famous verse describing Allah as the divine light illuminating all existence",
+    theme: "Divine Light and Guidance"
+  },
+  {
+    traditionId: 2,
+    source: "Quran 55:1-4",
+    title: "The Compassionate",
+    content: "The Most Compassionate taught the Qur'an, created humanity, and taught them speech. The sun and the moon follow their calculated courses; the stars and the trees bow down in worship.",
+    context: "Opening of Surah Ar-Rahman highlighting Allah's mercy and creation",
+    theme: "Divine Compassion and Creation"
+  },
+  {
+    traditionId: 2,
+    source: "Quran 94:5-6",
+    title: "After Hardship Comes Ease",
+    content: "For indeed, with hardship comes ease. Indeed, with hardship comes ease.",
+    context: "Allah's promise that relief follows every difficulty",
+    theme: "Hope and Perseverance"
+  },
+
+  // Bhagavad Gita - Hinduism
   {
     traditionId: 3,
     source: "Bhagavad Gita 2:47",
@@ -36,6 +105,40 @@ export const spiritualPassages = [
     theme: "Selfless Service"
   },
   {
+    traditionId: 3,
+    source: "Bhagavad Gita 4:7-8",
+    title: "Divine Incarnation",
+    content: "Whenever there is a decline in righteousness and an increase in unrighteousness, O Arjuna, at that time I manifest myself on earth. To deliver the pious and to annihilate the miscreants, as well as to reestablish the principles of dharma, I appear in every age.",
+    context: "Krishna explains why the divine incarnates in the world",
+    theme: "Divine Justice and Righteousness"
+  },
+  {
+    traditionId: 3,
+    source: "Bhagavad Gita 6:5",
+    title: "Self as Friend or Enemy",
+    content: "One must deliver himself with the help of his mind, and not degrade himself. The mind is the friend of the conditioned soul, and his enemy as well. For him who has conquered the mind, the mind is the best of friends; but for one who has failed to do so, his mind will remain the greatest enemy.",
+    context: "Krishna's teaching on mastering the mind for spiritual progress",
+    theme: "Self-Mastery and Mental Discipline"
+  },
+  {
+    traditionId: 3,
+    source: "Bhagavad Gita 9:22",
+    title: "Divine Providence",
+    content: "But those who always worship Me with exclusive devotion, meditating on My transcendental form—to them I carry what they lack, and I preserve what they have.",
+    context: "Krishna's promise to provide for his devoted followers",
+    theme: "Divine Protection and Devotion"
+  },
+  {
+    traditionId: 3,
+    source: "Bhagavad Gita 18:66",
+    title: "Surrender to the Divine",
+    content: "Abandon all forms of dharma and simply surrender unto Me alone. I shall liberate you from all sinful reactions; do not fear.",
+    context: "Krishna's final instruction to Arjuna about complete surrender",
+    theme: "Divine Grace and Surrender"
+  },
+
+  // Dhammapada - Buddhism
+  {
     traditionId: 4,
     source: "Dhammapada 1:1-2",
     title: "Mind as the Forerunner",
@@ -43,6 +146,40 @@ export const spiritualPassages = [
     context: "Buddha's teaching on the power of mind and intention",
     theme: "Mindfulness and Right Intention"
   },
+  {
+    traditionId: 4,
+    source: "Dhammapada 5:1",
+    title: "Hatred and Love",
+    content: "Hatred does not cease by hatred, but only by love; this is the eternal rule.",
+    context: "Buddha's teaching on overcoming hatred through compassion",
+    theme: "Compassion and Non-Violence"
+  },
+  {
+    traditionId: 4,
+    source: "Dhammapada 183",
+    title: "The Teaching of All Buddhas",
+    content: "Not to do any evil, to cultivate good, to purify one's mind—this is the teaching of all Buddhas.",
+    context: "The core ethical teaching shared by all Buddhas",
+    theme: "Ethical Conduct and Purification"
+  },
+  {
+    traditionId: 4,
+    source: "Dhammapada 160",
+    title: "Self-Reliance",
+    content: "Self is the master of self. Who else could be the master? With self well-subdued, one obtains the master that is hard to obtain.",
+    context: "Buddha's teaching on personal responsibility and self-mastery",
+    theme: "Self-Reliance and Inner Strength"
+  },
+  {
+    traditionId: 4,
+    source: "Dhammapada 279",
+    title: "The Path of Awakening",
+    content: "All formations are impermanent. When one sees this with wisdom, one turns away from suffering. This is the path of purification.",
+    context: "Buddha's teaching on impermanence and the path to liberation",
+    theme: "Impermanence and Liberation"
+  },
+
+  // Tao Te Ching - Taoism
   {
     traditionId: 5,
     source: "Tao Te Ching 17",
@@ -52,6 +189,40 @@ export const spiritualPassages = [
     theme: "Humility and Natural Action"
   },
   {
+    traditionId: 5,
+    source: "Tao Te Ching 1",
+    title: "The Mystery of the Tao",
+    content: "The Tao that can be spoken is not the eternal Tao. The name that can be named is not the eternal name. The nameless is the beginning of heaven and earth. The named is the mother of ten thousand things. Ever desireless, one can see the mystery. Ever desiring, one can see the manifestations.",
+    context: "The opening verse describing the ineffable nature of the Tao",
+    theme: "The Ineffable Divine"
+  },
+  {
+    traditionId: 5,
+    source: "Tao Te Ching 8",
+    title: "The Virtue of Water",
+    content: "The highest goodness is like water. Water benefits all things and does not compete. It dwells in places that all disdain. This is why it is so near to the Tao. In dwelling, be close to the land. In meditation, go deep in the heart. In dealing with others, be gentle and kind.",
+    context: "Lao Tzu uses water as a metaphor for the Tao's way of being",
+    theme: "Humility and Gentle Strength"
+  },
+  {
+    traditionId: 5,
+    source: "Tao Te Ching 33",
+    title: "True Strength",
+    content: "Knowing others is intelligence; knowing yourself is true wisdom. Mastering others is strength; mastering yourself is true power. If you realize that you have enough, you are truly rich.",
+    context: "Lao Tzu's teaching on the difference between external and internal power",
+    theme: "Self-Knowledge and Contentment"
+  },
+  {
+    traditionId: 5,
+    source: "Tao Te Ching 81",
+    title: "The Sage's Way",
+    content: "True words are not beautiful; beautiful words are not true. Those who are good do not argue; those who argue are not good. Those who know are not learned; the learned do not know. The sage does not attempt anything very big, and thus achieves greatness.",
+    context: "The final chapter summarizing the sage's approach to life",
+    theme: "Wisdom and Simplicity"
+  },
+
+  // Upanishads - Vedanta Hinduism
+  {
     traditionId: 6,
     source: "Isha Upanishad 1",
     title: "The Divine in All",
@@ -60,23 +231,117 @@ export const spiritualPassages = [
     theme: "Unity and Interconnectedness"
   },
   {
+    traditionId: 6,
+    source: "Chandogya Upanishad 6.8.7",
+    title: "Tat Tvam Asi",
+    content: "That which is the subtle essence—this whole world has that as its soul. That is Reality. That is Atman. That art thou.",
+    context: "The great statement revealing the identity of individual soul with universal consciousness",
+    theme: "Unity of Self and Divine"
+  },
+  {
+    traditionId: 6,
+    source: "Katha Upanishad 1.3.14",
+    title: "Rise, Awake",
+    content: "Arise, awake, and stop not until the goal is reached. The path is sharp as the edge of a razor, so say the wise—hard to tread and difficult to cross.",
+    context: "A call to spiritual awakening and persistent effort on the path",
+    theme: "Spiritual Awakening and Perseverance"
+  },
+  {
+    traditionId: 6,
+    source: "Brihadaranyaka Upanishad 1.3.28",
+    title: "From Darkness to Light",
+    content: "Lead me from the unreal to the real. Lead me from darkness to light. Lead me from death to immortality.",
+    context: "The famous prayer for spiritual transformation and realization",
+    theme: "Spiritual Transformation"
+  },
+  {
+    traditionId: 6,
+    source: "Mandukya Upanishad 7",
+    title: "The Fourth State",
+    content: "Turiya is not that which is conscious of the inner world, nor that which is conscious of the outer world, nor that which is conscious of both, nor that which is a mass of consciousness. It is not simple consciousness nor is it unconsciousness. It is unperceived, unrelated, inconceivable, uninferable, unthinkable, indescribable.",
+    context: "Description of the fourth state of consciousness beyond waking, dreaming, and deep sleep",
+    theme: "Transcendent Consciousness"
+  },
+
+  // Talmud & Midrash - Judaism
+  {
     traditionId: 7,
     source: "Talmud, Sanhedrin 37a",
     title: "The Value of One Life",
     content: "Therefore, man was created alone, to teach you that whoever destroys a single soul, Scripture considers it as if he destroyed an entire world. And whoever saves a single soul, Scripture considers it as if he saved an entire world.",
     context: "Rabbinic teaching on the infinite value of every human life",
     theme: "The Sacred Value of Life"
+  },
+  {
+    traditionId: 7,
+    source: "Talmud, Avot 2:5",
+    title: "Be Human",
+    content: "In a place where there are no human beings, strive to be human.",
+    context: "Hillel's teaching on moral leadership and human dignity",
+    theme: "Moral Courage and Leadership"
+  },
+  {
+    traditionId: 7,
+    source: "Talmud, Avot 1:14",
+    title: "If Not Now, When?",
+    content: "If I am not for myself, who will be for me? If I am only for myself, what am I? And if not now, when?",
+    context: "Hillel's famous questions about self-responsibility and action",
+    theme: "Personal Responsibility and Action"
+  },
+  {
+    traditionId: 7,
+    source: "Talmud, Shabbat 31a",
+    title: "The Golden Rule",
+    content: "What is hateful to you, do not do to your fellow. This is the whole Torah; the rest is commentary. Go and learn it.",
+    context: "Hillel's concise summary of ethical living",
+    theme: "Ethical Treatment of Others"
+  },
+  {
+    traditionId: 7,
+    source: "Talmud, Avot 3:1",
+    title: "Know Your Place",
+    content: "Reflect on three things and you will not come to sin: Know from where you came, where you are going, and before whom you will give account and reckoning.",
+    context: "Rabbi Akavya's teaching on maintaining spiritual perspective",
+    theme: "Spiritual Accountability and Humility"
   }
 ];
 
 const lessonTemplates = {
   "Divine Love and Forgiveness": "In our journey through life, we sometimes lose our way, much like the sheep that wandered from the flock. Yet divine love seeks us out, rejoicing more in our return than in those who never strayed.",
+  "Unconditional Love and Forgiveness": "True love does not depend on worthiness or perfection. It welcomes us home regardless of how far we have wandered, celebrating our return with joy rather than judgment.",
+  "Trust and Divine Protection": "Even in life's darkest valleys, we are never alone. Divine presence walks beside us, offering comfort and guidance when we need it most.",
+  "Divine Love and Compassion": "Love is the fundamental force that binds all existence together. When we embody patience, kindness, and selflessness, we become vessels of divine love in the world.",
+  "Spiritual Blessedness": "True blessedness comes not from external circumstances, but from the condition of our hearts. In humility, mercy, and righteousness, we find the kingdom of heaven within.",
   "Divine Wisdom Beyond Appearances": "True wisdom often lies hidden beneath the surface of events. What appears as hardship or confusion may contain profound lessons that reveal themselves only in time.",
+  "Divine Majesty and Omniscience": "The divine consciousness encompasses all existence, transcending time and space. In recognizing this infinite presence, we find our proper place in the cosmic order.",
+  "Divine Light and Guidance": "Divine light illuminates the path forward, dispelling darkness and confusion. This inner light guides us toward truth and understanding.",
+  "Divine Compassion and Creation": "The source of all existence is pure compassion, creating and sustaining life with infinite mercy. We are called to reflect this compassion in our daily interactions.",
+  "Hope and Perseverance": "Every difficulty carries within it the seeds of its own resolution. With patience and faith, we can endure any hardship knowing that relief will come.",
   "Selfless Service": "The highest action comes from duty performed without attachment to personal gain. When we serve without expectation, we align ourselves with the divine flow of existence.",
+  "Divine Justice and Righteousness": "Divine justice manifests when righteousness is restored and balance is maintained. We are called to embody these principles in our own lives and communities.",
+  "Self-Mastery and Mental Discipline": "The mind can be our greatest ally or our worst enemy. Through discipline and right understanding, we transform our thoughts into instruments of peace and wisdom.",
+  "Divine Protection and Devotion": "Sincere devotion creates an unbreakable bond with the divine, ensuring that our needs are met and our spiritual progress is protected.",
+  "Divine Grace and Surrender": "In complete surrender to divine will, we find perfect freedom. Grace dissolves all obstacles and reveals the path to liberation.",
   "Mindfulness and Right Intention": "Every thought and action creates ripples in the fabric of reality. By cultivating pure intention and mindful awareness, we plant seeds of happiness and peace.",
+  "Compassion and Non-Violence": "Love is the only force powerful enough to transform hatred. Through compassion and understanding, we break cycles of violence and create peace.",
+  "Ethical Conduct and Purification": "The foundation of spiritual life rests on ethical conduct. By purifying our actions, speech, and thoughts, we create conditions for inner peace and wisdom.",
+  "Self-Reliance and Inner Strength": "True strength comes from within. By mastering ourselves, we become capable of facing any challenge with equanimity and wisdom.",
+  "Impermanence and Liberation": "Understanding the transient nature of all phenomena frees us from attachment and suffering. In accepting impermanence, we find lasting peace.",
   "Humility and Natural Action": "The most powerful leadership comes from those who lead by example, without force or ego. Like water flowing around obstacles, gentle persistence accomplishes what force cannot.",
+  "The Ineffable Divine": "The ultimate reality transcends all names and concepts. In embracing mystery and letting go of the need to understand everything, we touch the infinite.",
+  "Humility and Gentle Strength": "True power lies in gentleness and humility. Like water that nourishes all life, we accomplish the most when we act without ego or force.",
+  "Self-Knowledge and Contentment": "Knowing ourselves deeply is the beginning of true wisdom. When we master our inner world, we find contentment regardless of external circumstances.",
+  "Wisdom and Simplicity": "The deepest truths are often the simplest ones. In embracing simplicity and letting go of complexity, we discover profound wisdom.",
   "Unity and Interconnectedness": "All existence is woven together in an intricate tapestry of connection. When we recognize our place in this cosmic harmony, we find peace and purpose.",
-  "The Sacred Value of Life": "Each soul contains infinite potential and divine spark. To honor and protect life - all life - is to participate in the sacred act of creation itself."
+  "Unity of Self and Divine": "The boundary between individual consciousness and universal consciousness is an illusion. In realizing our true nature, we discover our unity with all existence.",
+  "Spiritual Awakening and Perseverance": "The spiritual path requires courage and persistence. Though the way may be difficult, those who persevere will reach the goal of enlightenment.",
+  "Spiritual Transformation": "True transformation involves moving from illusion to reality, from darkness to light, from mortality to immortality. This is the ultimate goal of human existence.",
+  "Transcendent Consciousness": "Beyond ordinary states of awareness lies a transcendent consciousness that defies description. This is the goal of all spiritual seeking.",
+  "The Sacred Value of Life": "Each soul contains infinite potential and divine spark. To honor and protect life - all life - is to participate in the sacred act of creation itself.",
+  "Moral Courage and Leadership": "True leadership means standing up for what is right, especially when others fail to do so. In being fully human, we inspire others to discover their own humanity.",
+  "Personal Responsibility and Action": "We must take responsibility for our own spiritual development while also serving others. The time for action is always now.",
+  "Ethical Treatment of Others": "The foundation of all ethical behavior is treating others as we would wish to be treated. This simple principle contains the essence of all spiritual teaching.",
+  "Spiritual Accountability and Humility": "Remembering our origins, destination, and ultimate accountability keeps us humble and focused on what truly matters in life."
 };
 
 export async function generateTodaysLesson(storage: IStorage): Promise<any> {
@@ -373,12 +638,40 @@ function generateStory(passageData: any): string {
 function generateLifeLesson(passageData: any, template?: any): string {
   const lifeLessons = {
     "Divine Love and Forgiveness": "No matter how far we wander, divine love seeks us out with infinite patience and celebrates our return home.",
+    "Unconditional Love and Forgiveness": "True love doesn't wait for worthiness - it welcomes us back with celebration, not judgment. Practice welcoming others with this same grace.",
+    "Trust and Divine Protection": "Even in your darkest valleys, you are not walking alone. Trust that divine presence guides and protects you through every challenge.",
+    "Divine Love and Compassion": "Embody patience, kindness, and selflessness in your daily interactions. When you become a vessel of love, you transform both yourself and others.",
+    "Spiritual Blessedness": "True happiness comes from the condition of your heart, not your circumstances. Cultivate humility, mercy, and righteousness within.",
     "Divine Wisdom Beyond Appearances": "Trust in divine wisdom, even when circumstances seem confusing - a greater purpose often lies hidden beneath the surface.",
+    "Divine Majesty and Omniscience": "Recognize the infinite presence that encompasses all existence. Find peace in knowing your place within this greater cosmic order.",
+    "Divine Light and Guidance": "Allow your inner light to illuminate your path forward. When you seek truth with sincerity, guidance will always come.",
+    "Divine Compassion and Creation": "Reflect the same compassion that creates and sustains all life. Let mercy guide your interactions with every being you encounter.",
+    "Hope and Perseverance": "Remember that every difficulty contains the seeds of its own resolution. With patience and faith, relief will come.",
     "Selfless Service": "Transform your daily actions into spiritual practice by performing them with dedication but without attachment to personal gain.",
+    "Divine Justice and Righteousness": "Embody the principles of justice and righteousness in your own life. Be the change you wish to see in the world.",
+    "Self-Mastery and Mental Discipline": "Train your mind to be your ally, not your enemy. Through discipline and right understanding, transform thoughts into instruments of peace.",
+    "Divine Protection and Devotion": "Sincere devotion creates an unbreakable bond with the divine. Trust that your spiritual progress is protected and your needs will be met.",
+    "Divine Grace and Surrender": "In complete surrender to divine will, find perfect freedom. Let grace dissolve the obstacles that your ego cannot overcome.",
     "Mindfulness and Right Intention": "Cultivate peace and happiness by maintaining mindful awareness and pure intentions in all your thoughts and actions.",
+    "Compassion and Non-Violence": "Meet hatred with love, violence with compassion. You have the power to break cycles of negativity through understanding.",
+    "Ethical Conduct and Purification": "Build your spiritual life on the foundation of ethical conduct. Purify your actions, speech, and thoughts to create inner peace.",
+    "Self-Reliance and Inner Strength": "True strength comes from mastering yourself. Develop the inner resources to face any challenge with wisdom and equanimity.",
+    "Impermanence and Liberation": "Accept the transient nature of all experiences. In embracing impermanence, find freedom from attachment and lasting peace.",
     "Humility and Natural Action": "Lead by example and serve others' growth - true influence comes from humility, not force or ego.",
+    "The Ineffable Divine": "Embrace mystery and let go of the need to understand everything. In accepting the limits of knowledge, touch the infinite.",
+    "Humility and Gentle Strength": "Accomplish the most through gentle persistence. Like water that nourishes all life, act without ego or force.",
+    "Self-Knowledge and Contentment": "Know yourself deeply and master your inner world. Find contentment that doesn't depend on external circumstances.",
+    "Wisdom and Simplicity": "Seek the simple truths that lie beneath complexity. In embracing simplicity, discover the most profound wisdom.",
     "Unity and Interconnectedness": "Recognize your connection to all life and let this awareness guide you toward greater compassion and harmony.",
-    "The Sacred Value of Life": "Honor the infinite worth of every soul you encounter, for each person carries the divine spark within them."
+    "Unity of Self and Divine": "The boundary between your consciousness and universal consciousness is an illusion. Discover your unity with all existence.",
+    "Spiritual Awakening and Perseverance": "Stay committed to your spiritual path despite difficulties. Those who persevere will reach the goal of enlightenment.",
+    "Spiritual Transformation": "Move from illusion to reality, from darkness to light. This transformation from mortality to immortality is your ultimate purpose.",
+    "Transcendent Consciousness": "Seek the consciousness beyond ordinary awareness. This transcendent state is the goal of all spiritual seeking.",
+    "The Sacred Value of Life": "Honor the infinite worth of every soul you encounter, for each person carries the divine spark within them.",
+    "Moral Courage and Leadership": "Stand up for what is right, especially when others fail to do so. In being fully human, inspire others to discover their humanity.",
+    "Personal Responsibility and Action": "Take responsibility for your spiritual development while serving others. The time for meaningful action is always now.",
+    "Ethical Treatment of Others": "Treat others as you would wish to be treated. This simple principle contains the essence of all spiritual teaching.",
+    "Spiritual Accountability and Humility": "Remember your origins, destination, and ultimate accountability. This keeps you humble and focused on what truly matters."
   };
   
   return lifeLessons[passageData.theme as keyof typeof lifeLessons] || "Seek wisdom in the teachings of the ancients and apply their timeless truths to your daily life.";
