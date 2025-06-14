@@ -8,6 +8,8 @@ import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Copy, Mail, Users, Clock, ExternalLink, Send, TestTube, CheckCircle, XCircle } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 export default function EmailAdmin() {
   const { toast } = useToast();
