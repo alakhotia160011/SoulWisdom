@@ -525,12 +525,9 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
       return lesson.artworkUrl;
     }
     
-    // For local files, we need to serve them through the web server
+    // For local files, use the deployed website URL
     if (lesson.artworkUrl && lesson.artworkUrl.startsWith('/artwork/')) {
-      const baseUrl = process.env.REPLIT_DOMAINS ? 
-        `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
-        'http://localhost:5000';
-      return `${baseUrl}${lesson.artworkUrl}`;
+      return `${this.getWebsiteUrl()}${lesson.artworkUrl}`;
     }
     
     // Final fallback to a simple SVG
