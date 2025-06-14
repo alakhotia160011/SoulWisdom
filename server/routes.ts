@@ -10,6 +10,7 @@ import { getTodaysEmailTemplate, getSubscriberEmailList, dailyScheduler } from "
 import { generateSocialCard } from "./social-cards";
 import { emailService } from "./email-service";
 import { backupService } from "./backup";
+import { getWhatsAppManualService } from "./whatsapp-manual";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Serve static artwork files
@@ -458,6 +459,48 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error listing backups:", error);
       res.status(500).json({ message: "Failed to list backups" });
+    }
+  });
+
+  // WhatsApp API endpoints
+  app.post("/api/whatsapp/message", async (req, res) => {
+    try {
+      const { command } = req.body;
+      
+      if (!command) {
+        return res.status(400).json({ message: "Command is required" });
+      }
+
+      const whatsappService = getWhatsAppManualService();
+      if (!whatsappService) {
+        return res.status(503).json({ message: "WhatsApp service not initialized" });
+      }
+
+      const response = await whatsappService.processCommand(command);
+      res.json({ response });
+    } catch (error) {
+      console.error("Error processing WhatsApp command:", error);
+      res.status(500).json({ message: "Failed to process command" });
+    }
+  });
+
+  app.get("/api/whatsapp/daily-lesson", async (req, res) => {
+    try {
+      const whatsappService = getWhatsAppManualService();
+      if (!whatsappService) {
+        return res.status(503).json({ message: "WhatsApp service not initialized" });
+      }
+
+      const todaysLesson = await storage.getTodaysLesson();
+      if (!todaysLesson) {
+        return res.status(404).json({ message: "No lesson available for today" });
+      }
+
+      const message = whatsappService.getDailyLessonMessage(todaysLesson);
+      res.json({ message, lesson: todaysLesson });
+    } catch (error) {
+      console.error("Error getting daily lesson for WhatsApp:", error);
+      res.status(500).json({ message: "Failed to get daily lesson" });
     }
   });
 
