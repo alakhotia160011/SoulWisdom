@@ -16,6 +16,7 @@ import FAQ from "@/pages/faq";
 import Privacy from "@/pages/privacy";
 import Terms from "@/pages/terms";
 import NotFound from "@/pages/not-found";
+import WhatsAppTest from "@/pages/WhatsAppTest";
 
 function Router() {
   return (
@@ -32,6 +33,7 @@ function Router() {
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
       <Route path="/email-admin" component={EmailAdmin} />
+      <Route path="/whatsapp-test" component={WhatsAppTest} />
       <Route component={NotFound} />
     </Switch>
   );

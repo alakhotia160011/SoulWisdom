@@ -11,6 +11,7 @@ import { generateSocialCard } from "./social-cards";
 import { emailService } from "./email-service";
 import { backupService } from "./backup";
 import { getWhatsAppManualService } from "./whatsapp-manual";
+import { getTwilioWhatsAppService } from "./whatsapp-twilio";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   // Serve static artwork files
@@ -501,6 +502,56 @@ export async function registerRoutes(app: Express): Promise<Server> {
     } catch (error) {
       console.error("Error getting daily lesson for WhatsApp:", error);
       res.status(500).json({ message: "Failed to get daily lesson" });
+    }
+  });
+
+  // Twilio WhatsApp webhook endpoints
+  app.post("/api/whatsapp/webhook", async (req, res) => {
+    try {
+      const { Body, From } = req.body;
+      
+      if (!Body || !From) {
+        return res.status(400).send('Invalid webhook payload');
+      }
+
+      // Process the incoming WhatsApp message
+      const twilioService = getTwilioWhatsAppService();
+      if (twilioService) {
+        const response = await twilioService.processIncomingMessage(Body);
+        
+        // Send response back via Twilio
+        await twilioService.sendMessage(response);
+      } else {
+        // Fallback to manual service
+        const whatsappService = getWhatsAppManualService();
+        if (whatsappService) {
+          const response = await whatsappService.processCommand(Body);
+          console.log(`WhatsApp response for ${From}: ${response}`);
+        }
+      }
+
+      res.status(200).send('OK');
+    } catch (error) {
+      console.error("Error processing WhatsApp webhook:", error);
+      res.status(500).send('Error processing message');
+    }
+  });
+
+  // Test endpoint for WhatsApp messaging
+  app.post("/api/whatsapp/test", async (req, res) => {
+    try {
+      const { message } = req.body;
+      
+      const twilioService = getTwilioWhatsAppService();
+      if (twilioService) {
+        const sent = await twilioService.sendMessage(message || "Hello from your spiritual lessons app!");
+        res.json({ success: sent, message: sent ? "Message sent successfully" : "Failed to send message" });
+      } else {
+        res.status(503).json({ success: false, message: "Twilio WhatsApp service not available" });
+      }
+    } catch (error) {
+      console.error("Error sending test WhatsApp message:", error);
+      res.status(500).json({ success: false, message: "Error sending message" });
     }
   });
 
