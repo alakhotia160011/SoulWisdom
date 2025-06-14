@@ -33,7 +33,7 @@ function Router() {
       <Route path="/privacy" component={Privacy} />
       <Route path="/terms" component={Terms} />
       <Route path="/email-admin" component={EmailAdmin} />
-      <Route path="/whatsapp-test" component={WhatsAppTest} />
+      <Route path="/whatsapp-test" component={WhatsAppTestPage} />
       <Route component={NotFound} />
     </Switch>
   );

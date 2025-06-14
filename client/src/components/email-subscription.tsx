@@ -4,13 +4,16 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useToast } from "@/hooks/use-toast";
 import { apiRequest } from "@/lib/queryClient";
-import { Lock, Mail } from "lucide-react";
+import { Lock, Mail, MessageCircle } from "lucide-react";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 export default function EmailSubscription() {
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [name, setName] = useState("");
   const { toast } = useToast();
 
-  const subscriptionMutation = useMutation({
+  const emailSubscriptionMutation = useMutation({
     mutationFn: (email: string) => 
       apiRequest("POST", "/api/subscribe", { email, isActive: true }),
     onSuccess: () => {
@@ -29,7 +32,39 @@ export default function EmailSubscription() {
     },
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const whatsappSubscriptionMutation = useMutation({
+    mutationFn: async (data: { phoneNumber: string; name?: string }) => {
+      const response = await fetch("/api/whatsapp/subscribe", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || "Failed to subscribe");
+      }
+      
+      return response.json();
+    },
+    onSuccess: () => {
+      toast({
+        title: "WhatsApp Subscription Successful!",
+        description: "You'll receive daily spiritual lessons at 7 AM EST.",
+      });
+      setPhoneNumber("");
+      setName("");
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Subscription Failed",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleEmailSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!email.trim()) {
       toast({
@@ -39,7 +74,34 @@ export default function EmailSubscription() {
       });
       return;
     }
-    subscriptionMutation.mutate(email);
+    emailSubscriptionMutation.mutate(email);
+  };
+
+  const handleWhatsAppSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (!phoneNumber.trim()) {
+      toast({
+        title: "Phone Number Required",
+        description: "Please enter your WhatsApp phone number.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    // Format phone number for WhatsApp
+    let formattedNumber = phoneNumber.trim();
+    if (!formattedNumber.startsWith("+")) {
+      formattedNumber = "+" + formattedNumber.replace(/\D/g, "");
+    }
+    
+    // Add whatsapp: prefix for backend
+    const whatsappNumber = `whatsapp:${formattedNumber}`;
+    
+    whatsappSubscriptionMutation.mutate({
+      phoneNumber: whatsappNumber,
+      name: name.trim() || undefined,
+    });
   };
 
   return (
@@ -50,38 +112,104 @@ export default function EmailSubscription() {
             Daily Wisdom in Your Inbox
           </h2>
           <p className="text-slate-600 text-lg mb-8 max-w-2xl mx-auto">
-            Receive each day's spiritual lesson directly in your email. Join thousands finding peace and guidance through timeless wisdom.
+            Receive each day's spiritual lesson directly via email or WhatsApp. Join thousands finding peace and guidance through timeless wisdom.
           </p>
           
-          <form onSubmit={handleSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
-            <Input
-              type="email"
-              placeholder="Enter your email address"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              className="flex-1 px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
-              required
-            />
-            <Button 
-              type="submit" 
-              disabled={subscriptionMutation.isPending}
-              className="bg-slate-800 text-white px-6 py-3 rounded-lg hover:bg-slate-700 transition-colors font-medium"
-            >
-              {subscriptionMutation.isPending ? (
-                "Subscribing..."
-              ) : (
-                <>
-                  <Mail className="w-4 h-4 mr-2" />
-                  Subscribe
-                </>
-              )}
-            </Button>
-          </form>
-          
-          <p className="text-slate-500 text-sm mt-4">
-            <Lock className="inline w-4 h-4 mr-1" />
-            Your email is safe with us. Unsubscribe anytime.
-          </p>
+          <Tabs defaultValue="email" className="w-full max-w-2xl mx-auto">
+            <TabsList className="grid w-full grid-cols-2 mb-6">
+              <TabsTrigger value="email" className="flex items-center gap-2">
+                <Mail className="w-4 h-4" />
+                Email
+              </TabsTrigger>
+              <TabsTrigger value="whatsapp" className="flex items-center gap-2">
+                <MessageCircle className="w-4 h-4" />
+                WhatsApp
+              </TabsTrigger>
+            </TabsList>
+            
+            <TabsContent value="email" className="space-y-4">
+              <form onSubmit={handleEmailSubmit} className="flex flex-col sm:flex-row gap-4 max-w-md mx-auto">
+                <Input
+                  type="email"
+                  placeholder="Enter your email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="flex-1 px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-slate-500 focus:border-transparent"
+                  required
+                />
+                <Button 
+                  type="submit" 
+                  disabled={emailSubscriptionMutation.isPending}
+                  className="bg-slate-800 text-white px-6 py-3 rounded-lg hover:bg-slate-700 transition-colors font-medium"
+                >
+                  {emailSubscriptionMutation.isPending ? (
+                    "Subscribing..."
+                  ) : (
+                    <>
+                      <Mail className="w-4 h-4 mr-2" />
+                      Subscribe
+                    </>
+                  )}
+                </Button>
+              </form>
+              
+              <p className="text-slate-500 text-sm">
+                <Lock className="inline w-4 h-4 mr-1" />
+                Your email is safe with us. Unsubscribe anytime.
+              </p>
+            </TabsContent>
+            
+            <TabsContent value="whatsapp" className="space-y-4">
+              <form onSubmit={handleWhatsAppSubmit} className="space-y-4 max-w-md mx-auto">
+                <Input
+                  type="tel"
+                  placeholder="+1234567890"
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  className="px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-slate-500 focus:border-transparent text-center"
+                  disabled={whatsappSubscriptionMutation.isPending}
+                />
+                
+                <Input
+                  type="text"
+                  placeholder="Your name (optional)"
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  className="px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-slate-500 focus:border-transparent text-center"
+                  disabled={whatsappSubscriptionMutation.isPending}
+                />
+
+                <Button
+                  type="submit"
+                  className="w-full bg-slate-800 text-white px-6 py-3 rounded-lg hover:bg-slate-700 transition-colors font-medium"
+                  disabled={whatsappSubscriptionMutation.isPending}
+                >
+                  {whatsappSubscriptionMutation.isPending ? (
+                    "Subscribing..."
+                  ) : (
+                    <>
+                      <MessageCircle className="w-4 h-4 mr-2" />
+                      Subscribe to WhatsApp
+                    </>
+                  )}
+                </Button>
+              </form>
+
+              <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-600">
+                <p className="font-medium mb-2">Getting Started:</p>
+                <ol className="list-decimal list-inside space-y-1 text-left">
+                  <li>Subscribe with your WhatsApp number above</li>
+                  <li>Send "subscribe" to: <strong>+1 (415) 523-8886</strong></li>
+                  <li>Receive daily lessons automatically at 7 AM EST</li>
+                </ol>
+              </div>
+
+              <p className="text-slate-500 text-sm">
+                <Lock className="inline w-4 h-4 mr-1" />
+                Text "unsubscribe" anytime to stop messages. Your number is only used for daily lessons.
+              </p>
+            </TabsContent>
+          </Tabs>
         </div>
       </div>
     </section>
