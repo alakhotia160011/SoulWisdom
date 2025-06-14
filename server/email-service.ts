@@ -587,21 +587,9 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
   }
 
   private getWebsiteUrl(): string {
-    // Check for deployed Replit app URL first
-    if (process.env.REPLIT_DOMAINS) {
-      const domain = process.env.REPLIT_DOMAINS.split(',')[0];
-      // Remove any .replit.dev suffix and add .replit.app for deployed apps
-      const cleanDomain = domain.replace('.replit.dev', '');
-      return `https://${cleanDomain}.replit.app`;
-    }
-    
-    // Check for custom deployment URL
-    if (process.env.WEBSITE_URL) {
-      return process.env.WEBSITE_URL;
-    }
-    
-    // Development fallback
-    return 'http://localhost:5000';
+    // Always use the deployed website URL for emails
+    // Based on your development URL pattern, your deployed URL should be:
+    return 'https://6cdb11c7-24d9-4547-b697-dc7f0be03508.replit.app';
   }
 }
 
