@@ -46,35 +46,46 @@ export class TwilioWhatsAppService {
     }
 
     try {
-      // Send lesson text first
-      const message = this.formatLessonForWhatsApp(todaysLesson);
-      const dailyMessage = `🌅 *Daily Spiritual Lesson*\n\n${message}`;
+      // Check today's message count to respect trial limits
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
       
-      const textSent = await this.sendMessage(dailyMessage);
-      if (!textSent) {
+      const todaysMessages = await this.client.messages.list({
+        dateSent: today,
+        limit: 20
+      });
+      
+      if (todaysMessages.length >= 8) {
+        console.log('Approaching trial account daily limit (8/9 messages), skipping WhatsApp delivery');
         return false;
       }
 
-      // Send artwork as separate image attachment
-      const artworkUrl = await this.getGoogleDriveArtworkUrl(todaysLesson);
-      if (artworkUrl && todaysLesson.artworkDescription) {
-        const artworkCaption = `🎨 *Spiritual Artwork*\n\n"${todaysLesson.title}"\n\n${todaysLesson.artworkDescription}`;
-        await this.sendMessage(artworkCaption, artworkUrl);
-      }
-      
-      return true;
-    } catch (error) {
-      console.error('Error sending daily lesson:', error);
-      // Fallback: send text-only lesson if media fails
+      // Send single comprehensive message to stay within limits
       const message = this.formatLessonForWhatsApp(todaysLesson);
       const artworkUrl = await this.getGoogleDriveArtworkUrl(todaysLesson);
       
-      let fallbackMessage = `🌅 *Daily Spiritual Lesson*\n\n${message}`;
+      let completeMessage = `🌅 *Daily Spiritual Lesson*\n\n${message}`;
       if (artworkUrl) {
-        fallbackMessage += `\n\n🎨 *Artwork:* ${artworkUrl}\n(Note: Image delivery unavailable - trial account limit reached)`;
+        completeMessage += `\n\n🎨 *Artwork:* ${artworkUrl}`;
       }
       
-      return await this.sendMessage(fallbackMessage);
+      const result = await this.sendMessage(completeMessage);
+      
+      if (result.success) {
+        console.log('✓ Daily lesson sent via WhatsApp to verified number');
+        return true;
+      } else {
+        console.error('Failed to send WhatsApp lesson:', result.error);
+        return false;
+      }
+      
+    } catch (error: any) {
+      if (error.code === 63038) {
+        console.log('Trial account daily message limit reached, WhatsApp delivery skipped');
+        return false;
+      }
+      console.error('Error sending daily lesson:', error);
+      return false;
     }
   }
 
