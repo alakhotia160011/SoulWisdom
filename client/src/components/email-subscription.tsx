@@ -196,11 +196,11 @@ export default function EmailSubscription() {
               </form>
 
               <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 text-sm text-slate-600">
-                <p className="font-medium mb-2">Getting Started:</p>
+                <p className="font-medium mb-2">What happens next:</p>
                 <ol className="list-decimal list-inside space-y-1 text-left">
-                  <li>Subscribe with your WhatsApp number above</li>
-                  <li>Send "subscribe" to: <strong>+1 (415) 523-8886</strong></li>
-                  <li>Receive daily lessons automatically at 7 AM EST</li>
+                  <li>You'll receive a welcome confirmation</li>
+                  <li>Daily lessons start arriving at 7 AM EST</li>
+                  <li>Full spiritual content with website links</li>
                 </ol>
               </div>
 

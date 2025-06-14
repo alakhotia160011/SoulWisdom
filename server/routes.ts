@@ -324,6 +324,18 @@ export async function registerRoutes(app: Express): Promise<Server> {
         } else {
           // Reactivate subscription
           await storage.updateWhatsAppSubscriber(phoneNumber, { isActive: true });
+          
+          // Send welcome message for reactivated subscription
+          try {
+            const { getTwilioWhatsAppService } = await import('./whatsapp-twilio');
+            const whatsappService = getTwilioWhatsAppService();
+            if (whatsappService) {
+              await whatsappService.sendWelcomeMessage(phoneNumber);
+            }
+          } catch (welcomeError) {
+            console.error("Error sending welcome message:", welcomeError);
+          }
+          
           return res.json({ message: "Subscription reactivated", subscriber: existingSubscriber });
         }
       }
@@ -333,6 +345,19 @@ export async function registerRoutes(app: Express): Promise<Server> {
         name,
         joinedVia: 'website'
       });
+
+      // Send automatic welcome message
+      try {
+        const { getTwilioWhatsAppService } = await import('./whatsapp-twilio');
+        const whatsappService = getTwilioWhatsAppService();
+        if (whatsappService) {
+          await whatsappService.sendWelcomeMessage(phoneNumber);
+          console.log(`Welcome message sent to ${phoneNumber}`);
+        }
+      } catch (welcomeError) {
+        console.error("Error sending welcome message:", welcomeError);
+        // Don't fail the subscription if welcome message fails
+      }
 
       res.status(201).json({ message: "Subscribed successfully", subscriber });
     } catch (error) {

@@ -270,6 +270,16 @@ Your spiritual journey begins tomorrow at 7 AM EST!`;
     }
   }
 
+  async sendWelcomeMessage(toNumber: string): Promise<void> {
+    try {
+      const welcomeMessage = await this.getWelcomeMessage();
+      await this.sendResponseMessage(toNumber, welcomeMessage);
+    } catch (error) {
+      console.error('Error sending welcome message:', error);
+      throw error;
+    }
+  }
+
 
 
   private getHelpText(isSubscribed: boolean = false): string {
