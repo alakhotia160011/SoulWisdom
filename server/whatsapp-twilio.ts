@@ -129,7 +129,7 @@ export class TwilioWhatsAppService {
       // Check if user is subscribed
       const subscriber = await storage.getWhatsAppSubscriberByPhone(userNumber);
       
-      // Handle subscription commands first
+      // Handle subscription commands
       if (command === 'subscribe' || command === 'join') {
         await this.handleSubscription(userNumber);
         return 'sent';
@@ -140,57 +140,20 @@ export class TwilioWhatsAppService {
         return 'sent';
       }
       
-      // If not subscribed, prompt to subscribe for most commands
-      if (!subscriber && !['help', 'subscribe', 'join'].includes(command)) {
+      // If not subscribed, prompt to subscribe
+      if (!subscriber) {
         await this.sendResponseMessage(userNumber, this.getSubscriptionPrompt());
         return 'sent';
       }
       
-      // Command routing with immediate responses
-      switch (true) {
-        case command === 'today':
-          await this.sendResponseMessage(userNumber, await this.getTodaysLessonText());
-          return 'sent';
-          
-        case command === 'yesterday':
-          await this.sendResponseMessage(userNumber, await this.getYesterdaysLessonText());
-          return 'sent';
-          
-        case command === 'help':
-          await this.sendResponseMessage(userNumber, this.getHelpText(!!subscriber));
-          return 'sent';
-          
-        case command === 'more':
-          await this.sendResponseMessage(userNumber, await this.getFullStoryText());
-          return 'sent';
-          
-        case command === 'inspire':
-          await this.sendResponseMessage(userNumber, await this.getRandomInspiration());
-          return 'sent';
-          
-        case command === 'traditions':
-          await this.sendResponseMessage(userNumber, await this.getTraditionsList());
-          return 'sent';
-          
-        case ['bible', 'quran', 'gita', 'dhammapada', 'tao', 'upanishads', 'talmud'].includes(command):
-          await this.sendResponseMessage(userNumber, await this.getLessonByTraditionText(command));
-          return 'sent';
-          
-        case command.includes('?') || command.startsWith('what') || command.startsWith('how') || command.startsWith('why'):
-          await this.sendResponseMessage(userNumber, await this.handleQuestionText(messageBody));
-          return 'sent';
-          
-        case command.length > 10: // Longer messages for spiritual guidance
-          await this.sendResponseMessage(userNumber, await this.handleSpiritualGuidance(messageBody));
-          return 'sent';
-          
-        default:
-          await this.sendResponseMessage(userNumber, await this.handleGeneralMessageText(messageBody));
-          return 'sent';
-      }
+      // For subscribed users, send simple acknowledgment
+      const response = "Thank you for your message! You'll receive your daily spiritual lesson automatically at 7 AM EST. 🙏";
+      await this.sendResponseMessage(userNumber, response);
+      return 'sent';
+      
     } catch (error) {
       console.error('Error processing message:', error);
-      await this.sendResponseMessage(userNumber, 'I\'m having trouble right now. Please try again in a moment.');
+      await this.sendResponseMessage(userNumber, 'Thank you for your message. You\'ll receive your daily lesson at 7 AM EST.');
       return 'error';
     }
   }
@@ -243,40 +206,35 @@ export class TwilioWhatsAppService {
   private getSubscriptionPrompt(): string {
     return `🙏 *Welcome to Spiritual Wisdom*
 
-To receive daily spiritual lessons and interactive guidance, reply:
+To receive daily spiritual lessons, reply:
 
 *"subscribe"* or *"join"*
 
 You'll get:
-• Daily lessons at 7 AM EST
-• Stories with website links for full content
-• Interactive Q&A with spiritual guidance
-• Wisdom from 7 spiritual traditions
+• Daily lessons delivered at 7 AM EST
+• Stories from 7 spiritual traditions
+• Website links for full content
+• Wisdom from Bible, Quran, Bhagavad Gita, and more
 
-Reply "help" for commands.`;
+Simply subscribe and receive your daily inspiration!`;
   }
 
   private async getWelcomeMessage(): Promise<string> {
     const websiteUrl = process.env.REPL_SLUG ? `https://${process.env.REPL_ID}.replit.app` : 'https://soulwisdom.replit.app';
     
-    return `🌅 *Welcome to Daily Spiritual Wisdom!*
+    return `🙏 *Welcome to Daily Spiritual Wisdom!*
 
 Thank you for subscribing! You'll now receive:
 
 📖 Daily spiritual lessons at 7 AM EST
-🎨 Beautiful spiritual artwork 
-💬 Interactive Q&A guidance
-🌐 Full lessons on our website
+🌍 Wisdom from 7 spiritual traditions
+🌐 Full content available on our website
 
-*Available Commands:*
-• "today" - Today's lesson
-• "inspire" - Random inspiration
-• "traditions" - Browse by tradition
-• Ask any spiritual question!
+*Your daily lessons will be delivered automatically every morning.*
 
 🌐 *Website:* ${websiteUrl}
 
-Your spiritual journey starts now...`;
+Your spiritual journey begins tomorrow at 7 AM EST!`;
   }
 
   private async sendResponseMessage(toNumber: string, message: string): Promise<void> {
