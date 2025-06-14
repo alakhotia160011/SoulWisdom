@@ -9,7 +9,7 @@ class DailyScheduler {
   private intervalId: NodeJS.Timeout | null = null;
   private testSchedules: Array<{ hour: number; minute: number; email: string; executed: boolean }> = [];
 
-  constructor(hour: number = 6, minute: number = 0) {
+  constructor(hour: number = 7, minute: number = 0) {
     this.scheduledTime = { hour, minute };
   }
 
@@ -304,7 +304,7 @@ class DailyScheduler {
 }
 
 // Export singleton instance
-export const dailyScheduler = new DailyScheduler(6, 0); // 6:00 AM
+export const dailyScheduler = new DailyScheduler(7, 0); // 7:00 AM
 
 // Export function to get email template for manual sending
 export async function getTodaysEmailTemplate(): Promise<string | null> {
