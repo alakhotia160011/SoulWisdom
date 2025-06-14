@@ -3,6 +3,7 @@ import TodaysLesson from "@/components/todays-lesson";
 import TraditionsOverview from "@/components/traditions-overview";
 import LessonArchive from "@/components/lesson-archive";
 import EmailSubscription from "@/components/email-subscription";
+import WhatsAppSubscription from "@/components/whatsapp-subscription";
 import Footer from "@/components/footer";
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
       <TraditionsOverview />
       <LessonArchive />
       <EmailSubscription />
+      <WhatsAppSubscription />
       <Footer />
     </div>
   );
