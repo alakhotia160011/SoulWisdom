@@ -264,7 +264,7 @@ class EmailService {
         <table width="100%" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
             <tr>
                 <td align="center">
-                    <a href="${process.env.REPLIT_DOMAINS || 'http://localhost:5000'}/lesson/${lesson.id}" 
+                    <a href="${this.getWebsiteUrl()}/lesson/${lesson.id}" 
                        style="background-color: #8b7355; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
                         Read Today's Lesson Online
                     </a>
@@ -308,7 +308,7 @@ ${lesson.artworkDescription}
 View artwork: ${baseUrl}${lesson.artworkUrl}
 
 READ TODAY'S LESSON ONLINE
-https://replit.com/@arylakhotia/SoulWisdom
+${this.getWebsiteUrl()}/lesson/${lesson.id}
 
 ---
 Daily Spiritual Lessons
@@ -320,8 +320,7 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
 
   private createWelcomeEmailTemplate(subscriberEmail: string, todaysLesson?: LessonWithDetails): string {
     // Use deployment URL if available, otherwise local
-    const baseUrl = process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 
-                   'http://localhost:5000';
+    const baseUrl = this.getWebsiteUrl();
     
     return `<!DOCTYPE html>
 <html lang="en">
@@ -465,7 +464,7 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
   }
 
   private createWelcomeEmailText(subscriberEmail: string, todaysLesson?: LessonWithDetails): string {
-    const baseUrl = process.env.REPLIT_DOMAINS ? `https://${process.env.REPLIT_DOMAINS.split(',')[0]}` : 'http://localhost:5000';
+    const baseUrl = this.getWebsiteUrl();
     
     return `
 WELCOME TO DAILY SPIRITUAL LESSONS
@@ -585,6 +584,24 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
       console.error("Failed to send new subscriber notification:", error);
       return false;
     }
+  }
+
+  private getWebsiteUrl(): string {
+    // Check for deployed Replit app URL first
+    if (process.env.REPLIT_DOMAINS) {
+      const domain = process.env.REPLIT_DOMAINS.split(',')[0];
+      // Remove any .replit.dev suffix and add .replit.app for deployed apps
+      const cleanDomain = domain.replace('.replit.dev', '');
+      return `https://${cleanDomain}.replit.app`;
+    }
+    
+    // Check for custom deployment URL
+    if (process.env.WEBSITE_URL) {
+      return process.env.WEBSITE_URL;
+    }
+    
+    // Development fallback
+    return 'http://localhost:5000';
   }
 }
 
