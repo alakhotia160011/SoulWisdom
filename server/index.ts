@@ -4,6 +4,7 @@ import { setupVite, serveStatic, log } from "./vite";
 // Keep-alive functionality will be handled by Replit deployment system
 import { dailyScheduler } from "./scheduler";
 import { backupService } from "./backup";
+import { initializeWhatsApp } from "./whatsapp-service";
 
 const app = express();
 app.use(express.json());
@@ -109,6 +110,17 @@ async function waitForOpenAI(maxRetries = 15, retryDelay = 2000) {
       await backupService.scheduleAutoBackup();
     } catch (error) {
       console.error("Failed to initialize backup service:", error);
+    }
+
+    // Initialize WhatsApp service if admin number is provided
+    const whatsappAdminNumber = process.env.WHATSAPP_ADMIN_NUMBER;
+    const openaiApiKey = process.env.OPENAI_API_KEY;
+    
+    if (whatsappAdminNumber && openaiApiKey) {
+      console.log("Initializing WhatsApp service...");
+      initializeWhatsApp(whatsappAdminNumber, openaiApiKey);
+    } else {
+      console.log("WhatsApp service not initialized - WHATSAPP_ADMIN_NUMBER or OPENAI_API_KEY not provided");
     }
 
     // 24/7 operation is handled by Replit deployment system

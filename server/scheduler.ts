@@ -1,6 +1,7 @@
 import { storage } from "./storage";
 import { generateTodaysLesson } from "./lesson-generator";
 import { emailService } from "./email-service";
+import { getWhatsAppService } from "./whatsapp-service";
 
 // Simple in-memory scheduler for daily lesson generation
 class DailyScheduler {
@@ -112,6 +113,12 @@ class DailyScheduler {
           
           // Generate email template for subscribers
           await this.generateEmailTemplate(newLesson);
+          
+          // Send to WhatsApp if available
+          const whatsappService = getWhatsAppService();
+          if (whatsappService) {
+            await whatsappService.sendDailyLessonToAdmin(newLesson);
+          }
         } else {
           console.error("Failed to generate today's lesson");
         }
