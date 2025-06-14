@@ -261,20 +261,29 @@ class EmailService {
             <p><strong>${lesson.lifeLesson}</strong></p>
         </div>
 
-        <div class="button-container">
-            <a href="${process.env.REPLIT_DOMAINS || 'http://localhost:5000'}/lesson/${lesson.id}" class="website-button">
-                Read Today's Lesson Online
-            </a>
-        </div>
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin: 30px 0;">
+            <tr>
+                <td align="center">
+                    <a href="${process.env.REPLIT_DOMAINS || 'http://localhost:5000'}/lesson/${lesson.id}" 
+                       style="background-color: #8b7355; color: white; padding: 15px 30px; text-decoration: none; border-radius: 5px; display: inline-block; font-weight: bold;">
+                        Read Today's Lesson Online
+                    </a>
+                </td>
+            </tr>
+        </table>
 
-        <div class="footer">
-            <p><strong>Daily Spiritual Lessons</strong></p>
-            <p>Wisdom from ${lesson.passage.tradition.name} and other sacred traditions</p>
-            <p class="unsubscribe">
-                You're receiving this because you subscribed to Daily Spiritual Lessons.<br>
-                To unsubscribe, reply with "unsubscribe" in the subject line.
-            </p>
-        </div>
+        <table width="100%" cellpadding="0" cellspacing="0" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+            <tr>
+                <td align="center" style="color: #666; font-size: 14px;">
+                    <p><strong>Daily Spiritual Lessons</strong></p>
+                    <p>Wisdom from ${lesson.passage.tradition.name} and other sacred traditions</p>
+                    <p style="color: #999; font-size: 12px; margin-top: 10px;">
+                        You're receiving this because you subscribed to Daily Spiritual Lessons.<br>
+                        To unsubscribe, reply with "unsubscribe" in the subject line.
+                    </p>
+                </td>
+            </tr>
+        </table>
     </div>
 </body>
 </html>`;
