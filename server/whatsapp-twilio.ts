@@ -17,7 +17,7 @@ export class TwilioWhatsAppService {
     this.openai = new OpenAI({ apiKey: openaiApiKey });
   }
 
-  async sendMessage(message: string, mediaUrl?: string): Promise<boolean> {
+  async sendMessage(message: string, mediaUrl?: string): Promise<{ success: boolean; messageId?: string; mediaMessageId?: string; error?: string }> {
     try {
       const messageOptions: any = {
         body: message,
@@ -32,10 +32,10 @@ export class TwilioWhatsAppService {
       const twilioMessage = await this.client.messages.create(messageOptions);
 
       console.log(`WhatsApp message sent successfully: ${twilioMessage.sid}`);
-      return true;
+      return { success: true, messageId: twilioMessage.sid };
     } catch (error) {
       console.error('Error sending WhatsApp message:', error);
-      return false;
+      return { success: false, error: error.message };
     }
   }
 
