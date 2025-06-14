@@ -141,19 +141,33 @@ export class TwilioWhatsAppService {
       }
       
       // If not subscribed, prompt to subscribe
-      if (!subscriber) {
+      if (!subscriber || !subscriber.isActive) {
         await this.sendResponseMessage(userNumber, this.getSubscriptionPrompt());
         return 'sent';
       }
       
-      // For subscribed users, send simple acknowledgment
-      const response = "Thank you for your message! You'll receive your daily spiritual lesson automatically at 7 AM EST. 🙏";
-      await this.sendResponseMessage(userNumber, response);
-      return 'sent';
+      // Handle basic commands for subscribed users
+      switch (command) {
+        case 'today':
+          const todaysLesson = await this.getTodaysLessonText();
+          await this.sendResponseMessage(userNumber, todaysLesson);
+          return 'sent';
+          
+        case 'help':
+          const helpText = this.getHelpText(true);
+          await this.sendResponseMessage(userNumber, helpText);
+          return 'sent';
+          
+        default:
+          // For other messages, send acknowledgment
+          const response = "Thank you for your message! You'll receive your daily spiritual lesson automatically at 7 AM EST. Try 'today' for today's lesson or 'help' for commands.";
+          await this.sendResponseMessage(userNumber, response);
+          return 'sent';
+      }
       
     } catch (error) {
       console.error('Error processing message:', error);
-      await this.sendResponseMessage(userNumber, 'Thank you for your message. You\'ll receive your daily lesson at 7 AM EST.');
+      await this.sendResponseMessage(userNumber, 'Thank you for your message. Try "today" for today\'s lesson or "help" for commands.');
       return 'error';
     }
   }
@@ -254,6 +268,30 @@ Your spiritual journey begins tomorrow at 7 AM EST!`;
     } catch (error) {
       console.error('Error sending response:', error);
     }
+  }
+
+
+
+  private getHelpText(isSubscribed: boolean = false): string {
+    if (!isSubscribed) {
+      return `🙏 *Spiritual Wisdom Bot*
+
+*To get started:*
+• Reply "subscribe" to join daily lessons
+
+Daily lessons sent at 7 AM EST automatically`;
+    }
+
+    return `🙏 *Spiritual Lessons*
+
+*Available Commands:*
+• "today" - Get today's lesson
+• "unsubscribe" - Stop daily lessons
+
+*Automatic Delivery:*
+Daily lessons sent at 7 AM EST
+
+Thank you for subscribing!`;
   }
 
   private async getTodaysLessonText(): Promise<string> {
