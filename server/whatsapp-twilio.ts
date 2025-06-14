@@ -47,10 +47,24 @@ export class TwilioWhatsAppService {
     const message = this.formatLessonForWhatsApp(todaysLesson);
     const dailyMessage = `🌅 *Daily Spiritual Lesson*\n\n${message}`;
     
-    // Get artwork URL - use cloud-hosted version for WhatsApp
-    const artworkUrl = this.getWhatsAppArtworkUrl(todaysLesson);
+    // Send lesson text first
+    const textSent = await this.sendMessage(dailyMessage);
+    if (!textSent) {
+      return false;
+    }
+
+    // Send artwork separately if available
+    if (todaysLesson.artworkDescription) {
+      await this.sendArtworkMessage(todaysLesson);
+    }
     
-    return await this.sendMessage(dailyMessage, artworkUrl);
+    return true;
+  }
+
+  private async sendArtworkMessage(lesson: LessonWithDetails): Promise<boolean> {
+    const artworkMessage = `🎨 *Spiritual Artwork*\n\n"${lesson.title}"\n\n${lesson.artworkDescription}\n\nThis artwork was created to complement today's spiritual lesson and enhance your meditation and reflection.`;
+    
+    return await this.sendMessage(artworkMessage);
   }
 
   async processIncomingMessage(messageBody: string): Promise<string> {
@@ -242,21 +256,14 @@ Type a question to explore this deeper!`;
   }
 
   private getWhatsAppArtworkUrl(lesson: LessonWithDetails): string | undefined {
-    // Use cloud-hosted artwork URL if available (Imgur direct image URLs)
-    if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.includes('imgur.com')) {
-      // Convert Imgur URL to direct image format if needed
-      let imgurUrl = lesson.emailArtworkUrl;
-      if (imgurUrl.includes('/') && !imgurUrl.endsWith('.jpg') && !imgurUrl.endsWith('.jpeg') && !imgurUrl.endsWith('.png')) {
-        // Convert imgur.com/xyz to i.imgur.com/xyz.jpg
-        const imgId = imgurUrl.split('/').pop();
-        imgurUrl = `https://i.imgur.com/${imgId}.jpg`;
-      }
-      return imgurUrl;
-    }
-    
-    // Use Replit domain for local artwork if available
+    // Use Replit domain for local artwork files
     if (lesson.artworkUrl && process.env.REPLIT_DOMAIN) {
       return `https://${process.env.REPLIT_DOMAIN}${lesson.artworkUrl}`;
+    }
+    
+    // Use local server URL as fallback
+    if (lesson.artworkUrl) {
+      return `http://localhost:5000${lesson.artworkUrl}`;
     }
     
     return undefined;
