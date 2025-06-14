@@ -244,24 +244,13 @@ Type a question to explore this deeper!`;
   }
 
   private getWhatsAppArtworkUrl(lesson: LessonWithDetails): string | undefined {
-    // Use cloud-hosted artwork URL if available
-    if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.startsWith('http')) {
+    // Use cloud-hosted artwork URL if available (Imgur URLs work best)
+    if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.includes('imgur.com')) {
       return lesson.emailArtworkUrl;
     }
     
-    // Use regular artwork URL if available
-    if (lesson.artworkUrl && lesson.artworkUrl.startsWith('http')) {
-      return lesson.artworkUrl;
-    }
-    
-    // Construct full URL for local artwork
-    if (lesson.artworkUrl) {
-      const baseUrl = process.env.REPLIT_DOMAIN ? 
-        `https://${process.env.REPLIT_DOMAIN}` : 
-        'http://localhost:5000';
-      return `${baseUrl}${lesson.artworkUrl}`;
-    }
-    
+    // For now, skip artwork in WhatsApp to avoid delivery failures
+    // until we can ensure reliable media URLs
     return undefined;
   }
 }
