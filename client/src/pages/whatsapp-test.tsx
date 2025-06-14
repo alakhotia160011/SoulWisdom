@@ -5,6 +5,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { MessageCircle, Send } from "lucide-react";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 export default function WhatsAppTest() {
   const [phoneNumber, setPhoneNumber] = useState("whatsapp:+16176420146");
@@ -52,8 +54,9 @@ export default function WhatsAppTest() {
   };
 
   return (
-    <div className="min-h-screen bg-earth-50 py-8">
-      <div className="container mx-auto px-4 max-w-4xl">
+    <div className="min-h-screen bg-earth-50">
+      <Header />
+      <div className="container mx-auto px-4 max-w-4xl py-8">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-sage-800 mb-2">WhatsApp Command Tester</h1>
           <p className="text-sage-600">Test WhatsApp commands without using your daily message limit</p>
@@ -180,6 +183,7 @@ export default function WhatsAppTest() {
           </p>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }
