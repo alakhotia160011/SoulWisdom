@@ -129,7 +129,7 @@ async function waitForOpenAI(maxRetries = 15, retryDelay = 2000) {
       if (twilioAccountSid && twilioAuthToken && twilioPhoneNumber && twilioAccountSid.startsWith('AC')) {
         console.log("Initializing Twilio WhatsApp service...");
         // Use Twilio WhatsApp Sandbox number for trial accounts
-        const twilioFromNumber = `whatsapp:+14155238886`; // Standard Twilio WhatsApp Sandbox
+        const twilioFromNumber = `whatsapp:+14155238886`; // Your Twilio WhatsApp Sandbox number
         const twilioToNumber = `whatsapp:${whatsappAdminNumber}`;
         initializeTwilioWhatsApp(twilioAccountSid, twilioAuthToken, twilioFromNumber, twilioToNumber, openaiApiKey);
       } else {
