@@ -99,20 +99,47 @@ export async function generateTodaysLesson(storage: IStorage): Promise<any> {
   // Get all existing lessons to check for used passages
   const allLessons = await storage.getRecentLessons(1000); // Get all lessons
   const usedSources = new Set(allLessons.map(lesson => lesson.passage.source));
+  
+  // Check for recent usage (last 30 days) to avoid repeating lessons too soon
+  const thirtyDaysAgo = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000);
+  const recentUsedSources = new Set(
+    allLessons
+      .filter(lesson => new Date(lesson.date) > thirtyDaysAgo)
+      .map(lesson => lesson.passage.source)
+  );
 
-  // Find passages that haven't been used at all
+  // Find passages that haven't been used recently (prefer completely unused, then older usage)
   const availablePassages = spiritualPassages.filter(passage => {
-    return !usedSources.has(passage.source);
+    return !recentUsedSources.has(passage.source);
   });
+  
+  // If no passages available in last 30 days, use passages not used in last 7 days
+  let passagesToChooseFrom = availablePassages;
+  if (passagesToChooseFrom.length === 0) {
+    const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000);
+    const weeklyUsedSources = new Set(
+      allLessons
+        .filter(lesson => new Date(lesson.date) > sevenDaysAgo)
+        .map(lesson => lesson.passage.source)
+    );
+    
+    passagesToChooseFrom = spiritualPassages.filter(passage => {
+      return !weeklyUsedSources.has(passage.source);
+    });
+    
+    console.log(`Using passages not used in last 7 days: ${passagesToChooseFrom.length} available`);
+  } else {
+    console.log(`Using passages not used in last 30 days: ${passagesToChooseFrom.length} available`);
+  }
 
-  if (availablePassages.length === 0) {
-    console.log("All hardcoded passages have been used, checking database for unused passages");
+  if (passagesToChooseFrom.length === 0) {
+    console.log("All hardcoded passages have been used recently, checking database for unused passages");
     return await generateFromUnusedDatabasePassage(storage);
   }
 
-  const randomIndex = Math.floor(Math.random() * availablePassages.length);
-  const selectedPassage = availablePassages[randomIndex];
-  console.log(`Selected unused passage: ${selectedPassage.source} - ${selectedPassage.title}`);
+  const randomIndex = Math.floor(Math.random() * passagesToChooseFrom.length);
+  const selectedPassage = passagesToChooseFrom[randomIndex];
+  console.log(`Selected passage: ${selectedPassage.source} - ${selectedPassage.title}`);
 
   return await createLessonFromPassage(storage, selectedPassage);
 }

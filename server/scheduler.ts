@@ -213,14 +213,24 @@ class DailyScheduler {
       console.log(`📧 Preparing to send daily lesson email to ${subscribers.length} subscribers`);
 
       if (subscribers.length > 0) {
+        // Check if we already sent an email for this specific lesson today
+        const today = new Date().toISOString().split('T')[0];
+        const emailAlreadySent = this.lastEmailSentDate === today;
+        
+        if (emailAlreadySent) {
+          console.log(`✅ Email already sent today (${today}) for lesson "${lesson.title}", skipping duplicate`);
+          return;
+        }
+
         // Send automated email to all subscribers
         const emailSent = await emailService.sendDailyLesson(lesson, subscribers);
         
         if (emailSent) {
           console.log(`✓ Daily lesson email sent automatically to ${subscribers.length} subscribers`);
-          
-          // Log the lesson details for verification
           console.log(`✓ Email sent: "${lesson.title}" - ${lesson.passage.tradition.name}`);
+          
+          // Mark today as email sent to prevent duplicates
+          this.lastEmailSentDate = today;
         } else {
           console.error("❌ Failed to send daily lesson email - Check email configuration");
           
