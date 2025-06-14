@@ -84,24 +84,26 @@ export class TwilioWhatsAppService {
 
   private async getGoogleDriveArtworkUrl(lesson: LessonWithDetails): Promise<string | null> {
     try {
-      const driveHosting = getGoogleDriveHosting();
-      if (!driveHosting || !lesson.artworkUrl) {
-        return null;
+      // Use existing cloud-hosted artwork URLs
+      if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.includes('imgur.com')) {
+        // Convert Imgur URL to direct image format
+        let imgurUrl = lesson.emailArtworkUrl;
+        if (!imgurUrl.endsWith('.jpg') && !imgurUrl.endsWith('.jpeg') && !imgurUrl.endsWith('.png')) {
+          // Ensure direct image URL format
+          const imgId = imgurUrl.split('/').pop();
+          imgurUrl = `https://i.imgur.com/${imgId}.jpg`;
+        }
+        return imgurUrl;
       }
 
-      // Extract filename from artwork URL
-      const fileName = lesson.artworkUrl.split('/').pop();
-      if (!fileName) {
-        return null;
+      // Use Replit domain for local artwork if available  
+      if (lesson.artworkUrl && process.env.REPL_ID) {
+        return `https://${process.env.REPL_ID}.replit.app${lesson.artworkUrl}`;
       }
 
-      // Upload to Google Drive and get public URL
-      const driveUrl = await driveHosting.uploadArtwork(lesson.artworkUrl, fileName);
-      console.log(`Artwork uploaded to Google Drive: ${driveUrl}`);
-      return driveUrl;
-
+      return null;
     } catch (error) {
-      console.error('Error getting Google Drive artwork URL:', error);
+      console.error('Error getting artwork URL:', error);
       return null;
     }
   }

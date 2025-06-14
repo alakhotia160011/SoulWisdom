@@ -138,23 +138,8 @@ async function waitForOpenAI(maxRetries = 15, retryDelay = 2000) {
       console.log("WhatsApp services not initialized - missing credentials");
     }
 
-    // Initialize Google Drive hosting for artwork
-    const googleCredentials = [
-      process.env.GOOGLE_PROJECT_ID,
-      process.env.GOOGLE_PRIVATE_KEY,
-      process.env.GOOGLE_CLIENT_EMAIL,
-      process.env.GOOGLE_CLIENT_ID
-    ];
-
-    if (googleCredentials.every(cred => cred)) {
-      console.log("Initializing Google Drive artwork hosting...");
-      const driveHosting = initializeGoogleDriveHosting();
-      if (driveHosting) {
-        await driveHosting.initializeFolder();
-      }
-    } else {
-      console.log("Google Drive hosting not initialized - missing credentials");
-    }
+    // Note: Google Drive integration pending - using existing Imgur URLs for now
+    console.log("Artwork hosting: Using existing cloud URLs for WhatsApp delivery");
 
     // 24/7 operation is handled by Replit deployment system
     log("Application ready for 24/7 deployment on Replit");
