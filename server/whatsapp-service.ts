@@ -3,9 +3,10 @@ import qrcode from 'qrcode-terminal';
 import OpenAI from 'openai';
 import { storage } from './storage';
 import { LessonWithDetails } from '../shared/schema';
+import { createRequire } from 'module';
 
-const whatsappWeb = require('whatsapp-web.js');
-const { Client, LocalAuth } = whatsappWeb;
+const require = createRequire(import.meta.url);
+const { Client, LocalAuth } = require('whatsapp-web.js');
 
 interface WhatsAppConfig {
   adminNumber: string; // Your WhatsApp number
@@ -36,7 +37,7 @@ export class WhatsAppService {
   }
 
   private setupEventHandlers() {
-    this.client.on('qr', (qr) => {
+    this.client.on('qr', (qr: any) => {
       console.log('Scan this QR code with your WhatsApp:');
       qrcode.generate(qr, { small: true });
     });
@@ -47,11 +48,11 @@ export class WhatsAppService {
       this.sendWelcomeMessage();
     });
 
-    this.client.on('message', async (message) => {
+    this.client.on('message', async (message: any) => {
       await this.handleMessage(message);
     });
 
-    this.client.on('disconnected', (reason) => {
+    this.client.on('disconnected', (reason: any) => {
       console.log('WhatsApp client disconnected:', reason);
       this.isReady = false;
     });
@@ -80,7 +81,7 @@ Ready to explore spiritual wisdom together!`;
     await this.sendToAdmin(welcomeText);
   }
 
-  private async handleMessage(message: Message) {
+  private async handleMessage(message: any) {
     // Only respond to the admin number
     const contact = await message.getContact();
     const phoneNumber = contact.number;
@@ -111,7 +112,7 @@ Ready to explore spiritual wisdom together!`;
     }
   }
 
-  private async sendTodaysLesson(message: Message) {
+  private async sendTodaysLesson(message: any) {
     const todaysLesson = await storage.getTodaysLesson();
     
     if (!todaysLesson) {
@@ -123,7 +124,7 @@ Ready to explore spiritual wisdom together!`;
     await message.reply(lessonText);
   }
 
-  private async sendYesterdaysLesson(message: Message) {
+  private async sendYesterdaysLesson(message: any) {
     const recentLessons = await storage.getRecentLessons(2, 0);
     const yesterdaysLesson = recentLessons.find(lesson => {
       const lessonDate = new Date(lesson.date);
@@ -141,7 +142,7 @@ Ready to explore spiritual wisdom together!`;
     await message.reply(lessonText);
   }
 
-  private async sendLessonByTradition(message: Message, tradition: string) {
+  private async sendLessonByTradition(message: any, tradition: string) {
     const traditionMap: { [key: string]: string } = {
       'bible': 'bible',
       'quran': 'quran',
@@ -168,7 +169,7 @@ Ready to explore spiritual wisdom together!`;
     await message.reply(lessonText);
   }
 
-  private async handleQuestion(message: Message) {
+  private async handleQuestion(message: any) {
     const question = message.body;
     
     // Get today's lesson for context
@@ -199,7 +200,7 @@ Ready to explore spiritual wisdom together!`;
     }
   }
 
-  private async sendHelpMessage(message: Message) {
+  private async sendHelpMessage(message: any) {
     const helpText = `🙏 *Spiritual Lessons Bot Commands*
 
 *Get Lessons:*
@@ -220,7 +221,7 @@ Type anything to get started! 🌟`;
     await message.reply(helpText);
   }
 
-  private async handleGeneralMessage(message: Message) {
+  private async handleGeneralMessage(message: any) {
     const generalText = message.body;
     
     try {
