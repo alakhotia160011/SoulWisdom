@@ -587,24 +587,8 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
   }
 
   private getWebsiteUrl(): string {
-    // Check for environment variable first (highest priority)
-    if (process.env.WEBSITE_URL) {
-      return process.env.WEBSITE_URL;
-    }
-    
-    // Check if we're in a deployed environment
-    if (process.env.NODE_ENV === 'production' && process.env.REPL_ID) {
-      return `https://${process.env.REPL_ID}.replit.app`;
-    }
-    
-    // For development, use the current domain but inform user about deployment
-    if (process.env.REPLIT_DOMAINS) {
-      const domain = process.env.REPLIT_DOMAINS.split(',')[0];
-      console.log('WARNING: Using development URL in emails. Deploy app for permanent links.');
-      return `https://${domain}`;
-    }
-    
-    return 'http://localhost:5000';
+    // Use the deployed website URL
+    return 'https://soul-wisdom-arylakhotia.replit.app';
   }
 }
 
