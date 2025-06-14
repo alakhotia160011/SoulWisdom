@@ -281,8 +281,14 @@ Your spiritual journey starts now...`;
 
   private async sendResponseMessage(toNumber: string, message: string): Promise<void> {
     try {
+      // Ensure message is under WhatsApp's 1600 character limit
+      let finalMessage = message;
+      if (message.length > 1550) {
+        finalMessage = message.substring(0, 1547) + "...";
+      }
+      
       await this.client.messages.create({
-        body: message,
+        body: finalMessage,
         from: this.fromNumber,
         to: toNumber
       });
@@ -404,7 +410,7 @@ Your spiritual journey starts now...`;
     try {
       const todaysLesson = await storage.getTodaysLesson();
       const lessonContext = todaysLesson 
-        ? `Today's lesson: "${todaysLesson.title}" from ${todaysLesson.passage.tradition.name}. Life lesson: ${todaysLesson.lifeLesson}.` 
+        ? `Today's lesson: "${todaysLesson.title}" from ${todaysLesson.passage.tradition.name}.` 
         : "";
 
       const response = await this.openai.chat.completions.create({
@@ -412,18 +418,28 @@ Your spiritual journey starts now...`;
         messages: [
           { 
             role: "system", 
-            content: `You are a compassionate spiritual guide with deep knowledge of world religions and wisdom traditions. ${lessonContext} Provide thoughtful, non-denominational spiritual guidance that draws from universal wisdom. Keep responses under 1500 characters for WhatsApp.`
+            content: `You are a compassionate spiritual guide with deep knowledge of world religions. ${lessonContext} Provide thoughtful, practical spiritual guidance drawing from universal wisdom. Keep responses under 900 characters total for WhatsApp limits.`
           },
           { role: "user", content: message }
         ],
-        max_tokens: 400
+        max_tokens: 200,
+        temperature: 0.7
       });
 
       const guidance = response.choices[0].message.content || "Peace be with you on your spiritual journey.";
-      return `🙏 *Spiritual Guidance*\n\n${guidance}`;
+      
+      // Ensure message stays under WhatsApp 1600 character limit
+      const fullMessage = `🙏 *Spiritual Guidance*\n\n${guidance}`;
+      
+      if (fullMessage.length > 1500) {
+        const truncated = guidance.substring(0, 1350) + "...";
+        return `🙏 *Spiritual Guidance*\n\n${truncated}`;
+      }
+      
+      return fullMessage;
     } catch (error) {
       console.error('Error with OpenAI spiritual guidance:', error);
-      return "I'm here to help with spiritual guidance. Please try asking your question again.";
+      return "🙏 I'm here to help with spiritual guidance. Please try asking your question again.";
     }
   }
 
