@@ -1,13 +1,13 @@
 import fs from 'fs';
 import path from 'path';
 
-// Simple image hosting solution using base64 data URLs for emails
 export class ImageHostingService {
-  
-  // Convert local image to base64 data URL for email embedding
+  /**
+   * Convert local image file to data URL for embedding
+   */
   static convertImageToDataUrl(imagePath: string): string | null {
     try {
-      const fullPath = path.join(process.cwd(), 'public', imagePath);
+      const fullPath = path.join(process.cwd(), 'public', 'artwork', path.basename(imagePath));
       
       if (!fs.existsSync(fullPath)) {
         console.error(`Image file not found: ${fullPath}`);
@@ -15,10 +15,10 @@ export class ImageHostingService {
       }
 
       const imageBuffer = fs.readFileSync(fullPath);
-      const base64Image = imageBuffer.toString('base64');
-      const mimeType = this.getMimeType(imagePath);
+      const mimeType = this.getMimeType(fullPath);
+      const base64Data = imageBuffer.toString('base64');
       
-      return `data:${mimeType};base64,${base64Image}`;
+      return `data:${mimeType};base64,${base64Data}`;
     } catch (error) {
       console.error('Error converting image to data URL:', error);
       return null;
@@ -28,25 +28,35 @@ export class ImageHostingService {
   private static getMimeType(filePath: string): string {
     const ext = path.extname(filePath).toLowerCase();
     switch (ext) {
-      case '.png': return 'image/png';
-      case '.jpg': 
-      case '.jpeg': return 'image/jpeg';
-      case '.gif': return 'image/gif';
-      case '.webp': return 'image/webp';
-      default: return 'image/png';
+      case '.jpg':
+      case '.jpeg':
+        return 'image/jpeg';
+      case '.png':
+        return 'image/png';
+      case '.gif':
+        return 'image/gif';
+      case '.webp':
+        return 'image/webp';
+      default:
+        return 'image/jpeg';
     }
   }
 
-  // Get stable URL for production deployment
+  /**
+   * Get stable image URL that works across different environments
+   */
   static getStableImageUrl(artworkUrl: string): string {
-    // If it's already a full URL, return as is
+    // If it's already a full URL, return as-is
     if (artworkUrl.startsWith('http')) {
       return artworkUrl;
     }
 
-    // Use the permanent Replit URL for images
-    const baseUrl = 'https://replit.com/@arylakhotia/SoulWisdom';
-    
-    return `${baseUrl}${artworkUrl}`;
+    // Use Replit domain if available
+    if (process.env.REPL_ID) {
+      return `https://${process.env.REPL_ID}.replit.app${artworkUrl}`;
+    }
+
+    // Fallback to localhost for development
+    return `http://localhost:5000${artworkUrl}`;
   }
 }

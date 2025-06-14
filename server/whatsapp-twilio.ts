@@ -2,7 +2,7 @@ import twilio from 'twilio';
 import { storage } from './storage';
 import { LessonWithDetails } from '../shared/schema';
 import OpenAI from 'openai';
-import { getGoogleDriveHosting } from './google-drive-hosting';
+import { ImageHostingService } from './image-hosting';
 
 export class TwilioWhatsAppService {
   private client: twilio.Twilio;
@@ -45,13 +45,37 @@ export class TwilioWhatsAppService {
       return false;
     }
 
-    // Include artwork URL in main lesson message due to trial account limits
-    const artworkUrl = await this.getGoogleDriveArtworkUrl(todaysLesson);
-    const message = this.formatLessonWithArtworkUrl(todaysLesson, artworkUrl);
-    
-    const finalMessage = `🌅 *Daily Spiritual Lesson*\n\n${message}`;
-    
-    return await this.sendMessage(finalMessage);
+    try {
+      // Send lesson text first
+      const message = this.formatLessonForWhatsApp(todaysLesson);
+      const dailyMessage = `🌅 *Daily Spiritual Lesson*\n\n${message}`;
+      
+      const textSent = await this.sendMessage(dailyMessage);
+      if (!textSent) {
+        return false;
+      }
+
+      // Send artwork as separate image attachment
+      const artworkUrl = await this.getGoogleDriveArtworkUrl(todaysLesson);
+      if (artworkUrl && todaysLesson.artworkDescription) {
+        const artworkCaption = `🎨 *Spiritual Artwork*\n\n"${todaysLesson.title}"\n\n${todaysLesson.artworkDescription}`;
+        await this.sendMessage(artworkCaption, artworkUrl);
+      }
+      
+      return true;
+    } catch (error) {
+      console.error('Error sending daily lesson:', error);
+      // Fallback: send text-only lesson if media fails
+      const message = this.formatLessonForWhatsApp(todaysLesson);
+      const artworkUrl = await this.getGoogleDriveArtworkUrl(todaysLesson);
+      
+      let fallbackMessage = `🌅 *Daily Spiritual Lesson*\n\n${message}`;
+      if (artworkUrl) {
+        fallbackMessage += `\n\n🎨 *Artwork:* ${artworkUrl}\n(Note: Image delivery unavailable - trial account limit reached)`;
+      }
+      
+      return await this.sendMessage(fallbackMessage);
+    }
   }
 
   private async sendArtworkMessage(lesson: LessonWithDetails): Promise<boolean> {
@@ -79,20 +103,29 @@ export class TwilioWhatsAppService {
 
   private async getGoogleDriveArtworkUrl(lesson: LessonWithDetails): Promise<string | null> {
     try {
-      // Use existing cloud-hosted artwork URLs
+      // Priority 1: Use cloud-hosted artwork URLs (Imgur)
       if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.includes('imgur.com')) {
-        console.log(`Using Imgur URL: ${lesson.emailArtworkUrl}`);
+        console.log(`Using cloud artwork URL: ${lesson.emailArtworkUrl}`);
         return lesson.emailArtworkUrl;
       }
 
-      // Use Replit domain for local artwork if available  
+      // Priority 2: Use Replit-hosted local artwork
       if (lesson.artworkUrl && process.env.REPL_ID) {
-        const replitUrl = `https://${process.env.REPL_ID}.replit.app${lesson.artworkUrl}`;
-        console.log(`Using Replit URL: ${replitUrl}`);
-        return replitUrl;
+        const replitUrl = ImageHostingService.getStableImageUrl(lesson.artworkUrl);
+        console.log(`Using Replit artwork URL: ${replitUrl}`);
+        
+        // Verify URL is accessible
+        try {
+          const response = await fetch(replitUrl);
+          if (response.ok && response.headers.get('content-type')?.startsWith('image/')) {
+            return replitUrl;
+          }
+        } catch (fetchError) {
+          console.log(`Replit URL not accessible: ${fetchError.message}`);
+        }
       }
 
-      console.log('No valid artwork URL found');
+      console.log('No accessible artwork URL found');
       return null;
     } catch (error) {
       console.error('Error getting artwork URL:', error);
