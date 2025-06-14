@@ -587,9 +587,20 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
   }
 
   private getWebsiteUrl(): string {
-    // Always use the deployed website URL for emails
-    // Based on your development URL pattern, your deployed URL should be:
-    return 'https://6cdb11c7-24d9-4547-b697-dc7f0be03508.replit.app';
+    // Check for custom deployment URL first
+    if (process.env.WEBSITE_URL) {
+      return process.env.WEBSITE_URL;
+    }
+    
+    // For now, use development URL until deployment is complete
+    // This will be automatically updated once the app is deployed
+    if (process.env.REPLIT_DOMAINS) {
+      const domain = process.env.REPLIT_DOMAINS.split(',')[0];
+      return `https://${domain}`;
+    }
+    
+    // Fallback
+    return 'http://localhost:5000';
   }
 }
 
