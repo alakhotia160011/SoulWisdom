@@ -240,6 +240,43 @@ export async function registerRoutes(app: Express): Promise<Server> {
     });
   });
 
+  // Force send daily email to all subscribers
+  app.post("/api/email/send-daily", async (req, res) => {
+    try {
+      console.log('Manual daily email trigger requested');
+      const todaysLesson = await getTodaysLesson();
+      if (!todaysLesson) {
+        return res.status(404).json({ message: "No lesson available for today" });
+      }
+
+      const subscriptions = await getAllSubscriptions();
+      if (subscriptions.length === 0) {
+        return res.json({ message: "No subscribers found", lesson: todaysLesson.title });
+      }
+
+      const success = await emailService.sendDailyLesson(todaysLesson, subscriptions);
+      
+      if (success) {
+        res.json({ 
+          message: `Daily email sent successfully to ${subscriptions.length} subscribers`,
+          lesson: todaysLesson.title,
+          subscriberCount: subscriptions.length
+        });
+      } else {
+        res.status(500).json({ 
+          message: 'Failed to send daily email',
+          lesson: todaysLesson.title
+        });
+      }
+    } catch (error) {
+      console.error('Error forcing daily email:', error);
+      res.status(500).json({ 
+        message: 'Failed to force daily email',
+        error: error instanceof Error ? error.message : 'Unknown error'
+      });
+    }
+  });
+
   // WhatsApp webhook for incoming messages
   app.post("/webhook/whatsapp", express.json(), async (req, res) => {
     try {
