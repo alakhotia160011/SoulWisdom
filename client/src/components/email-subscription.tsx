@@ -10,7 +10,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 export default function EmailSubscription() {
   const [email, setEmail] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const [name, setName] = useState("");
   const { toast } = useToast();
 
   const emailSubscriptionMutation = useMutation({
@@ -33,7 +32,7 @@ export default function EmailSubscription() {
   });
 
   const whatsappSubscriptionMutation = useMutation({
-    mutationFn: async (data: { phoneNumber: string; name?: string }) => {
+    mutationFn: async (data: { phoneNumber: string }) => {
       const response = await fetch("/api/whatsapp/subscribe", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -53,7 +52,6 @@ export default function EmailSubscription() {
         description: "You'll receive daily spiritual lessons at 7 AM EST.",
       });
       setPhoneNumber("");
-      setName("");
     },
     onError: (error: Error) => {
       toast({
@@ -100,7 +98,6 @@ export default function EmailSubscription() {
     
     whatsappSubscriptionMutation.mutate({
       phoneNumber: whatsappNumber,
-      name: name.trim() || undefined,
     });
   };
 
@@ -170,15 +167,6 @@ export default function EmailSubscription() {
                   disabled={whatsappSubscriptionMutation.isPending}
                 />
                 
-                <Input
-                  type="text"
-                  placeholder="Your name (optional)"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  className="px-4 py-3 rounded-lg border border-slate-300 bg-white text-slate-800 placeholder-slate-500 focus:ring-2 focus:ring-slate-500 focus:border-transparent text-center"
-                  disabled={whatsappSubscriptionMutation.isPending}
-                />
-
                 <Button
                   type="submit"
                   className="w-full bg-slate-800 text-white px-6 py-3 rounded-lg hover:bg-slate-700 transition-colors font-medium"
