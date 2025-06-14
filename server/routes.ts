@@ -267,12 +267,25 @@ export async function registerRoutes(app: Express): Promise<Server> {
     const token = req.query["hub.verify_token"];
     const challenge = req.query["hub.challenge"];
 
+    // Handle webhook verification
     if (mode === "subscribe" && token === VERIFY_TOKEN) {
       console.log("WhatsApp webhook verified successfully");
       res.status(200).send(challenge);
-    } else {
-      res.status(403).send("Forbidden");
+      return;
     }
+    
+    // Handle simple GET requests for testing
+    if (!mode && !token && !challenge) {
+      res.status(200).json({ 
+        status: "WhatsApp webhook active",
+        endpoint: "/webhook/whatsapp",
+        twilio_configured: !!process.env.TWILIO_ACCOUNT_SID,
+        from_number: "whatsapp:+14155238886"
+      });
+      return;
+    }
+    
+    res.status(403).send("Forbidden");
   });
 
   // WhatsApp subscription management
