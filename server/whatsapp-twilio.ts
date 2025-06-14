@@ -243,17 +243,17 @@ export class TwilioWhatsAppService {
   private getSubscriptionPrompt(): string {
     return `🙏 *Welcome to Spiritual Wisdom*
 
-To receive daily spiritual lessons and interactive guidance, please reply:
+To receive daily spiritual lessons and interactive guidance, reply:
 
 *"subscribe"* or *"join"*
 
 You'll get:
 • Daily lessons at 7 AM EST
-• Full stories with website links
+• Stories with website links for full content
 • Interactive Q&A with spiritual guidance
 • Wisdom from 7 spiritual traditions
 
-Reply "help" for more info.`;
+Reply "help" for commands.`;
   }
 
   private async getWelcomeMessage(): Promise<string> {
@@ -299,16 +299,8 @@ Your spiritual journey starts now...`;
       return "No lesson found for today. The daily lesson will be generated at 7 AM EST.";
     }
 
-    const message = this.formatLessonForWhatsApp(todaysLesson);
-    const artworkUrl = this.getWhatsAppArtworkUrl(todaysLesson);
-    
-    // Send with artwork if available
-    if (artworkUrl) {
-      await this.sendMessage(message, artworkUrl);
-      return "Today's lesson with artwork has been sent!";
-    }
-
-    return message;
+    // Return text-only message for trial account compatibility
+    return this.formatLessonForWhatsApp(todaysLesson);
   }
 
   private async getYesterdaysLessonText(): Promise<string> {
@@ -324,16 +316,8 @@ Your spiritual journey starts now...`;
       return "No lesson found for yesterday.";
     }
 
-    const message = this.formatLessonForWhatsApp(yesterdaysLesson);
-    const artworkUrl = this.getWhatsAppArtworkUrl(yesterdaysLesson);
-    
-    // Send with artwork if available
-    if (artworkUrl) {
-      await this.sendMessage(message, artworkUrl);
-      return "Yesterday's lesson with artwork has been sent!";
-    }
-
-    return message;
+    // Return text-only message for trial account compatibility
+    return this.formatLessonForWhatsApp(yesterdaysLesson);
   }
 
   private async getFullStoryText(): Promise<string> {

@@ -332,12 +332,21 @@ class DailyScheduler {
       if (whatsappSubscribers.length > 0) {
         console.log(`📱 Sending lesson to ${whatsappSubscribers.length} WhatsApp subscribers...`);
         
-        const { initializeTwilioWhatsApp } = await import('./whatsapp-twilio');
-        const whatsappService = initializeTwilioWhatsApp();
+        const { getTwilioWhatsAppService } = await import('./whatsapp-twilio');
+        const whatsappService = getTwilioWhatsAppService();
+        
+        if (!whatsappService) {
+          console.log("WhatsApp service not available");
+          return;
+        }
+        
+        // Limit to first 5 subscribers for trial account (9 message daily limit)
+        const maxSubscribers = Math.min(whatsappSubscribers.length, 5);
+        const subscribersToSend = whatsappSubscribers.slice(0, maxSubscribers);
         
         let successCount = 0;
         
-        for (const subscriber of whatsappSubscribers) {
+        for (const subscriber of subscribersToSend) {
           try {
             const lessonMessage = `🌅 *Daily Spiritual Lesson*
 
@@ -345,29 +354,35 @@ class DailyScheduler {
 📖 _${lesson.passage.tradition.name}_ • ${new Date(lesson.date).toLocaleDateString()}
 📍 ${lesson.passage.source}
 
-*Today's Story:*
-${lesson.story}
+*Story:* ${lesson.story.substring(0, 800)}${lesson.story.length > 800 ? '...' : ''}
 
-*Life Lesson:*
-${lesson.lifeLesson}
+*Life Lesson:* ${lesson.lifeLesson}
 
-🌐 *Read on Website:* ${process.env.REPL_SLUG ? `https://${process.env.REPL_ID}.replit.app` : 'https://soulwisdom.replit.app'}
+🌐 ${process.env.REPL_SLUG ? `https://${process.env.REPL_ID}.replit.app` : 'https://soulwisdom.replit.app'}
 
-💬 Ask me any spiritual questions!`;
+💬 Reply "more" for full story or ask questions!`;
 
             await whatsappService.sendResponseMessage(subscriber.phoneNumber, lessonMessage);
             successCount++;
             console.log(`✓ Sent to ${subscriber.phoneNumber}`);
             
-            // Small delay between messages to avoid rate limiting
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            // Longer delay for trial account rate limiting
+            await new Promise(resolve => setTimeout(resolve, 3000));
             
           } catch (error) {
+            if (error.code === 63038) {
+              console.log("Daily message limit reached - stopping delivery");
+              break;
+            }
             console.error(`Error sending to ${subscriber.phoneNumber}:`, error);
           }
         }
         
-        console.log(`✓ WhatsApp lessons sent successfully to ${successCount}/${whatsappSubscribers.length} subscribers`);
+        if (maxSubscribers < whatsappSubscribers.length) {
+          console.log(`Note: Limited to ${maxSubscribers} subscribers due to trial account restrictions`);
+        }
+        
+        console.log(`✓ WhatsApp lessons sent successfully to ${successCount}/${maxSubscribers} subscribers`);
       }
     } catch (error) {
       console.error("Error sending WhatsApp lessons:", error);
