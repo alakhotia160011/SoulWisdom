@@ -28,6 +28,7 @@ export interface IStorage {
   createTradition(tradition: InsertTradition): Promise<Tradition>;
 
   // Passages
+  getAllPassages(): Promise<Passage[]>;
   getPassagesByTradition(traditionId: number): Promise<Passage[]>;
   getRandomPassage(excludeIds?: number[]): Promise<Passage | undefined>;
   createPassage(passage: InsertPassage): Promise<Passage>;
@@ -305,6 +306,10 @@ export class DatabaseStorage implements IStorage {
   async createTradition(insertTradition: InsertTradition): Promise<Tradition> {
     const [tradition] = await db.insert(traditions).values(insertTradition).returning();
     return tradition;
+  }
+
+  async getAllPassages(): Promise<Passage[]> {
+    return await db.select().from(passages);
   }
 
   async getPassagesByTradition(traditionId: number): Promise<Passage[]> {

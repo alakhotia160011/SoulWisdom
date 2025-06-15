@@ -361,6 +361,10 @@ export async function generateTodaysLesson(storage: IStorage): Promise<any> {
     }
   }
 
+  // Get all passages from database
+  const allPassages = await storage.getAllPassages();
+  console.log(`Found ${allPassages.length} passages in database`);
+  
   // Get all existing lessons to check for used passages
   const allLessons = await storage.getRecentLessons(1000); // Get all lessons
   const usedSources = new Set(allLessons.map(lesson => lesson.passage.source));
@@ -374,7 +378,7 @@ export async function generateTodaysLesson(storage: IStorage): Promise<any> {
   );
 
   // Find passages that haven't been used recently (prefer completely unused, then older usage)
-  const availablePassages = spiritualPassages.filter(passage => {
+  const availablePassages = allPassages.filter(passage => {
     return !recentUsedSources.has(passage.source);
   });
   
@@ -388,7 +392,7 @@ export async function generateTodaysLesson(storage: IStorage): Promise<any> {
         .map(lesson => lesson.passage.source)
     );
     
-    passagesToChooseFrom = spiritualPassages.filter(passage => {
+    passagesToChooseFrom = allPassages.filter(passage => {
       return !weeklyUsedSources.has(passage.source);
     });
     
@@ -398,8 +402,8 @@ export async function generateTodaysLesson(storage: IStorage): Promise<any> {
   }
 
   if (passagesToChooseFrom.length === 0) {
-    console.log("All hardcoded passages have been used recently, checking database for unused passages");
-    return await generateFromUnusedDatabasePassage(storage);
+    console.log("All passages have been used recently, using least recently used passage");
+    passagesToChooseFrom = allPassages; // Use all passages as fallback
   }
 
   const randomIndex = Math.floor(Math.random() * passagesToChooseFrom.length);
