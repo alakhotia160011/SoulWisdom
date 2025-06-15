@@ -582,17 +582,46 @@ async function generateLessonContent(passageData: any): Promise<GeneratedLessonC
 }
 
 function generateTitle(passageData: any, template?: any): string {
-  const titles = {
-    1: "Finding Divine Love in Life's Journey",
-    2: "Wisdom Beyond Understanding", 
-    3: "The Path of Selfless Action",
-    4: "Cultivating Inner Peace",
-    5: "The Way of Natural Harmony",
-    6: "Discovering Unity in Diversity", 
-    7: "Honoring the Sacred in Every Soul"
+  // Create unique titles based on passage content and theme
+  const themeBasedTitles = {
+    "Divine Love and Forgiveness": "The Shepherd's Infinite Love",
+    "Unconditional Love and Forgiveness": "The Father's Welcoming Embrace", 
+    "Trust and Divine Protection": "Walking in Divine Light",
+    "Divine Love and Compassion": "The Nature of Sacred Love",
+    "Spiritual Blessedness": "The Beatitudes of True Happiness",
+    "Divine Wisdom Beyond Appearances": "The Mystery of Divine Purpose",
+    "Divine Majesty and Omniscience": "The Throne of Eternal Consciousness",
+    "Divine Light and Guidance": "The Lamp of Divine Illumination",
+    "Divine Compassion and Creation": "The Symphony of Divine Mercy",
+    "Hope and Perseverance": "After Every Hardship Comes Relief",
+    "Selfless Service": "Action Without Attachment",
+    "Divine Justice and Righteousness": "When the Divine Restores Balance",
+    "Self-Mastery and Mental Discipline": "Conquering the Inner Battlefield",
+    "Divine Protection and Devotion": "The Shield of Sincere Faith",
+    "Divine Grace and Surrender": "The Freedom of Complete Trust",
+    "Mindfulness and Right Intention": "The Foundation of All Experience",
+    "Compassion and Non-Violence": "The Eternal Rule of Love",
+    "Ethical Conduct and Purification": "The Three Pillars of Wisdom",
+    "Self-Reliance and Inner Strength": "Becoming Master of Yourself",
+    "Impermanence and Liberation": "The Path Through Constant Change",
+    "Humility and Natural Action": "The Invisible Hand of Leadership",
+    "The Ineffable Divine": "Beyond Words and Understanding",
+    "Humility and Gentle Strength": "The Way of Water",
+    "Self-Knowledge and Contentment": "True Wealth and Inner Mastery",
+    "Wisdom and Simplicity": "The Sage's Final Teaching",
+    "Unity and Interconnectedness": "The Sacred Web of All Life",
+    "Unity of Self and Divine": "That Thou Art",
+    "Spiritual Awakening and Perseverance": "Arise, Awake, and Stop Not",
+    "Spiritual Transformation": "From Darkness to Light",
+    "Transcendent Consciousness": "The Fourth State Beyond",
+    "The Sacred Value of Life": "Each Soul as an Entire World",
+    "Moral Courage and Leadership": "Being Human Where None Are",
+    "Personal Responsibility and Action": "If Not Now, When?",
+    "Ethical Treatment of Others": "The Golden Rule Revealed",
+    "Spiritual Accountability and Humility": "Know Your Sacred Origins"
   };
   
-  return titles[passageData.traditionId as keyof typeof titles] || passageData.title;
+  return themeBasedTitles[passageData.theme as keyof typeof themeBasedTitles] || passageData.title;
 }
 
 function generateStory(passageData: any): string {
