@@ -1,4 +1,6 @@
 import nodemailer from 'nodemailer';
+import fs from 'fs';
+import path from 'path';
 import type { LessonWithDetails, Subscription } from '@shared/schema';
 
 const EMAIL_CONFIG = {
@@ -37,7 +39,7 @@ class EmailService {
         day: 'numeric' 
       });
 
-      const emailHtml = this.createLessonEmailTemplate(lesson, today);
+      const emailHtml = await this.createLessonEmailTemplate(lesson, today);
       const emailText = this.createLessonEmailText(lesson, today);
       const subscriberEmails = subscribers.map(sub => sub.email);
 
@@ -126,7 +128,7 @@ class EmailService {
     }
   }
 
-  private createLessonEmailTemplate(lesson: LessonWithDetails, today: string): string {
+  private async createLessonEmailTemplate(lesson: LessonWithDetails, today: string): Promise<string> {
     return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -245,7 +247,7 @@ class EmailService {
         </div>
 
         <div class="artwork">
-            <img src="${this.getImageSrcForEmail(lesson)}" alt="${lesson.artworkDescription}" />
+            <img src="${await this.getImageSrcForEmail(lesson)}" alt="${lesson.artworkDescription}" />
             <p style="font-style: italic; color: #666; font-size: 14px; margin-top: 10px;">
                 ${lesson.artworkDescription}
             </p>
@@ -509,7 +511,7 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
     `.trim();
   }
 
-  private getImageSrcForEmail(lesson: LessonWithDetails): string {
+  private async getImageSrcForEmail(lesson: LessonWithDetails): Promise<string> {
     // Use embedded data URI if available (most reliable for emails)
     if (lesson.emailArtworkUrl && lesson.emailArtworkUrl.startsWith('data:')) {
       return lesson.emailArtworkUrl;
@@ -518,8 +520,6 @@ To unsubscribe, reply with "unsubscribe" in the subject line.
     // For local artwork files, convert to embedded data URI for email reliability
     if (lesson.artworkUrl && lesson.artworkUrl.startsWith('/artwork/')) {
       try {
-        const fs = require('fs');
-        const path = require('path');
         const artworkPath = path.join(process.cwd(), 'public', lesson.artworkUrl);
         
         if (fs.existsSync(artworkPath)) {
