@@ -492,31 +492,7 @@ export async function generateDemoLessons(storage: IStorage) {
 
 export async function createLessonFromPassage(storage: IStorage, passageData: any): Promise<any> {
   try {
-    // Check if this passage has already been used for a lesson
-    const allLessons = await storage.getRecentLessons(1000);
-    const duplicateLesson = allLessons.find(lesson => 
-      lesson.passage.source === passageData.source
-    );
-
-    if (duplicateLesson) {
-      console.log(`Passage ${passageData.source} already used in lesson: ${duplicateLesson.title}`);
-      console.log("Finding alternative unused passage...");
-      
-      // Find a different unused passage instead of recursion
-      const usedSources = new Set(allLessons.map(lesson => lesson.passage.source));
-      const availablePassages = spiritualPassages.filter(passage => {
-        return !usedSources.has(passage.source) && passage.source !== passageData.source;
-      });
-
-      if (availablePassages.length > 0) {
-        const randomIndex = Math.floor(Math.random() * availablePassages.length);
-        const alternativePassage = availablePassages[randomIndex];
-        console.log(`Using alternative passage: ${alternativePassage.source}`);
-        passageData = alternativePassage;
-      } else {
-        console.log("No unused passages available, proceeding with original");
-      }
-    }
+    // The passage selection is handled in generateTodaysLesson, so we proceed with the given passage
 
     // First, ensure the passage exists in storage
     let passage = await storage.getPassagesByTradition(passageData.traditionId);
